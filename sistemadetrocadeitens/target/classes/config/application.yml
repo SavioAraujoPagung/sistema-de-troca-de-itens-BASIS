@@ -1,20 +1,20 @@
 application:
-    appName: srs
+    appName: Sistemadetrocadeitens
 
 spring:
     application:
-        name: srsservice
+        name: Sistemadetrocadeitens
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/srs
-        username: srs
-        password: srs
+        url: jdbc:postgresql://localhost:5432/Sistemadetrocadeitens
+        username: Sistemadetrocadeitens
+        password: 1234
     jackson:
         date-format: yyyy-MM-dd
         deserialization:
             fail-on-unknown-properties: false
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedPostgreSQL95Dialect
+        #database-platform: io.github.jhipster.domain.util.FixedPostgreSQL95Dialect
         database: POSTGRESQL
         show-sql: true
         open-in-view: false
@@ -25,7 +25,7 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
     liquibase:
-        change-log: classpath:/db/master.xml
+        change-log: classpath:/config/liquibase/master.xml
 #        drop-first: true
 server:
     port: 8080

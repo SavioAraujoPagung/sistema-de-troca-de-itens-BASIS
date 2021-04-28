@@ -1,10 +1,10 @@
 version: "2"
 services:
-  srs-postgresql:
+  Sistemadetrocadeitens-postgresql:
     extends:
-      file: srs-postgresql.yaml
-      service: srs-postgresql
-    container_name: srs-postgresql
+      file: Sistemadetrocadeitens-postgresql.yaml
+      service: Sistemadetrocadeitens-postgresql
+    container_name: Sistemadetrocadeitens-postgresql
     
   rabbitmq:
     extends:
