@@ -14,7 +14,7 @@
     <changeSet  id="1"  author="nvoxland">
         <createTable  tableName="tb_categoria">
             <column name="id" type="int">
-                <constraints primaryKey="true" nullable="false"></constraints>
+                <constraints primaryKey="true" unique="true" nullable="false"></constraints>
             </column>
             <column name="descricao" type="varchar(255)">
                 <constraints nullable="false"></constraints>
