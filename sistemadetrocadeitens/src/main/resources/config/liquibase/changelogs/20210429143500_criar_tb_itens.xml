@@ -1,58 +1,44 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
-
-    <preConditions>
-        <runningAs  username="liquibase"/>
-    </preConditions>
-
-    <createSequence
-            catalogName="cat"
-            cycle="true"
-            incrementBy="1"
-            sequenceName="seq_tb_usuario"
-            startValue="1"/>
-    <constraints  primaryKey="true"  nullable="false"/>
-
-    <changeSet  id="1"  author="gabrielan1">
-        <createTable  tableName="person">
-            <column  name="categoria"  type="varchar(10)"
-            <changeSet  author="liquibase-docs"  id="createSequence-example">
-
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="1" author="gabriel antonio">
+        <createTable tableName="nome">
+            <column name="ID" type="BIGINT" remarks="itens" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="itens_PK" nullable="false"/>
             </column>
-            <column  name="nome"  type="varchar(50)"/>
-                <constraints  nullable="false"/>
+            <column name="descricao" type="varchar(255)" remarks="descricao do item" >
+                <constraints nullable="false"/>
             </column>
-            <column  name="descrição"  type="varchar(200)"/>
+            <column name="foto" type="private byte[]" remarks="foto do item" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="categoria_id" type="bigint" remarks="categoria do item" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="situacao_id" type="bigint" remarks="situacao do item" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="disponibilidade" type="boolean" remarks="disponibilidade do item">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
-
-    <changeSet  id="2"  author="gabrielan1">
-        <addColumn  tableName="person">
-            <column  name="foto"  type="varchar(10)"/>
-        </addColumn>
+    <changeSet id="2" author="gabrielAntonio">
+        <addForeignKeyConstraint baseTableName="tb_item" baseColumnNames="categoria_id" constraintName="fk_item_categoria" referencedTableName="tb_categoria"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
     </changeSet>
-    <changeSet  id="3"  author="gabrielan1">
-        <addLookupTable
-                existingTableName="person"  existingColumnName="state"
-                newTableName="state"  newColumnName="id"  newColumnDataType="char(5)"/>
-    </changeSet>
-
-    <changeSet  id="4"  author="gabrielan1">
-        <addColumn  tableName="person">
-            <column  name="situacao"  type="number(100)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet  id="5"  author="gabrielan1">
-        <addColumn  tableName="person">
-            <column  name="disponibilidade"  type="boolean(40)"/>
-        </addColumn>
+<changeSet id="3" author="gabriel antonio">
+    <addForeignKeyConstraint baseTableName="tb_item" baseColumnNames="situacao_id" constraintName="fk_item_situacao" referencedTableName="tb_situacao"
+                             referencedColumnNames="id"></addForeignKeyConstraint>
 </changeSet>
 
+    <changeSet id="4" author="gabriel antonio">
+        <createSequence sequenceName="seq_tb_item"
+                        cycle="true"
+                        incrementBy="1"
+                        startValue="1"/>
+    </changeSet>
 
-        </databaseChangeLog>
-
+</databaseChangeLog>
