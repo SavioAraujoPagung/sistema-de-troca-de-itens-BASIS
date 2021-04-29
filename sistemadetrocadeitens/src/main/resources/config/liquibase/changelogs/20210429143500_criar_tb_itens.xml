@@ -26,7 +26,7 @@
             <column  name="nome"  type="varchar(50)"/>
                 <constraints  nullable="false"/>
             </column>
-            <column  name="descrição"  type="string(15)"/>
+            <column  name="descrição"  type="varchar(200)"/>
         </createTable>
     </changeSet>
 
@@ -49,7 +49,7 @@
 
     <changeSet  id="5"  author="gabrielan1">
         <addColumn  tableName="person">
-            <column  name="disponibilidade"  type="varchar(40)"/>
+            <column  name="disponibilidade"  type="boolean(40)"/>
         </addColumn>
 </changeSet>
 

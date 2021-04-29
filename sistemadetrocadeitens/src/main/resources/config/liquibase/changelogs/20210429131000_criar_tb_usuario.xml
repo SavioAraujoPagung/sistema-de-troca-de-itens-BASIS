@@ -1,5 +1,7 @@
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<changeSet
+
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
@@ -10,17 +12,16 @@
     </preConditions>
 
                 <createSequence
-                                 catalogName="cat"
+</changeSet>
                                  cycle="true"
                                  incrementBy="1"
                                  sequenceName="seq_tb_usuario"
                                  startValue="1"/>
-                <constraints  primaryKey="true"  nullable="false"/>
+                <constraints  primaryKey="false"  nullable="false"/>
 
     <changeSet  id="1"  author="gabrielan1">
         <createTable  tableName="person">
             <column  name="id"  type="int"
-            <changeSet  author="liquibase-docs"  id="createSequence-example">
 
             </column>
             <column  name="firstname"  type="varchar(50)"/>
@@ -37,28 +38,22 @@
         </addColumn>
     </changeSet>
     <changeSet  id="3"  author="gabrielan1">
-        <addLookupTable
-                existingTableName="person"  existingColumnName="state"
-                newTableName="state"  newColumnName="id"  newColumnDataType="char(5)"/>
-    </changeSet>
-    <changeSet  id="4"  author="gabrielan1">
         <addColumn  tableName="person">
             <column  name="id"  type="number(100)"/>
         </addColumn>
     </changeSet>
-    <changeSet  id="2"  author="gabrielan1">
+    <changeSet  id="4"  author="gabrielan1">
         <addColumn  tableName="person">
             <column  name="token"  type="varchar(40)"/>
         </addColumn>
     </changeSet>
 
 </changeSet>
-<changeSet  id="2"  author="gabrielan1">
+<changeSet  id="5"  author="gabrielan1">
 <addColumn  tableName="person">
-    <column  name="dtNascimento"  type="string(20)"/>
+    <column  name="dtNascimento"  type="date(20)"/>
 </addColumn>
 </changeSet>
 
 
 </databaseChangeLog>
-
