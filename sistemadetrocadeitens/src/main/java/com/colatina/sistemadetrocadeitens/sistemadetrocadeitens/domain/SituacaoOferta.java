@@ -11,8 +11,8 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_categoria")
-public class categoria {
+@Table(name = "tb_situacao-oferta")
+public class SituacaoOferta {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
