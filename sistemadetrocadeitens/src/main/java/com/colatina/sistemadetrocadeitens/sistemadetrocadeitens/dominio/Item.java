@@ -25,7 +25,7 @@ public class Item implements Serializable {
     @Column(name = "id")
     @SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_item", name = "seq_tb_item")
     @GeneratedValue(generator = "seq_tb_item", strategy = GenerationType.SEQUENCE)
-    private float id;
+    private Long id;
 	
 	@Column(name = "nome", nullable = false)
     private String nome;

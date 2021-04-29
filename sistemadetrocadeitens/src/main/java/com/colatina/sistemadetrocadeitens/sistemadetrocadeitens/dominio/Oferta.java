@@ -26,7 +26,7 @@ public class Oferta {
     @Column(name = "id")
     @SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_item", name = "seq_tb_item")
     @GeneratedValue(generator = "seq_tb_item", strategy = GenerationType.SEQUENCE)
-    private float i;
+    private Long id;
 
 	@ManyToMany
 	@JoinTable(name="tb_item_ofertado", joinColumns=
@@ -40,7 +40,5 @@ public class Oferta {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_ofertante")
 	private Usuario usuarioOfertante;
-	
-	@ManyToOne
-    private Item item;    
+
 }

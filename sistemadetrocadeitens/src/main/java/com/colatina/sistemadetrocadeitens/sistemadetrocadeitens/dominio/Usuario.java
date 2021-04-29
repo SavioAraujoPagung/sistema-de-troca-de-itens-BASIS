@@ -21,7 +21,7 @@ public class Usuario {
     @Column(name = "id")
     @SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_usuario", name = "seq_tb_usuario")
     @GeneratedValue(generator = "seq_tb_usuario", strategy = GenerationType.SEQUENCE)
-    private float id;
+    private Long id;
     
     @Column(name = "nome", nullable = false)
     private String nome;
