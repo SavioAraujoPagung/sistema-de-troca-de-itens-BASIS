@@ -1,59 +1,32 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog
-<changeSet
-
-xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
-
-    <preConditions>
-        <runningAs  username="liquibase"/>
-    </preConditions>
-
-                <createSequence
-</changeSet>
-                                 cycle="true"
-                                 incrementBy="1"
-                                 sequenceName="seq_tb_usuario"
-                                 startValue="1"/>
-                <constraints  primaryKey="false"  nullable="false"/>
-
-    <changeSet  id="1"  author="gabrielan1">
-        <createTable  tableName="person">
-            <column  name="id"  type="int"
-
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="1" author="gabriel antonio">
+        <createTable tableName="nome">
+            <column name="nome" type="varchar(55)" remarks="descricao do item" >
+                <constraints nullable="false"/>
             </column>
-            <column  name="firstname"  type="varchar(50)"/>
-            <column  name="lastname"  type="varchar(50)">
-                <constraints  nullable="false"/>
+            <column name="cpf" type="string" remarks="foto do item" >
+                <constraints nullable="false"/>
             </column>
-            <column  name="cpf"  type="string(15)"/>
+            <column name="email" type="varchar(100)" remarks="categoria do item" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_nascimento" type="string" remarks="situacao do item" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="token" type="string" remarks="disponibilidade do item">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
-
-    <changeSet  id="2"  author="gabrielan1">
-        <addColumn  tableName="person">
-            <column  name="username"  type="varchar(10)"/>
-        </addColumn>
+    <changeSet id="2" author="gabriel antonio">
+        <createSequence sequenceName="seq_tb_item"
+                        cycle="true"
+                        incrementBy="1"
+                        startValue="1"/>
     </changeSet>
-    <changeSet  id="3"  author="gabrielan1">
-        <addColumn  tableName="person">
-            <column  name="id"  type="number(100)"/>
-        </addColumn>
-    </changeSet>
-    <changeSet  id="4"  author="gabrielan1">
-        <addColumn  tableName="person">
-            <column  name="token"  type="varchar(40)"/>
-        </addColumn>
-    </changeSet>
-
-</changeSet>
-<changeSet  id="5"  author="gabrielan1">
-<addColumn  tableName="person">
-    <column  name="dtNascimento"  type="date(20)"/>
-</addColumn>
-</changeSet>
-
 
 </databaseChangeLog>
