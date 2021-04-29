@@ -1,0 +1,58 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
+
+    <preConditions>
+        <runningAs  username="liquibase"/>
+    </preConditions>
+
+    <createSequence
+            catalogName="cat"
+            cycle="true"
+            incrementBy="1"
+            sequenceName="seq_tb_usuario"
+            startValue="1"/>
+    <constraints  primaryKey="true"  nullable="false"/>
+
+    <changeSet  id="1"  author="gabrielan1">
+        <createTable  tableName="person">
+            <column  name="categoria"  type="varchar(10)"
+            <changeSet  author="liquibase-docs"  id="createSequence-example">
+
+            </column>
+            <column  name="nome"  type="varchar(50)"/>
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="descrição"  type="string(15)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet  id="2"  author="gabrielan1">
+        <addColumn  tableName="person">
+            <column  name="foto"  type="varchar(10)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet  id="3"  author="gabrielan1">
+        <addLookupTable
+                existingTableName="person"  existingColumnName="state"
+                newTableName="state"  newColumnName="id"  newColumnDataType="char(5)"/>
+    </changeSet>
+
+    <changeSet  id="4"  author="gabrielan1">
+        <addColumn  tableName="person">
+            <column  name="situacao"  type="number(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet  id="5"  author="gabrielan1">
+        <addColumn  tableName="person">
+            <column  name="disponibilidade"  type="varchar(40)"/>
+        </addColumn>
+</changeSet>
+
+
+        </databaseChangeLog>
+
