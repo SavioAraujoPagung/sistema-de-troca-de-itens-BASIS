@@ -7,12 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_categoria")
-public class Categoria {
+public class Categoria implements Serializable {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
