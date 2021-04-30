@@ -12,4 +12,7 @@
     <include file="/config/liquibase/changelogs/20210429143500_criarTabelaItem.xml"/>
     <include file="/config/liquibase/changelogs/20210428214000_criarOferta.xml"/>
     <include file="/config/liquibase/changelogs/20210428220900_criarItemOfertado.xml"/>
+
+
+    <include file="/config/liquibase/changelogs/20210430093400_crieiORelacionamentoEntreUsuarioEItem.xml"/>
 </databaseChangeLog>

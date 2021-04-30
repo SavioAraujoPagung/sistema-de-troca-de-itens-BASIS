@@ -12,19 +12,16 @@
             <column name="nome" type="varchar(100)">
                 <constraints nullable="false"></constraints>
             </column>
-            <column name="descricao" type="varchar(100)">
+            <column name="descricao" type="varchar(255)">
                 <constraints nullable="false"></constraints>
             </column>
-            <column name="imagens" type="varchar(255)">
+            <column name="imagem" type="blob">
                 <constraints nullable="false"></constraints>
             </column>
             <column name="id_categoria" type="int">
                 <constraints nullable="false"></constraints>
             </column>
-            <column name="situacao" type="varchar(255)">
-                <constraints nullable="false"></constraints>
-            </column>
-            <column name="disponibilidade" type="varchar(100)">
+            <column name="disponibilidade" type="boolean">
                 <constraints nullable="false"></constraints>
             </column>
             <column name="id_usuario" type="int">
@@ -32,7 +29,7 @@
             </column>
         </createTable>
         <createSequence  incrementBy="1"
-                         sequenceName="seq_tb_oferta"
+                         sequenceName="seq_tb_item"
                          startValue="1"/>
 
         <addForeignKeyConstraint  baseTableName="tb_item"
