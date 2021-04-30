@@ -3,13 +3,8 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
-    <preConditions>
-        <runningAs  username="Sistemadetrocadeitens"/>
-    </preConditions>
-
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet  id="202104282140"  author="Savio">
         <createTable  tableName="tb_oferta">
             <column  name="id"  type="int">
@@ -25,22 +20,29 @@
                 <constraints  nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="20210430004500" author="Savio">
         <createSequence  incrementBy="1"
                          sequenceName="seq_tb_oferta"
                          startValue="1"/>
+    </changeSet>
 
+    <changeSet id="20210430004600" author="Savio">
         <addForeignKeyConstraint  baseTableName="tb_oferta"
                                   baseColumnNames="id_item"
                                   referencedTableName="tb_item"
                                   referencedColumnNames="id"
                                   constraintName="fk_oferta_item"
-                                  />
+        />
+    </changeSet>
+
+    <changeSet id="20210430004700" author="Savio">
         <addForeignKeyConstraint  baseTableName="tb_oferta"
                                   baseColumnNames="id_situacao"
-                                  referencedTableName="tb_situacao"
+                                  referencedTableName="tb_situacao_oferta"
                                   referencedColumnNames="id"
                                   constraintName="fk_oferta_situacao"
         />
     </changeSet>
-
 </databaseChangeLog>

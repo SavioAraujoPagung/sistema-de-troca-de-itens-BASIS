@@ -3,11 +3,10 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
-    <changeSet  id="1"  author="nvoxland">
-        <createTable  tableName="tb_situacao-oferta">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet  id="20210430005300"  author="Savio">
+        <createTable  tableName="tb_situacao_oferta">
             <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"></constraints>
             </column>
