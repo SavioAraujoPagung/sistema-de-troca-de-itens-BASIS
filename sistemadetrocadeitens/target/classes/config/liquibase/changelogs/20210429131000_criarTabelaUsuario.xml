@@ -3,8 +3,11 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet id="1" author="gabriel antonio">
-        <createTable tableName="nome">
+    <changeSet id="20210429131000_criarTabelaUsuario_1" author="gabriel antonio">
+        <createTable tableName="tb_usuario">
+            <column name="id" type="BIGINT" remarks="usuario" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="usuario_PK" nullable="false"/>
+            </column>
             <column name="nome" type="varchar(55)" remarks="descricao do item" >
                 <constraints nullable="false"/>
             </column>
@@ -22,7 +25,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="2" author="gabriel antonio">
+    <changeSet id="220210429131000_criarTabelaItem_" author="gabriel antonio">
         <createSequence sequenceName="seq_tb_item"
                         cycle="true"
                         incrementBy="1"

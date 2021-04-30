@@ -3,9 +3,9 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet id="1" author="gabriel antonio">
-        <createTable tableName="nome">
-            <column name="ID" type="BIGINT" remarks="itens" autoIncrement="true">
+    <changeSet id="20210429131000_criarTabelaItem_1" author="gabriel antonio">
+        <createTable tableName="tb_item">
+            <column name="id" type="BIGINT" remarks="itens" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="itens_PK" nullable="false"/>
             </column>
             <column name="descricao" type="varchar(255)" remarks="descricao do item" >
@@ -25,16 +25,16 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="2" author="gabrielAntonio">
+    <changeSet id="20210429131000_criarTabelaItem_2" author="gabrielAntonio">
         <addForeignKeyConstraint baseTableName="tb_item" baseColumnNames="categoria_id" constraintName="fk_item_categoria" referencedTableName="tb_categoria"
                                  referencedColumnNames="id"></addForeignKeyConstraint>
     </changeSet>
-<changeSet id="3" author="gabriel antonio">
-    <addForeignKeyConstraint baseTableName="tb_item" baseColumnNames="situacao_id" constraintName="fk_item_situacao" referencedTableName="tb_situacao"
-                             referencedColumnNames="id"></addForeignKeyConstraint>
-</changeSet>
+    <changeSet id="20210429131000_criarTabelaItem_3" author="gabriel antonio">
+        <addForeignKeyConstraint baseTableName="tb_item" baseColumnNames="situacao_id" constraintName="fk_item_situacao" referencedTableName="tb_situacao"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+    </changeSet>
 
-    <changeSet id="4" author="gabriel antonio">
+    <changeSet id="20210429131000_criarTabelaItem_4" author="gabriel antonio">
         <createSequence sequenceName="seq_tb_item"
                         cycle="true"
                         incrementBy="1"
