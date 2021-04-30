@@ -15,10 +15,6 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
-        <createSequence  incrementBy="1"
-                         sequenceName="seq_tb_oferta"
-                         startValue="1"/>
-
         <addForeignKeyConstraint  baseTableName="tb_item_ofertado"
                                   baseColumnNames="id_oferta"
                                   referencedTableName="tb_oferta"
