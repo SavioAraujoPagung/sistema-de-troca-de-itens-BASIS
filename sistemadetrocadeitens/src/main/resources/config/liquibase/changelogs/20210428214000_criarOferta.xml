@@ -40,7 +40,7 @@
     <changeSet id="20210430004700" author="Savio">
         <addForeignKeyConstraint  baseTableName="tb_oferta"
                                   baseColumnNames="id_situacao"
-                                  referencedTableName="tb_situacao_oferta"
+                                  referencedTableName="tb_situacao"
                                   referencedColumnNames="id"
                                   constraintName="fk_oferta_situacao"
         />

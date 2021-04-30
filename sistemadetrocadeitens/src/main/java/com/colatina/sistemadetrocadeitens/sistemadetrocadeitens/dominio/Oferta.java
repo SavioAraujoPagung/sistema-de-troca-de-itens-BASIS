@@ -24,8 +24,8 @@ import java.util.List;
 public class Oferta {
 	@Id
     @Column(name = "id")
-    @SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_item", name = "seq_tb_item")
-    @GeneratedValue(generator = "seq_tb_item", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_oferta", name = "seq_tb_oferta")
+    @GeneratedValue(generator = "seq_tb_oferta", strategy = GenerationType.SEQUENCE)
     private Long id;
 
 	@ManyToMany
@@ -35,7 +35,8 @@ public class Oferta {
 	private List<Item> itensOfertados;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	private SituacaoOferta situacao;
+	@JoinColumn(name = "id_situacao")
+	private Situacao situacao;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_ofertante")

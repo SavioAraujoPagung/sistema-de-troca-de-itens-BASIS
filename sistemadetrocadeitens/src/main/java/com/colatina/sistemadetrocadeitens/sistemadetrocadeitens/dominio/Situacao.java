@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_situacao-oferta")
-public class SituacaoOferta implements Serializable {
+@Table(name = "tb_situacao")
+public class Situacao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
