@@ -25,7 +25,7 @@
 
         </createTable>
         <createSequence  incrementBy="1"
-                         sequenceName="seq_tb_oferta"
+                         sequenceName="seq_tb_usuario"
                          startValue="1"/>
     </changeSet>
 
