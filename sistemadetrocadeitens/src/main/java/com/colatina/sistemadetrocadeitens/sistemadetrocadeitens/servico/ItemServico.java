@@ -39,7 +39,7 @@ public class ItemServico {
         itemRepositorio.save(item);
     }
 
-    public void apagar(Long id){
+    public void deletar(Long id){
         itemRepositorio.deleteById(id);
     }
 

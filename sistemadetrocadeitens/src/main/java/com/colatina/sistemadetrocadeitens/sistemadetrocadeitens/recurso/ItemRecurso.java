@@ -41,8 +41,8 @@ public class ItemRecurso {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> apagar(@PathVariable("id") Long id){
-        itemServico.apagar(id);
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+        itemServico.deletar(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
