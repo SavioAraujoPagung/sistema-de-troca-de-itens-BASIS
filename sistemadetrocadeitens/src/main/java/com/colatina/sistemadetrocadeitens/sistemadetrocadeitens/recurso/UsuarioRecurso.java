@@ -6,8 +6,10 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Usua
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -26,13 +28,24 @@ public class UsuarioRecurso {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDto> findById(@PathVariable("id") Long id){
-        UsuarioDto usuarioDto = usuarioServico.findById(id);
+        UsuarioDto usuarioDto = usuarioServico.obterPorId(id);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<Void> alterar(UsuarioDto dto){
-        UsuarioDto usuarioDto = usuarioServico.alterar(usuariodto);
-        return new ResponseEntity<Void>(usuarioDto, HttpStatus.OK);
+        usuarioServico.alterar(dto);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<UsuarioDto> salvar(@RequestBody UsuarioDto dto){
+        UsuarioDto usuarioDto = usuarioServico.salvar(dto);
+        return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public  ResponseEntity<Void> deletar(@RequestBody UsuarioDto dto){
+        usuarioServico.deletar(dto);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 }

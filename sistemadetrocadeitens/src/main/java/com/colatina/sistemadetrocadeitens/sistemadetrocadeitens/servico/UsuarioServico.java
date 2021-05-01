@@ -29,12 +29,27 @@ public class UsuarioServico {
         return usuarioListagemMapper.toDto(usuarios);
     }
 
-    public UsuarioDto findById(Long id){
+    public UsuarioDto obterPorId(Long id){
         Usuario usuario = usuarioRepositorio.findById(id)
             .orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
         return usuarioMapper.toDto(usuario);
     }
-    public void alterar(UsuarioDto usuario){
+    public UsuarioDto alterar(UsuarioDto usuarioDto){
+        Usuario usuario = usuarioMapper.toEntity(usuarioDto);
+        UsuarioDto dto = usuarioMapper.toDto(usuarioRepositorio.save(usuario));
+        return dto;
+    }
 
+    public UsuarioDto salvar(UsuarioDto dto){
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        usuarioRepositorio.save(usuario);
+        UsuarioDto usuarioDto = usuarioMapper.toDto(usuario);
+        return usuarioDto;
+    }
+
+    public Void deletar(UsuarioDto dto){
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        usuarioRepositorio.delete(usuario);
+        return null;
     }
 }
