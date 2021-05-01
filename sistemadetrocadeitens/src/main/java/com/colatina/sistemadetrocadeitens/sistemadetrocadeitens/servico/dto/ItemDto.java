@@ -5,6 +5,8 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Lob;
+
 @Getter
 @Setter
 public class ItemDto{
@@ -13,6 +15,7 @@ public class ItemDto{
 
     private String nome;
 
+    @Lob
     private Byte[] imagem;
 
     private String descricao;
