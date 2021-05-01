@@ -31,7 +31,7 @@ public class ItemRecurso {
         return 1;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/id")
     public void apagar(){
     }
 
