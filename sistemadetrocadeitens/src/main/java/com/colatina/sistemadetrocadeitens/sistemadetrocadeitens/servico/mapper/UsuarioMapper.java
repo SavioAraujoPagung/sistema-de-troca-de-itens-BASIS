@@ -1,0 +1,8 @@
+package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper;
+
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioDto;
+
+public interface UsuarioMapper extends EntityMapper<UsuarioDto, Usuario>{
+
+}
