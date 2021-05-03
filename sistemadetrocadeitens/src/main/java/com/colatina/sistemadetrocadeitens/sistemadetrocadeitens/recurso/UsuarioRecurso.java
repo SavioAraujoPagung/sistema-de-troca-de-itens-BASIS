@@ -6,10 +6,8 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Usua
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,7 +19,6 @@ public class UsuarioRecurso {
 
     @GetMapping
     public ResponseEntity<List<UsuarioListagemDto>> listar(){
-
         List<UsuarioListagemDto> usuarioListagemDto = usuarioServico.listar();
         return new ResponseEntity<>(usuarioListagemDto, HttpStatus.OK);
     }
