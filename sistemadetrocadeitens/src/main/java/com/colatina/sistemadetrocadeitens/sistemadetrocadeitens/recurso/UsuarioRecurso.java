@@ -6,7 +6,14 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Usua
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
@@ -17,6 +24,7 @@ public class UsuarioRecurso {
 
     private final UsuarioServico usuarioServico;
 
+
     @GetMapping
     public ResponseEntity<List<UsuarioListagemDto>> listar(){
         List<UsuarioListagemDto> usuarioListagemDto = usuarioServico.listar();
@@ -24,25 +32,25 @@ public class UsuarioRecurso {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDto> findById(@PathVariable("id") Long id){
+    public ResponseEntity<UsuarioDto> obterPorId(@PathVariable("id") Long id){
         UsuarioDto usuarioDto = usuarioServico.obterPorId(id);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
     @PutMapping
-    public ResponseEntity<Void> alterar(UsuarioDto dto){
-        usuarioServico.alterar(dto);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<UsuarioDto> alterar(UsuarioDto dto){
+        UsuarioDto usuarioDto = usuarioServico.alterar(dto);
+        return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<UsuarioDto> salvar(@RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.salvar(dto);
-        return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
+        return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public  ResponseEntity<Void> deletar(@RequestBody UsuarioDto dto){
-        usuarioServico.deletar(dto);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+        usuarioServico.deletar(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

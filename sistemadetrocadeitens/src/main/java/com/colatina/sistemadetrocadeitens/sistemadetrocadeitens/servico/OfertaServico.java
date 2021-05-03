@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class OfertaServico {
+
     public OfertaDto obter (){
         return null;
     }
