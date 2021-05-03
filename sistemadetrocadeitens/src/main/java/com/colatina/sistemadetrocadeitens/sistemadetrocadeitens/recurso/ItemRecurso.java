@@ -5,8 +5,16 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Item
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,21 +31,22 @@ public class ItemRecurso {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemDto> findById(@PathVariable("id") Long id){
-        ItemDto itemDto = itemServico.findById(id);
+    public ResponseEntity<ItemDto> obterPorId(@PathVariable("id") Long id){
+        ItemDto itemDto = itemServico.obterPorId(id);
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
     @PostMapping
+    @Valid
     public ResponseEntity<ItemDto> salvar(@RequestBody ItemDto dto){
         ItemDto itemDto = itemServico.salvar(dto);
         return  new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> alterar(@RequestBody ItemDto dto){
-        itemServico.alterar(dto);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<ItemDto> alterar(@RequestBody ItemDto dto){
+        ItemDto itemDto = itemServico.alterar(dto);
+        return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

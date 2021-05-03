@@ -23,7 +23,7 @@ public class ItemServico {
         return itemMapper.toDto(itens);
     }
 
-    public ItemDto findById(Long id){
+    public ItemDto obterPorId(Long id){
         Item item = itemRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Item nao encontrado"));
         return itemMapper.toDto(item);
     }
@@ -34,9 +34,10 @@ public class ItemServico {
         return itemMapper.toDto(item);
     }
 
-    public void alterar(ItemDto itemDto){
+    public ItemDto alterar(ItemDto itemDto){
         Item item = itemMapper.toEntity(itemDto);
         itemRepositorio.save(item);
+        return itemMapper.toDto(item);
     }
 
     public void deletar(Long id){
