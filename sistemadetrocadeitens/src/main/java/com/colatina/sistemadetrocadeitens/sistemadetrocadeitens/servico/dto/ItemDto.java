@@ -22,6 +22,8 @@ public class ItemDto{
 
     private Long id_categoria;
 
+    private String desc_categoria;
+
     private Long id_usuario;
 
 }
