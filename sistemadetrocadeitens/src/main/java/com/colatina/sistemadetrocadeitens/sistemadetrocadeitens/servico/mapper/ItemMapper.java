@@ -9,12 +9,12 @@ import org.mapstruct.Mapping;
 public interface ItemMapper extends EntityMapper<ItemDto, Item>{
 
     @Override
-    @Mapping(source = "id_categoria", target = "tb_categoria.id")
-    @Mapping(source = "id_usuario", target = "tb_usuario.id")
+    @Mapping(source = "categoriaId", target = "tb_categoria.id")
+    @Mapping(source = "usuarioId", target = "tb_usuario.id")
     Item toEntity(ItemDto dto);
 
     @Override
-    @Mapping(source = "tb_categoria.id", target = "id_categoria")
-    @Mapping(source = "tb_usuario.id", target = "id_usuario")
+    @Mapping(source = "tb_categoria.id", target = "categoriaId")
+    @Mapping(source = "tb_usuario.id", target = "usuarioId")
     ItemDto toDto(Item entity);
 }

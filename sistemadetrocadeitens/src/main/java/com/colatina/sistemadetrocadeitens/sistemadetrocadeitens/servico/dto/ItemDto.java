@@ -20,10 +20,8 @@ public class ItemDto{
 
     private String descricao;
 
-    private Long id_categoria;
+    private Long categoriaId;
 
-    private String desc_categoria;
-
-    private Long id_usuario;
+    private Long usuarioId;
 
 }
