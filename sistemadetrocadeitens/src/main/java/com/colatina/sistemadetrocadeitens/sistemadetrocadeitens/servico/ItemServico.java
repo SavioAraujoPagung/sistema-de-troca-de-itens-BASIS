@@ -19,9 +19,14 @@ public class ItemServico {
     private final ItemMapper itemMapper;
 
     public List<ItemDto> listar(){
+        return itemRepositorio.listarItem();
+    }
+    /*
+    public List<ItemDto> listar(){
         List<Item> itens = itemRepositorio.findAll();
         return itemMapper.toDto(itens);
     }
+    */
 
     public ItemDto obterPorId(Long id){
         Item item = itemRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Item nao encontrado"));
