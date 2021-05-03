@@ -8,10 +8,7 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.exceptio
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.UsuarioListagemMapper;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -47,9 +44,7 @@ public class UsuarioServico {
         return usuarioDto;
     }
 
-    public Void deletar(UsuarioDto dto){
-        Usuario usuario = usuarioMapper.toEntity(dto);
-        usuarioRepositorio.delete(usuario);
-        return null;
+    public void deletar(Long id){
+        usuarioRepositorio.deleteById(id);
     }
 }

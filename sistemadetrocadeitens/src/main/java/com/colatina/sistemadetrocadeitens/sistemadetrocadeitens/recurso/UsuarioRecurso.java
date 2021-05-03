@@ -6,10 +6,15 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Usua
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,7 +32,7 @@ public class UsuarioRecurso {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDto> findById(@PathVariable("id") Long id){
+    public ResponseEntity<UsuarioDto> obterPorId(@PathVariable("id") Long id){
         UsuarioDto usuarioDto = usuarioServico.obterPorId(id);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
@@ -43,9 +48,9 @@ public class UsuarioRecurso {
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public  ResponseEntity<Void> deletar(@RequestBody UsuarioDto dto){
-        usuarioServico.deletar(dto);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+        usuarioServico.deletar(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

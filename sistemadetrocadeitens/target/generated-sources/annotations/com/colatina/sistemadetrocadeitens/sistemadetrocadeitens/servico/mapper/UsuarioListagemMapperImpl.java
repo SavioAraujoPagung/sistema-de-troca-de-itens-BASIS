@@ -1,0 +1,67 @@
+package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper;
+
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioListagemDto;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2021-05-03T15:32:44-0300",
+    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.11 (Ubuntu)"
+)
+@Component
+public class UsuarioListagemMapperImpl implements UsuarioListagemMapper {
+
+    @Override
+    public Usuario toEntity(UsuarioListagemDto dto) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        Usuario usuario = new Usuario();
+
+        return usuario;
+    }
+
+    @Override
+    public UsuarioListagemDto toDto(Usuario entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        UsuarioListagemDto usuarioListagemDto = new UsuarioListagemDto();
+
+        return usuarioListagemDto;
+    }
+
+    @Override
+    public List<Usuario> toEntity(List<UsuarioListagemDto> dtoList) {
+        if ( dtoList == null ) {
+            return null;
+        }
+
+        List<Usuario> list = new ArrayList<Usuario>( dtoList.size() );
+        for ( UsuarioListagemDto usuarioListagemDto : dtoList ) {
+            list.add( toEntity( usuarioListagemDto ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<UsuarioListagemDto> toDto(List<Usuario> entityList) {
+        if ( entityList == null ) {
+            return null;
+        }
+
+        List<UsuarioListagemDto> list = new ArrayList<UsuarioListagemDto>( entityList.size() );
+        for ( Usuario usuario : entityList ) {
+            list.add( toDto( usuario ) );
+        }
+
+        return list;
+    }
+}
