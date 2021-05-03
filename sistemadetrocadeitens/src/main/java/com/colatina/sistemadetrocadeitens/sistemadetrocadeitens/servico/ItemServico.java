@@ -41,7 +41,8 @@ public class ItemServico {
     }
 
     public void deletar(Long id){
-        itemRepositorio.deleteById(id);
+        Item item = itemRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Item nao encontrado"));
+        itemRepositorio.delete(item);
     }
 
 }

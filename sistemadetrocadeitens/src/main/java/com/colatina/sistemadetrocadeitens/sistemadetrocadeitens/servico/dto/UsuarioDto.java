@@ -1,6 +1,5 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
 public class UsuarioDto {

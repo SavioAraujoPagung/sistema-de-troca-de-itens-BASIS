@@ -26,7 +26,6 @@ public class UsuarioRecurso {
 
     @GetMapping
     public ResponseEntity<List<UsuarioListagemDto>> listar(){
-
         List<UsuarioListagemDto> usuarioListagemDto = usuarioServico.listar();
         return new ResponseEntity<>(usuarioListagemDto, HttpStatus.OK);
     }
@@ -37,15 +36,15 @@ public class UsuarioRecurso {
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
     @PutMapping
-    public ResponseEntity<Void> alterar(UsuarioDto dto){
-        usuarioServico.alterar(dto);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<UsuarioDto> alterar(UsuarioDto dto){
+        UsuarioDto usuarioDto = usuarioServico.alterar(dto);
+        return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<UsuarioDto> salvar(@RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.salvar(dto);
-        return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
+        return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
