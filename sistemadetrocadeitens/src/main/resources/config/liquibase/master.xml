@@ -8,11 +8,12 @@
     <include file="/config/liquibase/changelogs/20210429131000_criarTabelaUsuario.xml"/>
     <include file="/config/liquibase/changelogs/20210428210000_criarTabelaCategoria.xml"/>
     <include file="/config/liquibase/changelogs/20210428211000_criarTabelaSituacaoOferta.xml"/>
-
     <include file="/config/liquibase/changelogs/20210429143500_criarTabelaItem.xml"/>
     <include file="/config/liquibase/changelogs/20210428214000_criarOferta.xml"/>
     <include file="/config/liquibase/changelogs/20210428220900_criarItemOfertado.xml"/>
 
-
     <include file="/config/liquibase/changelogs/20210430093400_crieiORelacionamentoEntreUsuarioEItem.xml"/>
+
+    <include file="/config/liquibase/changelogs/20210504091000_inserirRegistrosEmSituacao.xml"/>
+    <include file="/config/liquibase/changelogs/20210504091700_inserirRegistrosEmCategoria.xml"/>
 </databaseChangeLog>
