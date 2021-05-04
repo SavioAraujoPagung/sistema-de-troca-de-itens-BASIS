@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-04T10:02:49-0300",
+    date = "2021-05-04T15:36:07-0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 11.0.11 (Ubuntu)"
 )
 @Component
@@ -23,6 +23,12 @@ public class UsuarioMapperImpl implements UsuarioMapper {
 
         Usuario usuario = new Usuario();
 
+        usuario.setId( dto.getId() );
+        usuario.setNome( dto.getNome() );
+        usuario.setCpf( dto.getCpf() );
+        usuario.setEmail( dto.getEmail() );
+        usuario.setData( dto.getData() );
+
         return usuario;
     }
 
@@ -33,6 +39,12 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         }
 
         UsuarioDto usuarioDto = new UsuarioDto();
+
+        usuarioDto.setId( entity.getId() );
+        usuarioDto.setNome( entity.getNome() );
+        usuarioDto.setCpf( entity.getCpf() );
+        usuarioDto.setEmail( entity.getEmail() );
+        usuarioDto.setData( entity.getData() );
 
         return usuarioDto;
     }

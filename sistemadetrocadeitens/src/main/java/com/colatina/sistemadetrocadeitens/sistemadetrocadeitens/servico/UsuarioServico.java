@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,7 @@ public class UsuarioServico {
 
     public UsuarioDto salvar(UsuarioDto dto){
         Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
