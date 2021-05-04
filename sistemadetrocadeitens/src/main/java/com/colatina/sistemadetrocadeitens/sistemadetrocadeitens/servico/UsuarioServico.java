@@ -9,8 +9,8 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.U
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,8 +33,8 @@ public class UsuarioServico {
     }
     public UsuarioDto alterar(UsuarioDto usuarioDto){
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        UsuarioDto dto = usuarioMapper.toDto(usuarioRepositorio.save(usuario));
-        return dto;
+        usuarioRepositorio.save(usuario);
+        return usuarioMapper.toDto(usuario);
     }
 
     public UsuarioDto salvar(UsuarioDto dto){

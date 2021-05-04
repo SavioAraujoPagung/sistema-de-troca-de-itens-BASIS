@@ -37,7 +37,7 @@ public class UsuarioRecurso {
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
     @PutMapping
-    public ResponseEntity<UsuarioDto> alterar(UsuarioDto dto){
+    public ResponseEntity<UsuarioDto> alterar(final @RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.alterar(dto);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
