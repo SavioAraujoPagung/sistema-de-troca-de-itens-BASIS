@@ -4,6 +4,8 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Situacao
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class OfertaDto {
@@ -12,6 +14,10 @@ public class OfertaDto {
 
     private Situacao situacao;
 
-    private UsuarioDto usuarioOfertanteDto;
+    private Long usuarioOfertanteId;
+
+    private Long itemId;
+
+    private List<ItemDto> itensOfertadosId;
 
 }

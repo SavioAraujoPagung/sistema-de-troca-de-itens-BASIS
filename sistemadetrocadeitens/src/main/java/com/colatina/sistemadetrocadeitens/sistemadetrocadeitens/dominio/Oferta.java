@@ -42,4 +42,7 @@ public class Oferta {
 	@JoinColumn(name = "id_usuario_ofertante")
 	private Usuario usuarioOfertante;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_item")
+	private Item item;
 }

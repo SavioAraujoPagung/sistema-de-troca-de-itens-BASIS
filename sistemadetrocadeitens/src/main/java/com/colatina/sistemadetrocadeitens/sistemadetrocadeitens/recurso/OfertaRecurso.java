@@ -17,7 +17,7 @@ public class OfertaRecurso {
 
     @GetMapping("/{id}")
     public ResponseEntity<OfertaDto> obter(@PathVariable("id") Long id){
-        OfertaDto ofertaDto = ofertaServico.obter();
+        OfertaDto ofertaDto = ofertaServico.obter(id);
         return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
 
@@ -38,9 +38,9 @@ public class OfertaRecurso {
         OfertaDto ofertaDto = ofertaServico.salvar(dto);
         return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
-    @DeleteMapping
-    public  ResponseEntity<Void> deletar(@RequestBody OfertaDto dto){
-        ofertaServico.deletar(dto);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+        ofertaServico.deletar(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
