@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface ItemRepositorio extends JpaRepository<Item, Long> {
     @Query("SELECT new com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto" +
-            "(i.id, i.nome, i.imagem, i.descricao, i.categoria.id, i.usuario.id) FROM Item i")
+            "(i.id, i.nome, i.imagem, i.descricao, ic.id, iu.id) FROM Item i " +
+            "JOIN i.categoria ic JOIN i.usuario iu")
     List<ItemDto> listarItem();
 }
