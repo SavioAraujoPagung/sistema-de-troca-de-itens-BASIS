@@ -33,6 +33,8 @@ public class UsuarioServico {
     }
     public UsuarioDto alterar(UsuarioDto usuarioDto){
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
+        Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
+        usuario.setToken(usuarioSalvo.getToken());
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
