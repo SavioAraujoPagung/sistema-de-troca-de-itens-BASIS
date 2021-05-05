@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/api/oferta")
 @RequiredArgsConstructor
 public class OfertaRecurso {
+
     private final OfertaServico ofertaServico;
 
     @GetMapping("/{id}")
