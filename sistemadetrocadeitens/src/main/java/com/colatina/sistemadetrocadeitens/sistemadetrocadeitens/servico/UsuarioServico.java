@@ -29,7 +29,7 @@ public class UsuarioServico {
     public UsuarioDto obterPorId(Long id){
         UsuarioDto usuarioDto = usuarioRepositorio.obterUsuarioPorId(id);
         if (usuarioDto == null){
-            throw(new RegraNegocioException("Item nao encontrado"));
+            throw(new RegraNegocioException("Usuario nao encontrado"));
         }
         return usuarioDto;
     }
