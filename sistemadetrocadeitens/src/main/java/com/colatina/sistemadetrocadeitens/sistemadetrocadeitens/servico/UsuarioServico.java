@@ -23,14 +23,13 @@ public class UsuarioServico {
     private final UsuarioMapper usuarioMapper;
 
     public List<UsuarioListagemDto> listar(){
-        List<Usuario> usuarios = usuarioRepositorio.findAll();
-        return usuarioListagemMapper.toDto(usuarios);
+        return usuarioRepositorio.listarUsuario();
     }
 
     public UsuarioDto obterPorId(Long id){
-        Usuario usuario = usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
-        return usuarioMapper.toDto(usuario);
+        return usuarioRepositorio.obterUsuarioPorId(id);
     }
+
     public UsuarioDto alterar(UsuarioDto usuarioDto){
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
         Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));

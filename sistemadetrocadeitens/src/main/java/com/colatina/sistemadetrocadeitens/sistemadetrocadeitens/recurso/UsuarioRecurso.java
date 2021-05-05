@@ -36,6 +36,7 @@ public class UsuarioRecurso {
         UsuarioDto usuarioDto = usuarioServico.obterPorId(id);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
+
     @PutMapping
     public ResponseEntity<UsuarioDto> alterar(final @RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.alterar(dto);
