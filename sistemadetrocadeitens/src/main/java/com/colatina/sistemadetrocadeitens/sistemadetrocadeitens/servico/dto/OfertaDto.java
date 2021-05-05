@@ -12,12 +12,12 @@ public class OfertaDto {
 
     private Long id;
 
-    private Situacao situacao;
+    private Long situacaoId;
 
     private Long usuarioOfertanteId;
 
     private Long itemId;
 
-    private List<ItemDto> itensOfertadosId;
+    private List<ItemDto> itensOfertados;
 
 }

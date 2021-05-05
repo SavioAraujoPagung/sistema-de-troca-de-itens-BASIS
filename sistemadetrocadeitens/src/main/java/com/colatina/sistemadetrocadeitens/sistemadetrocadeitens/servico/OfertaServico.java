@@ -32,6 +32,7 @@ public class OfertaServico {
         return ofertaMepper.toDto(oferta);
     }
     public OfertaDto alterar(OfertaDto ofertaDto){
+        obter(ofertaDto.getId());
         return OfertaDtoSave(ofertaDto);
     }
     public OfertaDto salvar(OfertaDto ofertaDto){
