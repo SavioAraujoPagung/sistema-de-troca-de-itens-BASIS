@@ -38,14 +38,13 @@ public class UsuarioRecurso {
     }
 
     @PutMapping
-    public ResponseEntity<UsuarioDto> alterar(final @RequestBody UsuarioDto dto){
+    public ResponseEntity<UsuarioDto> alterar(@Valid @RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.alterar(dto);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
 
     @PostMapping
-    @Valid
-    public ResponseEntity<UsuarioDto> salvar(final @RequestBody UsuarioDto dto){
+    public ResponseEntity<UsuarioDto> salvar(@Valid @RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.salvar(dto);
         return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
     }

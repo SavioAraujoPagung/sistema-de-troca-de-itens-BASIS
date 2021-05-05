@@ -27,7 +27,11 @@ public class UsuarioServico {
     }
 
     public UsuarioDto obterPorId(Long id){
-        return usuarioRepositorio.obterUsuarioPorId(id);
+        UsuarioDto usuarioDto = usuarioRepositorio.obterUsuarioPorId(id);
+        if (usuarioDto == null){
+            throw(new RegraNegocioException("Item nao encontrado"));
+        }
+        return usuarioDto;
     }
 
     public UsuarioDto alterar(UsuarioDto usuarioDto){

@@ -24,7 +24,11 @@ public class ItemServico {
     }
 
     public ItemDto obterPorId(Long id){
-        return itemRepositorio.obterItemPorId(id);
+        ItemDto itemDto = itemRepositorio.obterItemPorId(id);
+        if (itemDto == null){
+            throw(new RegraNegocioException("Item nao encontrado"));
+        }
+        return itemDto;
     }
 
     public ItemDto salvar(ItemDto itemDto){
