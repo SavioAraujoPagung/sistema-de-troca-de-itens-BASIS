@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-04T15:36:07-0300",
-    comments = "version: 1.4.1.Final, compiler: javac, environment: Java 11.0.11 (Ubuntu)"
+    date = "2021-05-05T09:15:41-0300",
+    comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_292 (Private Build)"
 )
 @Component
 public class ItemMapperImpl implements ItemMapper {
@@ -63,6 +63,7 @@ public class ItemMapperImpl implements ItemMapper {
             item.setImagem( Arrays.copyOf( imagem, imagem.length ) );
         }
         item.setDescricao( dto.getDescricao() );
+        item.setDisponibilidade( dto.getDisponibilidade() );
 
         return item;
     }
@@ -84,6 +85,7 @@ public class ItemMapperImpl implements ItemMapper {
             itemDto.setImagem( Arrays.copyOf( imagem, imagem.length ) );
         }
         itemDto.setDescricao( entity.getDescricao() );
+        itemDto.setDisponibilidade( entity.getDisponibilidade() );
 
         return itemDto;
     }

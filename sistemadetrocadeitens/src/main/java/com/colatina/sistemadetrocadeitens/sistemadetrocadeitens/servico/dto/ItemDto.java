@@ -24,6 +24,8 @@ public class ItemDto{
 
     private String descricao;
 
+    private Boolean disponibilidade;
+
     private Long categoriaId;
 
     private Long usuarioId;

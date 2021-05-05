@@ -18,20 +18,13 @@ public class ItemServico {
     private final ItemRepositorio itemRepositorio;
     private final ItemMapper itemMapper;
 
-    /*
+
     public List<ItemDto> listar(){
         return itemRepositorio.listarItem();
     }
-    */
-
-    public List<ItemDto> listar(){
-        List<Item> itens = itemRepositorio.findAll();
-        return itemMapper.toDto(itens);
-    }
 
     public ItemDto obterPorId(Long id){
-        Item item = itemRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Item nao encontrado"));
-        return itemMapper.toDto(item);
+        return itemRepositorio.obterItemPorId(id);
     }
 
     public ItemDto salvar(ItemDto itemDto){
@@ -45,16 +38,6 @@ public class ItemServico {
         itemRepositorio.save(item);
         return itemMapper.toDto(item);
     }
-
-    /*
-    public UsuarioDto alterar(UsuarioDto usuarioDto){
-        Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
-        usuario.setToken(usuarioSalvo.getToken());
-        usuarioRepositorio.save(usuario);
-        return usuarioMapper.toDto(usuario);
-    }
-    */
 
     public void deletar(Long id){
         Item item = itemRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Item nao encontrado"));
