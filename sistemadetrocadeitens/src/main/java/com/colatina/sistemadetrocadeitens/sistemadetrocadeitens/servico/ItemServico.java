@@ -18,14 +18,17 @@ public class ItemServico {
     private final ItemRepositorio itemRepositorio;
     private final ItemMapper itemMapper;
 
+
     public List<ItemDto> listar(){
-        List<Item> itens = itemRepositorio.findAll();
-        return itemMapper.toDto(itens);
+        return itemRepositorio.listarItem();
     }
 
     public ItemDto obterPorId(Long id){
-        Item item = itemRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Item nao encontrado"));
-        return itemMapper.toDto(item);
+        ItemDto itemDto = itemRepositorio.obterItemPorId(id);
+        if (itemDto == null){
+            throw(new RegraNegocioException("Item nao encontrado"));
+        }
+        return itemDto;
     }
 
     public ItemDto salvar(ItemDto itemDto){

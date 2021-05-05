@@ -10,6 +10,9 @@
             <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"></constraints>
             </column>
+            <column name="nome" type="varchar">
+                <constraints nullable="false"></constraints>
+            </column>
             <column name="cpf" type="varchar(11)">
                 <constraints nullable="false"></constraints>
             </column>

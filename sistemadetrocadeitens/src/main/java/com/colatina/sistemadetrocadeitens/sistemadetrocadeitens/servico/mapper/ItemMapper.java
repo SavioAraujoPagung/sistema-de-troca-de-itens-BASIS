@@ -2,6 +2,7 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,7 +15,6 @@ public interface ItemMapper extends EntityMapper<ItemDto, Item>{
     Item toEntity(ItemDto dto);
 
     @Override
-    @Mapping(source = "categoria.id", target = "categoriaId")
-    @Mapping(source = "usuario.id", target = "usuarioId")
+    @InheritInverseConfiguration
     ItemDto toDto(Item entity);
 }

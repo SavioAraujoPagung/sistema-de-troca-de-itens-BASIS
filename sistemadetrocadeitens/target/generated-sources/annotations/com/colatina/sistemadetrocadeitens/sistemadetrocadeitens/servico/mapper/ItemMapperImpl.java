@@ -12,20 +12,20 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-04T10:06:43-0300",
+    date = "2021-05-05T10:38:13-0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_292 (Private Build)"
 )
 @Component
 public class ItemMapperImpl implements ItemMapper {
 
     @Override
-    public List<Item> toEntity(List<ItemDto> arg0) {
-        if ( arg0 == null ) {
+    public List<Item> toEntity(List<ItemDto> dtoList) {
+        if ( dtoList == null ) {
             return null;
         }
 
-        List<Item> list = new ArrayList<Item>( arg0.size() );
-        for ( ItemDto itemDto : arg0 ) {
+        List<Item> list = new ArrayList<Item>( dtoList.size() );
+        for ( ItemDto itemDto : dtoList ) {
             list.add( toEntity( itemDto ) );
         }
 
@@ -33,13 +33,13 @@ public class ItemMapperImpl implements ItemMapper {
     }
 
     @Override
-    public List<ItemDto> toDto(List<Item> arg0) {
-        if ( arg0 == null ) {
+    public List<ItemDto> toDto(List<Item> entityList) {
+        if ( entityList == null ) {
             return null;
         }
 
-        List<ItemDto> list = new ArrayList<ItemDto>( arg0.size() );
-        for ( Item item : arg0 ) {
+        List<ItemDto> list = new ArrayList<ItemDto>( entityList.size() );
+        for ( Item item : entityList ) {
             list.add( toDto( item ) );
         }
 
@@ -63,6 +63,7 @@ public class ItemMapperImpl implements ItemMapper {
             item.setImagem( Arrays.copyOf( imagem, imagem.length ) );
         }
         item.setDescricao( dto.getDescricao() );
+        item.setDisponibilidade( dto.getDisponibilidade() );
 
         return item;
     }
@@ -84,6 +85,7 @@ public class ItemMapperImpl implements ItemMapper {
             itemDto.setImagem( Arrays.copyOf( imagem, imagem.length ) );
         }
         itemDto.setDescricao( entity.getDescricao() );
+        itemDto.setDisponibilidade( entity.getDisponibilidade() );
 
         return itemDto;
     }

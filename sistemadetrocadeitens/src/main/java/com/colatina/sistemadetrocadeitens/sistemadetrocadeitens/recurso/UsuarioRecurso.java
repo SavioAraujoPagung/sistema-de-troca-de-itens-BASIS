@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,14 +36,15 @@ public class UsuarioRecurso {
         UsuarioDto usuarioDto = usuarioServico.obterPorId(id);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
+
     @PutMapping
-    public ResponseEntity<UsuarioDto> alterar(UsuarioDto dto){
+    public ResponseEntity<UsuarioDto> alterar(@Valid @RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.alterar(dto);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDto> salvar(@RequestBody UsuarioDto dto){
+    public ResponseEntity<UsuarioDto> salvar(@Valid @RequestBody UsuarioDto dto){
         UsuarioDto usuarioDto = usuarioServico.salvar(dto);
         return new ResponseEntity<>(usuarioDto, HttpStatus.CREATED);
     }

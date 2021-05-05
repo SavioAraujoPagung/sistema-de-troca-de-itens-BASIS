@@ -32,7 +32,7 @@ public class Usuario {
     @Column(name = "email", nullable = false)
     private String email;
     
-    @Column(name = "data", nullable = false)
+    @Column(name = "dt_nascimento", nullable = false)
     private LocalDate data;
 	
 	@Column(name = "token", nullable = false)
