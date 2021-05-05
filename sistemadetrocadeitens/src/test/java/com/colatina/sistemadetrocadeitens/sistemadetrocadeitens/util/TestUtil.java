@@ -1,4 +1,4 @@
-package com.colatina.sgt.service.util;
+package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

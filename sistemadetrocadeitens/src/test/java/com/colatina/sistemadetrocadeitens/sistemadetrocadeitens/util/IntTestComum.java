@@ -1,6 +1,6 @@
-package com.colatina.sgt.service.util;
+package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util;
 
-import com.colatina.sgt.service.ServiceApplication;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.SistemadetrocadeitensApplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
 
-@SpringBootTest(classes = ServiceApplication.class)
+@SpringBootTest(classes = SistemadetrocadeitensApplication.class)
 @ExtendWith(SpringExtension.class)
 public abstract class IntTestComum {
 

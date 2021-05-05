@@ -1,4 +1,4 @@
-package com.colatina.sgt.service.builder;
+package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.builder;
 
 public interface Customizacao<E> {
 
