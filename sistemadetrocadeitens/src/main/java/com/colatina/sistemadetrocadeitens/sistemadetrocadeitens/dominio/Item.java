@@ -37,6 +37,9 @@ public class Item implements Serializable {
 	@Column(name = "descricao", nullable = false)
     private String descricao;
 
+	@Column(name = "disponibilidade", nullable = false)
+	private Boolean disponibilidade;
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;

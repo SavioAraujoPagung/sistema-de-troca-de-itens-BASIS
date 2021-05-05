@@ -9,9 +9,10 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.U
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +23,28 @@ public class UsuarioServico {
     private final UsuarioMapper usuarioMapper;
 
     public List<UsuarioListagemDto> listar(){
-        List<Usuario> usuarios = usuarioRepositorio.findAll();
-        return usuarioListagemMapper.toDto(usuarios);
+        return usuarioRepositorio.listarUsuario();
     }
 
     public UsuarioDto obterPorId(Long id){
-        Usuario usuario = usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
-        return usuarioMapper.toDto(usuario);
+        UsuarioDto usuarioDto = usuarioRepositorio.obterUsuarioPorId(id);
+        if (usuarioDto == null){
+            throw(new RegraNegocioException("Usuario nao encontrado"));
+        }
+        return usuarioDto;
     }
+
     public UsuarioDto alterar(UsuarioDto usuarioDto){
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        UsuarioDto dto = usuarioMapper.toDto(usuarioRepositorio.save(usuario));
-        return dto;
+        Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
+        usuario.setToken(usuarioSalvo.getToken());
+        usuarioRepositorio.save(usuario);
+        return usuarioMapper.toDto(usuario);
     }
 
     public UsuarioDto salvar(UsuarioDto dto){
         Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }

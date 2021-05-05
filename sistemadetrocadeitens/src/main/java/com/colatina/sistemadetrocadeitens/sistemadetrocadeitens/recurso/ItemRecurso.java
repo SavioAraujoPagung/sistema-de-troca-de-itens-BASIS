@@ -37,14 +37,13 @@ public class ItemRecurso {
     }
 
     @PostMapping
-    @Valid
-    public ResponseEntity<ItemDto> salvar(@RequestBody ItemDto dto){
+    public ResponseEntity<ItemDto> salvar(@Valid @RequestBody ItemDto dto){
         ItemDto itemDto = itemServico.salvar(dto);
         return  new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ItemDto> alterar(@RequestBody ItemDto dto){
+    public ResponseEntity<ItemDto> alterar(@Valid @RequestBody ItemDto dto){
         ItemDto itemDto = itemServico.alterar(dto);
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
