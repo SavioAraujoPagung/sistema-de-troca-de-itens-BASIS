@@ -3,12 +3,16 @@ com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Oferta.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/EntityMapper.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplication.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/exception/RegraNegocioException.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplication.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Categoria.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/UsuarioDto.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/ItemRepositorio.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioListagemMapper.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/ItemMapperImpl.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/ItemDto.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMepper.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/OfertaDto.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/UsuarioListagemDto.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/UsuarioRepositorio.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/UsuarioListagemDto.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/UsuarioServico.class
@@ -23,4 +27,5 @@ com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/CategoriaRe
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Item.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/ItemRecurso.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/SituacaoRepositorio.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/ItemRecurso.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/ItemServico.class

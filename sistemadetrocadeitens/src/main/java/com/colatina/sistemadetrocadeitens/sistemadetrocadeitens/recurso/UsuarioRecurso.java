@@ -25,6 +25,7 @@ public class UsuarioRecurso {
 
     private final UsuarioServico usuarioServico;
 
+
     @GetMapping
     public ResponseEntity<List<UsuarioListagemDto>> listar(){
         List<UsuarioListagemDto> usuarioListagemDto = usuarioServico.listar();
