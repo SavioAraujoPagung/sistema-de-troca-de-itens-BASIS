@@ -20,4 +20,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
             "(u.id, u.nome, u.cpf, u.email, u.data) FROM Usuario u " +
             "WHERE u.id = :id")
     UsuarioDto obterUsuarioPorId(@Param("id") Long id);
+
+    Usuario findByCpf(String cpf);
 }

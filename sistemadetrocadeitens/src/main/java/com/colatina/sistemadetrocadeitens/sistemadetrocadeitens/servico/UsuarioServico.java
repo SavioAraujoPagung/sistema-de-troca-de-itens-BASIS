@@ -35,6 +35,7 @@ public class UsuarioServico {
     }
 
     public UsuarioDto alterar(UsuarioDto usuarioDto){
+        validarCpf(usuarioDto);
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
         Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
         usuario.setToken(usuarioSalvo.getToken());
@@ -43,6 +44,7 @@ public class UsuarioServico {
     }
 
     public UsuarioDto salvar(UsuarioDto dto){
+        validarCpf(dto);
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
         usuarioRepositorio.save(usuario);
@@ -52,5 +54,12 @@ public class UsuarioServico {
     public void deletar(Long id){
         Usuario usuario = usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
         usuarioRepositorio.delete(usuario);
+    }
+
+    private void validarCpf(UsuarioDto dto){
+        Usuario usuario = usuarioRepositorio.findByCpf(dto.getCpf());
+        if (usuario != null && !usuario.getId().equals(dto.getId())){
+            throw new RegraNegocioException("CPF já cadastrado");
+        }
     }
 }
