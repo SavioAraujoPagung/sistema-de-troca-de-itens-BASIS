@@ -60,7 +60,7 @@ public class UsuarioRecursoIT extends IntTestComum {
         Usuario usuario = usuarioBuilder.construirEntidade();
         getMockMvc().perform(MockMvcRequestBuilders.post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .contentType(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 }
