@@ -1,9 +1,9 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.recurso;
 
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.SistemadetrocadeitensApplication;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.builder.UsuarioBuilder;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.UsuarioRepositorio;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.UsuarioServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.UsuarioMapper;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util.IntTestComum;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util.TestUtil;
@@ -12,12 +12,17 @@ import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
+@SpringBootTest(classes = SistemadetrocadeitensApplication.class)
 @Transactional
 public class UsuarioRecursoIT extends IntTestComum {
 
@@ -28,8 +33,6 @@ public class UsuarioRecursoIT extends IntTestComum {
     private UsuarioMapper usuarioMapper;
 
     @Autowired
-    private UsuarioServico usuarioServico;
-
     private UsuarioRepositorio usuarioRepositorio;
 
     @BeforeEach
@@ -41,19 +44,19 @@ public class UsuarioRecursoIT extends IntTestComum {
     @Test
     public void listar() throws Exception {
         usuarioBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("api/usuario"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+        getMockMvc().perform(get("/api/usuario"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
     }
 
     @Test
-    public void listar2() throws  Exception {
+    public void listar2() throws Exception {
         usuarioBuilder.construir();
         usuarioBuilder.customizar(entidade -> {
             entidade.setCpf("43543543534");
             entidade.setEmail("teste2@gmail.com");
         }).construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("api/usuario"))
+        getMockMvc().perform(get("/api/usuario"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
     }
@@ -61,7 +64,7 @@ public class UsuarioRecursoIT extends IntTestComum {
     @Test
     public void salvar() throws Exception {
         Usuario usuario = usuarioBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.post("/api/usuario")
+        getMockMvc().perform(post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
