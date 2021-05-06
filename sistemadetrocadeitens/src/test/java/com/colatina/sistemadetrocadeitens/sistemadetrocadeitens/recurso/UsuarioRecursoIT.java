@@ -43,7 +43,7 @@ public class UsuarioRecursoIT extends IntTestComum {
         usuarioBuilder.construir();
         getMockMvc().perform(MockMvcRequestBuilders.get("api/usuario"))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
+        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
     }
 
     @Test
@@ -53,11 +53,14 @@ public class UsuarioRecursoIT extends IntTestComum {
             entidade.setCpf("43543543534");
             entidade.setEmail("teste2@gmail.com");
         }).construir();
+        getMockMvc().perform(MockMvcRequestBuilders.get("api/usuario"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
     }
 
     @Test
     public void salvar() throws Exception {
-        Usuario usuario = usuarioBuilder.construirEntidade();
+        Usuario usuario = usuarioBuilder.construir();
         getMockMvc().perform(MockMvcRequestBuilders.post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
