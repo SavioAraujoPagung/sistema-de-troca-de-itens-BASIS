@@ -14,12 +14,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SistemadetrocadeitensApplication.class)
@@ -45,8 +45,8 @@ public class UsuarioRecursoIT extends IntTestComum {
     public void listar() throws Exception {
         usuarioBuilder.construir();
         getMockMvc().perform(get("/api/usuario"))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", Matchers.hasSize(1)));
     }
 
     @Test
@@ -57,8 +57,8 @@ public class UsuarioRecursoIT extends IntTestComum {
             entidade.setEmail("teste2@gmail.com");
         }).construir();
         getMockMvc().perform(get("/api/usuario"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.hasSize(2)));
     }
 
     @Test
@@ -67,6 +67,6 @@ public class UsuarioRecursoIT extends IntTestComum {
         getMockMvc().perform(post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
+                .andExpect(status().isCreated());
     }
 }

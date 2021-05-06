@@ -1,7 +1,7 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.SistemadetrocadeitensApplication;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +23,6 @@ public abstract class IntTestComum {
     @Autowired
     private EntityManager em;
 
-    @Autowired
     private WebApplicationContext webApplicationContext;
 
     private MockMvc mockMvc;
@@ -36,8 +35,13 @@ public abstract class IntTestComum {
         return em;
     }
 
-    @BeforeEach
-    void setUp() {
+    @Autowired
+    public void setWebApplicationContext(WebApplicationContext pWebApplicationContext){
+        webApplicationContext = pWebApplicationContext;
+    }
+
+    @Before
+    public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 }
