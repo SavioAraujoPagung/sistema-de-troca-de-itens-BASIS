@@ -27,5 +27,18 @@ spring:
     liquibase:
         change-log: classpath:/config/liquibase/master.xml
 #        drop-first: true
-server:
-    port: 8080
+#    mail:
+        #         host: smtp.gmail.com
+        #         port: 587
+        #      username: turmaformgsf@gmail.com
+        #     password: Ocdmvmor123
+            #    properties:
+            #       mail:
+            #          smtp:
+            #             auth: true
+            #            starlls:
+            #                enable: true
+            #               required: true
+        #            quitwait: false
+        #   server:
+        port: 8080
