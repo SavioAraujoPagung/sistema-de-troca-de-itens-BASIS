@@ -38,6 +38,12 @@
                                   referencedColumnNames="id"
                                   constraintName="fk_item_categoria"
         />
+        <addForeignKeyConstraint  baseTableName="tb_item"
+                                  baseColumnNames="id_usuario"
+                                  referencedTableName="tb_usuario"
+                                  referencedColumnNames="id"
+                                  constraintName="fk_item_usuario"
+        />
     </changeSet>
 
 </databaseChangeLog>

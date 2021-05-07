@@ -24,7 +24,7 @@ public class UsuarioBuilder extends ConstrutorEntidade<Usuario>{
         usuario.setNome("Usuario Teste");
         usuario.setCpf("16466121089");
         usuario.setEmail("teste@gmail.com");
-        usuario.setData(LocalDate.now());
+        usuario.setData(LocalDate.now().minusDays(2L));
         return usuario;
     }
 

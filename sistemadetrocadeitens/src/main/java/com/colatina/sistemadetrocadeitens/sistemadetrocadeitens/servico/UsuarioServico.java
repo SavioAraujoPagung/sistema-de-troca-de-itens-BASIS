@@ -35,7 +35,7 @@ public class UsuarioServico {
     }
 
     public UsuarioDto alterar(UsuarioDto usuarioDto){
-        validarCpf(usuarioDto);
+        validarDadosDuplicados(usuarioDto);
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
         Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
         usuario.setToken(usuarioSalvo.getToken());
@@ -43,9 +43,9 @@ public class UsuarioServico {
         return usuarioMapper.toDto(usuario);
     }
 
-    public UsuarioDto salvar(UsuarioDto dto){
-        validarCpf(dto);
-        Usuario usuario = usuarioMapper.toEntity(dto);
+    public UsuarioDto salvar(UsuarioDto usuarioDto){
+        validarDadosDuplicados(usuarioDto);
+        Usuario usuario = usuarioMapper.toEntity(usuarioDto);
         usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
@@ -56,10 +56,22 @@ public class UsuarioServico {
         usuarioRepositorio.delete(usuario);
     }
 
-    private void validarCpf(UsuarioDto dto){
+    private void validarDadosDuplicados(UsuarioDto dto){
+        validarCpfDuplicado(dto);
+        validarEmailDuplicado(dto);
+    }
+
+    private void validarCpfDuplicado(UsuarioDto dto){
         Usuario usuario = usuarioRepositorio.findByCpf(dto.getCpf());
-        if (usuario != null && !usuario.getId().equals(dto.getId())){
-            throw new RegraNegocioException("CPF já cadastrado");
+        if(usuario != null && !usuario.getId().equals(dto.getId())){
+            throw new RegraNegocioException("CPF já Cadastrado.");
+        }
+    }
+
+    private void validarEmailDuplicado(UsuarioDto dto){
+        Usuario usuario = usuarioRepositorio.findByEmail(dto.getEmail());
+        if(usuario != null && !usuario.getId().equals(dto.getId())){
+            throw new RegraNegocioException("Email já Cadastrado.");
         }
     }
 }

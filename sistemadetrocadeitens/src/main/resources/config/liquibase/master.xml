@@ -12,8 +12,6 @@
     <include file="/config/liquibase/changelogs/20210428214000_criarOferta.xml"/>
     <include file="/config/liquibase/changelogs/20210428220900_criarItemOfertado.xml"/>
 
-    <include file="/config/liquibase/changelogs/20210430093400_crieiORelacionamentoEntreUsuarioEItem.xml"/>
-
     <include file="/config/liquibase/changelogs/20210504091000_inserirRegistrosEmSituacao.xml"/>
     <include file="/config/liquibase/changelogs/20210504091700_inserirRegistrosEmCategoria.xml"/>
 </databaseChangeLog>
