@@ -7,15 +7,19 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Ofer
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-03T23:03:23-0300",
-    comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_292 (Private Build)"
+    date = "2021-05-06T21:33:04-0300",
+    comments = "version: 1.4.1.Final, compiler: javac, environment: Java 11.0.11 (Ubuntu)"
 )
 @Component
 public class OfertaMepperImpl implements OfertaMepper {
+
+    @Autowired
+    private ItemMapper itemMapper;
 
     @Override
     public List<Oferta> toEntity(List<OfertaDto> dtoList) {
@@ -56,7 +60,7 @@ public class OfertaMepperImpl implements OfertaMepper {
         oferta.setUsuarioOfertante( ofertaDtoToUsuario( dto ) );
         oferta.setItem( ofertaDtoToItem( dto ) );
         oferta.setId( dto.getId() );
-        oferta.setSituacao( dto.getSituacao() );
+        oferta.setItensOfertados( itemMapper.toEntity( dto.getItensOfertados() ) );
 
         return oferta;
     }
@@ -72,7 +76,7 @@ public class OfertaMepperImpl implements OfertaMepper {
         ofertaDto.setUsuarioOfertanteId( dtoUsuarioOfertanteId( dto ) );
         ofertaDto.setItemId( dtoItemId( dto ) );
         ofertaDto.setId( dto.getId() );
-        ofertaDto.setSituacao( dto.getSituacao() );
+        ofertaDto.setItensOfertados( itemMapper.toDto( dto.getItensOfertados() ) );
 
         return ofertaDto;
     }

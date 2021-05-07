@@ -14,10 +14,10 @@
                 <constraints nullable="false"></constraints>
             </column>
             <column name="cpf" type="varchar(11)">
-                <constraints nullable="false"></constraints>
+                <constraints nullable="false" unique="true"></constraints>
             </column>
             <column name="email" type="varchar(100)">
-                <constraints nullable="false"></constraints>
+                <constraints nullable="false" unique="true"></constraints>
             </column>
             <column name="dt_nascimento" type="date">
                 <constraints nullable="false"></constraints>

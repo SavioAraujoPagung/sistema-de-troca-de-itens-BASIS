@@ -34,23 +34,33 @@ public class UsuarioServico {
         return usuarioDto;
     }
 
-    public UsuarioDto alterar(UsuarioDto usuarioDto){
+    public UsuarioDto salvar(UsuarioDto usuarioDto){
+        validarDadosDuplicados(usuarioDto);
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
-        usuario.setToken(usuarioSalvo.getToken());
-        usuarioRepositorio.save(usuario);
-        return usuarioMapper.toDto(usuario);
-    }
-
-    public UsuarioDto salvar(UsuarioDto dto){
-        Usuario usuario = usuarioMapper.toEntity(dto);
-        usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
+        if (usuario.getId() == null){
+            usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
+        } else {
+            Usuario usuarioSalvo = findById(usuario.getId());
+            usuario.setToken(usuarioSalvo.getToken());
+        }
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
 
     public void deletar(Long id){
-        Usuario usuario = usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
+        Usuario usuario = findById(id);
         usuarioRepositorio.delete(usuario);
+    }
+
+    private void validarDadosDuplicados(UsuarioDto dto){
+        List<Usuario> usuarios = usuarioRepositorio.findByCpfOrEmail(dto.getCpf(), dto.getEmail());
+        usuarios.forEach(usuario -> {if(usuario != null && !usuario.getId().equals(dto.getId())){
+            if (usuario.getCpf().equals(dto.getCpf())) { throw new RegraNegocioException("Email já Cadastrado."); }
+            else if (usuario.getEmail().equals(dto.getEmail())) { throw new RegraNegocioException("Email já Cadastrado."); }
+        }});
+    }
+
+    private Usuario findById(Long id){
+        return usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
     }
 }
