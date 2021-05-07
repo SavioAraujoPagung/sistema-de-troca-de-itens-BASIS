@@ -29,8 +29,6 @@ public class UsuarioServico {
 
     private void enviarEmail(Usuario usuario){
         List<String> copias = new ArrayList<>();
-        //copias.add("savio.pagung@hotmal.com");
-        copias.add("fmf.prisma@gmail.com");
         EmailDto emailDto = new EmailDto(usuario.getEmail(),
                                 "SISTEMA DE TROCA DE ITENS",
                                 copias,

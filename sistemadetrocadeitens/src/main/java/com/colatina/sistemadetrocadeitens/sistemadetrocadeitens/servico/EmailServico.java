@@ -26,8 +26,10 @@ public class EmailServico {
                     applicationProperties.getNomeRemetente());
             message.setTo(emailDto.getDestinatario());
             message.setSubject(emailDto.getAssunto());
-            for(String s : emailDto.getCopias()){
-                message.addCc(s);
+            if (emailDto.getCopias()!=null) {
+                for (String s : emailDto.getCopias()) {
+                    message.addCc(s);
+                }
             }
             message.setText(emailDto.getTexto(), true);
             javaMailSender.send(mimeMessage);
