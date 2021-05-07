@@ -17,6 +17,7 @@ spring:
         deserialization:
             fail-on-unknown-properties: false
     jpa:
+        database-platform: org.hibernate.dialect.MySQL5Dialect
         database: postgresql
         show-sql: true
         open-in-view: false

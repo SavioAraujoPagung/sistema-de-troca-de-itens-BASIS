@@ -57,11 +57,11 @@ public class UsuarioRecursoIT extends IntTestComum {
     public void listar2() throws Exception {
         usuarioBuilder.customizar(entidade -> {
             entidade.setCpf("54268604081");
-            entidade.setEmail("teste1@gmail.com");
+            entidade.setEmail("savio.pagung@hotmail.com");
         }).construir();
         usuarioBuilder.customizar(entidade -> {
             entidade.setCpf("43543543534");
-            entidade.setEmail("teste2@gmail.com");
+            entidade.setEmail("fmf.prisma@gmail.com");
         }).construir();
         getMockMvc().perform(get("/api/usuario"))
                 .andExpect(status().isOk())

@@ -1,7 +1,7 @@
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplicationTests.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/UsuarioBuilder.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/UsuarioRecursoIT.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/Customizacao.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/util/IntTestComum.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/util/TestUtil.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/ConstrutorEntidade.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/util/IntTestComum.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/UsuarioRecursoIT.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/ConstrutorEntidade.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplicationTests.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/UsuarioBuilder.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/Customizacao.java
+/home/savio/Área de Trabalho/ProjetoBasis/ProjetoBasis/sistemadetrocadeitens/sistemadetrocadeitens/src/test/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/util/TestUtil.java
