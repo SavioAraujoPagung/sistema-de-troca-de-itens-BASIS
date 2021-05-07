@@ -99,9 +99,7 @@ public class UsuarioRecursoIT extends IntTestComum {
 
     @Test
     public void obterPorIdInvalido() throws Exception {
-        Usuario usuario = usuarioBuilder.construir();
-        usuario.setId(usuario.getId() + 5L);
-        getMockMvc().perform(get("/api/usuario/" + usuario.getId()))
+        getMockMvc().perform(get("/api/usuario/1"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -220,9 +218,43 @@ public class UsuarioRecursoIT extends IntTestComum {
     }
 
     @Test
-    public void alterarDataInalida() throws Exception{
+    public void alterarDataInvalida() throws Exception{
         Usuario usuarioSalvo = usuarioBuilder.construir();
         usuarioSalvo.setData(LocalDate.now().plusDays(5L));
+        getMockMvc().perform(put("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarCpfDuplicado() throws Exception{
+        usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("54268604081");
+            entidade.setEmail("teste1@gmail.com");
+        }).construir();
+        Usuario usuarioSalvo = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24877455094");
+            entidade.setEmail("teste2@gmail.com");
+        }).construir();
+        usuarioSalvo.setCpf("54268604081");
+        getMockMvc().perform(put("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarEmailDuplicado() throws Exception{
+        usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("54268604081");
+            entidade.setEmail("teste1@gmail.com");
+        }).construir();
+        Usuario usuarioSalvo = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24877455094");
+            entidade.setEmail("teste2@gmail.com");
+        }).construir();
+        usuarioSalvo.setEmail("teste1@gmail.com");
         getMockMvc().perform(put("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))

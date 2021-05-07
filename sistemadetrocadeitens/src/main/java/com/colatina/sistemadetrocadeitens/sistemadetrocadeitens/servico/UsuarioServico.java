@@ -57,10 +57,15 @@ public class UsuarioServico {
     }
 
     private void validarDadosDuplicados(UsuarioDto dto){
-        validarCpfDuplicado(dto);
-        validarEmailDuplicado(dto);
+        List<Usuario> usuarios = usuarioRepositorio.findByCpfOrEmail(dto.getCpf(), dto.getEmail());
+        for(Usuario usuario : usuarios){
+            if(usuario != null && !usuario.getId().equals(dto.getId())){
+                if (usuario.getCpf().equals(dto.getCpf())) { throw new RegraNegocioException("Email já Cadastrado."); }
+                else { throw new RegraNegocioException("Email já Cadastrado."); }
+            }
+        }
     }
-
+/*
     private void validarCpfDuplicado(UsuarioDto dto){
         Usuario usuario = usuarioRepositorio.findByCpf(dto.getCpf());
         if(usuario != null && !usuario.getId().equals(dto.getId())){
@@ -74,4 +79,5 @@ public class UsuarioServico {
             throw new RegraNegocioException("Email já Cadastrado.");
         }
     }
+*/
 }

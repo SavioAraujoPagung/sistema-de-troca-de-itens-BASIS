@@ -21,7 +21,5 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
             "WHERE u.id = :id")
     UsuarioDto obterUsuarioPorId(@Param("id") Long id);
 
-    Usuario findByCpf(String cpf);
-
-    Usuario findByEmail(String email);
+    List<Usuario> findByCpfOrEmail(String cpf, String email);
 }
