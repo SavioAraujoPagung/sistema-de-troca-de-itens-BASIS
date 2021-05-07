@@ -52,6 +52,7 @@ public class UsuarioServico {
             Usuario usuarioSalvo = findById(usuario.getId());
             usuario.setToken(usuarioSalvo.getToken());
         }
+        enviarEmail(usuario);
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
