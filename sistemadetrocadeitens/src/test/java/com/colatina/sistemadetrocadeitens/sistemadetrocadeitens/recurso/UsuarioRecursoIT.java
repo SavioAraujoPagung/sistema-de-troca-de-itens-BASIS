@@ -81,14 +81,17 @@ public class UsuarioRecursoIT extends IntTestComum {
 
     @Test
     public void obterPorId2() throws Exception {
-        usuarioBuilder.construir();
+        usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("54268604081");
+            entidade.setEmail("testeA@gmail.com");
+        }).construir();
         Usuario usuario = usuarioBuilder.customizar(entidade -> {
             entidade.setCpf("24603471033");
-            entidade.setEmail("teste2@gmail.com");
+            entidade.setEmail("testeB@gmail.com");
         }).construir();
         usuarioBuilder.customizar(entidade -> {
             entidade.setCpf("24877455094");
-            entidade.setEmail("teste3@gmail.com");
+            entidade.setEmail("testeC@gmail.com");
         }).construir();
         getMockMvc().perform(get("/api/usuario/" + usuario.getId()))
                 .andExpect(status().isOk());
