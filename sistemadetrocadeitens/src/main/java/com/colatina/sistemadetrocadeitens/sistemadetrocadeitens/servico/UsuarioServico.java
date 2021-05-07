@@ -34,50 +34,33 @@ public class UsuarioServico {
         return usuarioDto;
     }
 
-    public UsuarioDto alterar(UsuarioDto usuarioDto){
-        validarDadosDuplicados(usuarioDto);
-        Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        Usuario usuarioSalvo = usuarioRepositorio.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
-        usuario.setToken(usuarioSalvo.getToken());
-        usuarioRepositorio.save(usuario);
-        return usuarioMapper.toDto(usuario);
-    }
-
     public UsuarioDto salvar(UsuarioDto usuarioDto){
         validarDadosDuplicados(usuarioDto);
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
+        if (usuario.getId() == null){
+            usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
+        } else {
+            Usuario usuarioSalvo = findById(usuario.getId());
+            usuario.setToken(usuarioSalvo.getToken());
+        }
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
 
     public void deletar(Long id){
-        Usuario usuario = usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
+        Usuario usuario = findById(id);
         usuarioRepositorio.delete(usuario);
     }
 
     private void validarDadosDuplicados(UsuarioDto dto){
         List<Usuario> usuarios = usuarioRepositorio.findByCpfOrEmail(dto.getCpf(), dto.getEmail());
-        for(Usuario usuario : usuarios){
-            if(usuario != null && !usuario.getId().equals(dto.getId())){
-                if (usuario.getCpf().equals(dto.getCpf())) { throw new RegraNegocioException("Email já Cadastrado."); }
-                else { throw new RegraNegocioException("Email já Cadastrado."); }
-            }
-        }
-    }
-/*
-    private void validarCpfDuplicado(UsuarioDto dto){
-        Usuario usuario = usuarioRepositorio.findByCpf(dto.getCpf());
-        if(usuario != null && !usuario.getId().equals(dto.getId())){
-            throw new RegraNegocioException("CPF já Cadastrado.");
-        }
+        usuarios.forEach(usuario -> {if(usuario != null && !usuario.getId().equals(dto.getId())){
+            if (usuario.getCpf().equals(dto.getCpf())) { throw new RegraNegocioException("Email já Cadastrado."); }
+            else if (usuario.getEmail().equals(dto.getEmail())) { throw new RegraNegocioException("Email já Cadastrado."); }
+        }});
     }
 
-    private void validarEmailDuplicado(UsuarioDto dto){
-        Usuario usuario = usuarioRepositorio.findByEmail(dto.getEmail());
-        if(usuario != null && !usuario.getId().equals(dto.getId())){
-            throw new RegraNegocioException("Email já Cadastrado.");
-        }
+    private Usuario findById(Long id){
+        return usuarioRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario nao encontrado"));
     }
-*/
 }

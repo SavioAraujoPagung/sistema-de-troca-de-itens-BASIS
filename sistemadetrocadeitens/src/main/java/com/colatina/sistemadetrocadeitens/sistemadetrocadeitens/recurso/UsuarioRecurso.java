@@ -40,7 +40,7 @@ public class UsuarioRecurso {
 
     @PutMapping
     public ResponseEntity<UsuarioDto> alterar(@Valid @RequestBody UsuarioDto dto){
-        UsuarioDto usuarioDto = usuarioServico.alterar(dto);
+        UsuarioDto usuarioDto = usuarioServico.salvar(dto);
         return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
     }
 
