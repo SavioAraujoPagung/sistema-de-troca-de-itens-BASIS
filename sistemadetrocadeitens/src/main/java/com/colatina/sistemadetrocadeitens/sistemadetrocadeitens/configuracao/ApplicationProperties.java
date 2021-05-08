@@ -1,12 +1,11 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.configuracao;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@ConfigurationProperties(prefix = "application.mail")
+@ConfigurationProperties(prefix = "mail")
 @Configuration
 @Getter
 @Setter
