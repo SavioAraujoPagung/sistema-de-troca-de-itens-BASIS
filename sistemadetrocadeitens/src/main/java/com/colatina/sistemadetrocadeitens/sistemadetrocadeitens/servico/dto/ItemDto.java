@@ -1,7 +1,5 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto;
 
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Categoria;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +27,9 @@ public class ItemDto{
     private Long categoriaId;
 
     private Long usuarioId;
+
+    public ItemDto (Long id){
+        setId(id);
+    }
 
 }
