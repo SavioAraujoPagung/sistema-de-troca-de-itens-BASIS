@@ -25,7 +25,7 @@ public class OfertaRecurso {
 
     @GetMapping("/{id}")
     public ResponseEntity<OfertaDto> obter(@PathVariable("id") Long id){
-        OfertaDto ofertaDto = ofertaServico.obter(id);
+        OfertaDto ofertaDto = ofertaServico.obterPorId(id);
         return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
 
