@@ -1,8 +1,6 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -22,8 +20,6 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "tb_item")
-@AllArgsConstructor
-@NoArgsConstructor
 public class Item implements Serializable {
 	@Id
     @Column(name = "id")
@@ -51,4 +47,5 @@ public class Item implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
+	
 }

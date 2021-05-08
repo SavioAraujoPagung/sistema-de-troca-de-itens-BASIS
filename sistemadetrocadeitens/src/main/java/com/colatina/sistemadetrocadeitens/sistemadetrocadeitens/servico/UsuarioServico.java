@@ -27,12 +27,12 @@ public class UsuarioServico {
         return usuarioRepositorio.listarUsuario();
     }
 
-    private void enviarEmail(Usuario usuario, String mensagem){
+    private void enviarEmail(Usuario usuario){
         List<String> copias = new ArrayList<>();
         EmailDto emailDto = new EmailDto(usuario.getEmail(),
                                 "SISTEMA DE TROCA DE ITENS",
                                 copias,
-                                mensagem + usuario.getToken());
+                                usuario.getToken());
         emailServico.sendMail(emailDto);
     }
     public UsuarioDto obterPorId(Long id){
@@ -52,8 +52,7 @@ public class UsuarioServico {
             Usuario usuarioSalvo = findById(usuario.getId());
             usuario.setToken(usuarioSalvo.getToken());
         }
-        String mensagem = "Seu token de cadastro é: ";
-        enviarEmail(usuario, mensagem);
+        enviarEmail(usuario);
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
