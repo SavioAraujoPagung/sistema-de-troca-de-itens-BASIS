@@ -39,6 +39,12 @@ public class ItemServico {
         return itemMapper.toDto(item);
     }
 
+    public List<ItemDto> salvarVarios(List<ItemDto> itensDto){
+        List<Item> itens = itemMapper.toEntity(itensDto);
+        itemRepositorio.saveAll(itens);
+        return itemMapper.toDto(itens);
+    }
+
     public ItemDto alterar(ItemDto itemDto){
         Item item = itemMapper.toEntity(itemDto);
         itemRepositorio.save(item);

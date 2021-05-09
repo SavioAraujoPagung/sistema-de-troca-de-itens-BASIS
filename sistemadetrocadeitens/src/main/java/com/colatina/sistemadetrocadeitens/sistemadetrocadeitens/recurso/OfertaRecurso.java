@@ -22,7 +22,13 @@ import java.util.List;
 @RequestMapping("/api/oferta")
 @RequiredArgsConstructor
 public class OfertaRecurso {
+
     private final OfertaServico ofertaServico;
+
+    private final Long ACEITAR = 2L;
+    private final Long CANCELAR = 3L;
+    private final Long RECUSAR = 4L;
+
 
     @GetMapping("/{id}")
     public ResponseEntity<OfertaDto> obter(@PathVariable("id") Long id){
@@ -39,7 +45,7 @@ public class OfertaRecurso {
     @PutMapping
     public ResponseEntity<OfertaDto> alterar(@Valid @RequestBody OfertaDto dto){
         OfertaDto ofertaDto = ofertaServico.alterar(dto);
-        return new ResponseEntity<OfertaDto>(ofertaDto, HttpStatus.OK);
+        return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
 
     @PostMapping
@@ -56,19 +62,19 @@ public class OfertaRecurso {
 
     @PatchMapping("/aceitar/{id}")
     public ResponseEntity<OfertaDto> aceitar(@PathVariable("id") Long id){
-        OfertaDto ofertaDto = ofertaServico.aceitar(id);
+        OfertaDto ofertaDto = ofertaServico.mudarSituacao(id, ACEITAR);
         return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
 
     @PatchMapping("/cancelar/{id}")
     public ResponseEntity<OfertaDto> cancelar(@PathVariable("id") Long id){
-        OfertaDto ofertaDto = ofertaServico.cancelar(id);
+        OfertaDto ofertaDto = ofertaServico.mudarSituacao(id, CANCELAR);
         return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
 
     @PatchMapping("/recusar/{id}")
     public ResponseEntity<OfertaDto> recusar(@PathVariable("id") Long id){
-        OfertaDto ofertaDto = ofertaServico.recusar(id);
+        OfertaDto ofertaDto = ofertaServico.mudarSituacao(id, RECUSAR);
         return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
     }
 }

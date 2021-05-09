@@ -2,7 +2,6 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
@@ -13,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +23,8 @@ public class OfertaServico {
     private final OfertaRepositorio ofertaRepositorio;
     private final OfertaMepper ofertaMepper;
     private final ItemServico itemServico;
+
+    private final Long ACEITAR = 2L;
 
     public OfertaDto obterPorId(Long id){
         Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
@@ -46,25 +48,19 @@ public class OfertaServico {
     }
 
     public void deletar(Long id){
-        Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
+        Oferta oferta = ofertaMepper.toEntity(obterPorId(id));
         ofertaRepositorio.delete(oferta);
     }
 
-    public OfertaDto aceitar(Long id){
+    public OfertaDto mudarSituacao(Long id, Long novaSituacao){
         OfertaDto ofertaDto = obterPorId(id);
-        trocarItemOfertado(ofertaDto);
-        trocarItemDisponivel(ofertaDto);
-        return mudarSituacao(ofertaDto, 2L);
-    }
-
-    public OfertaDto cancelar(Long id){
-        OfertaDto ofertaDto = obterPorId(id);
-        return mudarSituacao(ofertaDto, 3L);
-    }
-
-    public OfertaDto recusar(Long id){
-        OfertaDto ofertaDto = obterPorId(id);
-        return mudarSituacao(ofertaDto, 4L);
+        if (ACEITAR.equals(novaSituacao)){
+            trocarItemOfertado(ofertaDto);
+            trocarItemDisponivel(ofertaDto);
+        }
+        ofertaDto.setSituacaoId(novaSituacao);
+        ofertaDto = alterar(ofertaDto);
+        return ofertaDto;
     }
 
     private void validarDonoDosItensOfertados(OfertaDto ofertaDto){
@@ -83,12 +79,6 @@ public class OfertaServico {
         }
     }
 
-    private OfertaDto mudarSituacao(OfertaDto ofertaDto, Long novaSituacao){
-        ofertaDto.setSituacaoId(novaSituacao);
-        ofertaDto = alterar(ofertaDto);
-        return ofertaDto;
-    }
-
     private OfertaDto OfertaDtoSave(OfertaDto ofertaDto){
         Oferta oferta = ofertaMepper.toEntity(ofertaDto);
         ofertaRepositorio.save(oferta);
@@ -97,19 +87,21 @@ public class OfertaServico {
 
     private void trocarItemOfertado(OfertaDto ofertaDto){
         UsuarioDto usuarioDto = itemServico.obterDono(ofertaDto.getItemId());
+        List<ItemDto> itensDto = new ArrayList<ItemDto>();
         ofertaDto.getItensOfertados().forEach(itemOfertado -> {
-            trocarItem(itemOfertado, usuarioDto.getId());
+            ItemDto dto = itemOfertado;
+            dto.setDisponibilidade(false);
+            dto.setUsuarioId(usuarioDto.getId());
+            itensDto.add(dto);
         });
+        itemServico.salvarVarios(itensDto);
+
     }
 
     private void trocarItemDisponivel(OfertaDto ofertaDto){
         ItemDto itemDto = itemServico.obterPorId(ofertaDto.getItemId());
-        trocarItem(itemDto, ofertaDto.getUsuarioOfertanteId());
-    }
-
-    private void trocarItem(ItemDto itemDto, Long novoUsuario){
         itemDto.setDisponibilidade(false);
-        itemDto.setUsuarioId(novoUsuario);
+        itemDto.setUsuarioId(ofertaDto.getUsuarioOfertanteId());
         itemServico.alterar(itemDto);
     }
 }
