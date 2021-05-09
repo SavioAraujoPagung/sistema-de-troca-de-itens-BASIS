@@ -64,6 +64,9 @@ public class OfertaServico {
 
     public OfertaDto mudarSituacao(Long id, Long novaSituacao){
         OfertaDto ofertaDto = obterPorId(id);
+        if (!ABERTA.equals(ofertaDto.getSituacaoId())){
+            throw new RegraNegocioException("Apenas ofertas em ABERTO podem ser ACEITAS/CANCELADAS/RECUSADAS");
+        }
         if (ACEITAR.equals(novaSituacao)){
             trocarItemOfertado(ofertaDto);
             trocarItemDisponivel(ofertaDto);
@@ -132,7 +135,7 @@ public class OfertaServico {
                 ofertaDtosCanceladas.add(oferta);
             }
         });
-        if (ofertaDtosCanceladas.isEmpty()){ salvarVarios(ofertaDtosCanceladas); }
+        if (!ofertaDtosCanceladas.isEmpty()){ salvarVarios(ofertaDtosCanceladas); }
     }
 
     private void enviarEmailNovaOferta(OfertaDto ofertaDto){
