@@ -18,6 +18,6 @@ public class OfertaDto {
 
     private Long itemId;
 
-    private List<ItemDto> itensOfertados;
+    private List<Long> itensOfertados;
 
 }
