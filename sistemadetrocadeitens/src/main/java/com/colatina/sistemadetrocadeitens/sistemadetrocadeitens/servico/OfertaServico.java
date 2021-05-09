@@ -1,6 +1,5 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 
-
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Situacao;
@@ -38,22 +37,26 @@ public class OfertaServico {
         emailServico.sendMail(emailDto);
     }
 
-    public OfertaDto aceitar(OfertaDto ofertaDto){
-        ofertaDto = obter(ofertaDto.getId());
-        Oferta oferta = ofertaMepper.toEntity(ofertaDto);
+    public OfertaDto aceitar(OfertaDto ofertaAceita){
+        ofertaAceita = obter(ofertaAceita.getId());
+        Oferta oferta = ofertaMepper.toEntity(ofertaAceita);
         Situacao concluida = situacaoRepositorio.getOne(IDACEITAR);
         oferta.setSituacao(concluida);
-        List<OfertaDto> ofertaDtos = listar();
-        for (OfertaDto oft:
-             ofertaDtos) {
-            if (oft.getItemId().equals(ofertaDto.getItemId())){
-                oft.setSituacaoId(IDCANCELADA);
-                ofertaDtoSave(oft);
-            }
-        }
         ofertaRepositorio.save(oferta);
 
-        return null;
+        List<OfertaDto> ofertasDtoCanceladas = listar();
+        List<Oferta> ofertasCanceladas = new ArrayList<>();
+        Situacao cancelada = situacaoRepositorio.getOne(IDCANCELADA);
+        for (OfertaDto oft: ofertasDtoCanceladas) {
+            if (ofertaAceita.getItemId().equals(oft.getItemId())){
+                Oferta ofertaCancelada = ofertaMepper.toEntity(oft);
+                ofertaCancelada.setSituacao(cancelada);
+                ofertasCanceladas.add(ofertaCancelada);
+            }
+        }
+        ofertaRepositorio.saveAll(ofertasCanceladas);
+
+        return ofertaAceita;
     }
 
     public OfertaDto obter (Long id){

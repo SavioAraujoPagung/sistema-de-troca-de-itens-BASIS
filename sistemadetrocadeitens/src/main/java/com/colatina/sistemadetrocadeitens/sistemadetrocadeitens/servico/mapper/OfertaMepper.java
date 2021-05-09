@@ -27,7 +27,6 @@ public interface OfertaMepper extends EntityMapper<OfertaDto, Oferta>{
     default void mapearToDto(@MappingTarget OfertaDto ofertaDto, Oferta oferta){
         ofertaDto.setItensOfertados(oferta.getItensOfertados().stream().map(id ->{
             Long idDto = id.getId();
-            //item.setId(id);
             return idDto;
         }).collect(Collectors.toList()));
     }

@@ -12,20 +12,20 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-09T00:38:25-0300",
+    date = "2021-05-09T11:47:39-0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_292 (Private Build)"
 )
 @Component
 public class OfertaMepperImpl implements OfertaMepper {
 
     @Override
-    public List<Oferta> toEntity(List<OfertaDto> arg0) {
-        if ( arg0 == null ) {
+    public List<Oferta> toEntity(List<OfertaDto> dtoList) {
+        if ( dtoList == null ) {
             return null;
         }
 
-        List<Oferta> list = new ArrayList<Oferta>( arg0.size() );
-        for ( OfertaDto ofertaDto : arg0 ) {
+        List<Oferta> list = new ArrayList<Oferta>( dtoList.size() );
+        for ( OfertaDto ofertaDto : dtoList ) {
             list.add( toEntity( ofertaDto ) );
         }
 
@@ -33,13 +33,13 @@ public class OfertaMepperImpl implements OfertaMepper {
     }
 
     @Override
-    public List<OfertaDto> toDto(List<Oferta> arg0) {
-        if ( arg0 == null ) {
+    public List<OfertaDto> toDto(List<Oferta> entityList) {
+        if ( entityList == null ) {
             return null;
         }
 
-        List<OfertaDto> list = new ArrayList<OfertaDto>( arg0.size() );
-        for ( Oferta oferta : arg0 ) {
+        List<OfertaDto> list = new ArrayList<OfertaDto>( entityList.size() );
+        for ( Oferta oferta : entityList ) {
             list.add( toDto( oferta ) );
         }
 
