@@ -34,6 +34,7 @@ public class ItemServico {
     }
 
     public ItemDto salvar(ItemDto itemDto){
+        usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
         itemRepositorio.save(item);
         return itemMapper.toDto(item);
@@ -46,6 +47,7 @@ public class ItemServico {
     }
 
     public ItemDto alterar(ItemDto itemDto){
+        usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
         itemRepositorio.save(item);
         return itemMapper.toDto(item);
