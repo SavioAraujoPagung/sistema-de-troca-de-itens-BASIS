@@ -49,12 +49,13 @@ public class OfertaServico {
         return OfertaDtoSave(ofertaDto);
     }
 
-    public OfertaDto salvar(OfertaDto ofertaDto){
-        validarDonoDoItemDisponivel(ofertaDto);
-        validarDonoDosItensOfertados(ofertaDto);
-        ofertaDto.setSituacaoId(ABERTA);
-        enviarEmailNovaOferta(ofertaDto);
-        return OfertaDtoSave(ofertaDto);
+    public OfertaDto salvar(OfertaDto dto){
+        validarDonoDoItemDisponivel(dto);
+        validarDonoDosItensOfertados(dto);
+        dto.setSituacaoId(ABERTA);
+        OfertaDto ofertaDto = OfertaDtoSave(dto);
+        enviarEmailNovaOferta(dto);
+        return ofertaDto;
     }
 
     public void deletar(Long id){
@@ -146,10 +147,27 @@ public class OfertaServico {
         emailDto.setAssunto("UM DE SEUS PRODUTOS RECEBEU UMA NOVA OFERTA!");
         emailDto.setDestinatario(usuarioDtoDisponivel.getEmail());
 
-
         emailDto.setTexto("O senhor(a) " + usuarioDtoOfertante.getNome() +
                 " ofereceu "+ ofertaDto.getItensOfertados().size() +
                 " produto(s) pelo seu produto: " + itemServico.obterPorId(ofertaDto.getItemId()).getNome());
+
+        enviarEmail(emailDto);
+    }
+
+    private void enviarEmailOfertaAprovada(OfertaDto ofertaDto){
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
+
+        EmailDto emailDto = new EmailDto();
+        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI APROVADA!");
+        emailDto.setDestinatario(usuarioDtoDisponivel.getEmail());
+
+        emailDto.setTexto("O senhor(a) " + usuarioDtoOfertante.getNome() +
+                " ACEITOU a sua oferta feita pelo " + itemServico.obterPorId(ofertaDto.getItemId()).getNome() +
+                " que voce tanto queria." +
+                "\n\n\tAVISO: todas as outras ofertas de troca envolvendo qualquer um dos itens que você ofereceu" +
+                " (tenham elas sido feitas desejando seu item ou você oferendo-o para em outra troca) foram automaticamente canceladas." +
+                " Essa operaçao não pode ser revertida (pelo menos não diretamente).");
 
         enviarEmail(emailDto);
     }
