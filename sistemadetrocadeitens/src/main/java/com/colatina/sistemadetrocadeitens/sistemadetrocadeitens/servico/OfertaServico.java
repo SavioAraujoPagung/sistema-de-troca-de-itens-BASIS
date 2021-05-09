@@ -37,26 +37,29 @@ public class OfertaServico {
         emailServico.sendMail(emailDto);
     }
 
-    public OfertaDto aceitar(OfertaDto ofertaAceita){
-        ofertaAceita = obter(ofertaAceita.getId());
-        Oferta oferta = ofertaMepper.toEntity(ofertaAceita);
+    public OfertaDto aceitar(OfertaDto ofertaAceitaDto){
+        Oferta ofertaAceita = ofertaRepositorio.findById(ofertaAceitaDto.getId()).orElseThrow(() -> new RegraNegocioException("Oferta " +
+                "não encontrada"));
+        Situacao cancelada = situacaoRepositorio.findById(IDACEITAR).orElseThrow(() -> new RegraNegocioException(""));
+        ofertaAceita.setSituacao(cancelada);
+        Oferta oferta = ofertaMepper.toEntity(ofertaAceitaDto);
+
         Situacao concluida = situacaoRepositorio.getOne(IDACEITAR);
         oferta.setSituacao(concluida);
         ofertaRepositorio.save(oferta);
 
         List<OfertaDto> ofertasDtoCanceladas = listar();
         List<Oferta> ofertasCanceladas = new ArrayList<>();
-        Situacao cancelada = situacaoRepositorio.getOne(IDCANCELADA);
         for (OfertaDto oft: ofertasDtoCanceladas) {
-            if (ofertaAceita.getItemId().equals(oft.getItemId())){
-                Oferta ofertaCancelada = ofertaMepper.toEntity(oft);
-                ofertaCancelada.setSituacao(cancelada);
-                ofertasCanceladas.add(ofertaCancelada);
-            }
+//            if (ofertaAceita.getItemId().equals(oft.getItemId()) &&oferta.getId().equals(ofertasCanceladas)){
+//                Oferta ofertaCancelada = ofertaMepper.toEntity(oft);
+//                ofertaCancelada.setSituacao(cancelada);
+//                ofertasCanceladas.add(ofertaCancelada);
+//            }
         }
         ofertaRepositorio.saveAll(ofertasCanceladas);
-
-        return ofertaAceita;
+//
+        return ofertaAceitaDto;
     }
 
     public OfertaDto obter (Long id){
