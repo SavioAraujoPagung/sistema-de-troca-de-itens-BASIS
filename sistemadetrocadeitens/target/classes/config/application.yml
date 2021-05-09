@@ -2,7 +2,7 @@ application:
     appName: Sistemadetrocadeitens
 mail:
     endereco-remetente: turmaformgsf@gmail.com
-    nome-remetente: Turma de Formacao
+    nome-remetente: Troca de Veiculos
 
 spring:
     application:

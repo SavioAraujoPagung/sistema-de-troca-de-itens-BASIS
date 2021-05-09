@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-08T02:41:57-0300",
+    date = "2021-05-09T00:38:25-0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_292 (Private Build)"
 )
 @Component
@@ -76,6 +76,8 @@ public class OfertaMepperImpl implements OfertaMepper {
         ofertaDto.setItemId( dtoItemId( dto ) );
         ofertaDto.setSituacaoId( dtoSituacaoId( dto ) );
         ofertaDto.setId( dto.getId() );
+
+        mapearToDto( ofertaDto, dto );
 
         return ofertaDto;
     }
