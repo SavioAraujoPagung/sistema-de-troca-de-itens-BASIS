@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 
 @Mapper(componentModel = "spring", uses = {ItemMapper.class})
-public interface OfertaMepper extends EntityMapper<OfertaDto, Oferta>{
+public interface OfertaMapper extends EntityMapper<OfertaDto, Oferta>{
 
     @AfterMapping
     default void mapearToEntity(OfertaDto ofertaDto, @MappingTarget Oferta oferta){

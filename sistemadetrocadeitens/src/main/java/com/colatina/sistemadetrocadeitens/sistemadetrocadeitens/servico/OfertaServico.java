@@ -7,7 +7,7 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Item
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.exception.RegraNegocioException;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMepper;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class OfertaServico {
 
     private final OfertaRepositorio ofertaRepositorio;
-    private final OfertaMepper ofertaMepper;
+    private final OfertaMapper ofertaMapper;
     private final ItemServico itemServico;
     private final UsuarioServico usuarioServico;
     private final EmailServico emailServico;
@@ -35,12 +35,12 @@ public class OfertaServico {
 
     public OfertaDto obterPorId(Long id){
         Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
-        return ofertaMepper.toDto(oferta);
+        return ofertaMapper.toDto(oferta);
     }
 
     public List<OfertaDto> listar(){
         List<Oferta> oferta = ofertaRepositorio.findAll();
-        return ofertaMepper.toDto(oferta);
+        return ofertaMapper.toDto(oferta);
     }
     public OfertaDto alterar(OfertaDto ofertaDto){
         obterPorId(ofertaDto.getId());
@@ -57,7 +57,7 @@ public class OfertaServico {
     }
 
     public void deletar(Long id){
-        Oferta oferta = ofertaMepper.toEntity(obterPorId(id));
+        Oferta oferta = ofertaMapper.toEntity(obterPorId(id));
         ofertaRepositorio.delete(oferta);
     }
 
@@ -97,9 +97,9 @@ public class OfertaServico {
     }
 
     private OfertaDto ofertaDtoSave(OfertaDto ofertaDto){
-        Oferta oferta = ofertaMepper.toEntity(ofertaDto);
+        Oferta oferta = ofertaMapper.toEntity(ofertaDto);
         ofertaRepositorio.save(oferta);
-        return ofertaMepper.toDto(oferta);
+        return ofertaMapper.toDto(oferta);
     }
 
     private void trocarItemOfertado(OfertaDto ofertaDto){
@@ -116,9 +116,9 @@ public class OfertaServico {
     }
 
     public List<OfertaDto> salvarVarios(List<OfertaDto> ofertaDtos){
-        List<Oferta> ofertas = ofertaMepper.toEntity(ofertaDtos);
+        List<Oferta> ofertas = ofertaMapper.toEntity(ofertaDtos);
         ofertaRepositorio.saveAll(ofertas);
-        return ofertaMepper.toDto(ofertas);
+        return ofertaMapper.toDto(ofertas);
     }
 
     private void trocarItemDisponivel(OfertaDto ofertaDto){
@@ -129,7 +129,7 @@ public class OfertaServico {
     }
 
     private void cancelarOfertasComItem(Long idItem){
-        List<OfertaDto> ofertaDtos = ofertaMepper.toDto(ofertaRepositorio.findAllBySituacao_Id(ABERTA));
+        List<OfertaDto> ofertaDtos = ofertaMapper.toDto(ofertaRepositorio.findAllBySituacao_Id(ABERTA));
         List<OfertaDto> ofertaDtosCanceladas = new ArrayList<>();
         ofertaDtos.forEach(oferta -> {
             if ( idItem.equals(oferta.getItemId()) || oferta.getItensOfertados().contains(idItem) ){
