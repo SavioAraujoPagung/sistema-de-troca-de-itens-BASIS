@@ -3,8 +3,11 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Situacao;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.SituacaoRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.EmailDto;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.exception.RegraNegocioException;
@@ -28,6 +31,8 @@ public class OfertaServico {
     private final UsuarioServico usuarioServico;
     private final ItemServico itemServico;
     private final ItemMapper itemMapper;
+    private final SituacaoRepositorio situacaoRepositorio;
+    private final Long SITUACAOCANCELADA = 3L;
 
     private void enviarEmail(EmailDto emailDto) {
         emailServico.sendMail(emailDto);
@@ -47,6 +52,22 @@ public class OfertaServico {
         obter(ofertaDto.getId());
         return OfertaDtoSave(ofertaDto);
     }
+
+
+    public OfertaDto aceitar(OfertaDto ofertaDto){
+        OfertaDto dto = new OfertaDto();
+        Oferta ofertaAceita = ofertaMepper.toEntity(ofertaDto);
+        List<Oferta> ofertas = ofertaRepositorio.findAll();
+        Situacao situacao = situacaoRepositorio.getOne(SITUACAOCANCELADA);
+        for(Oferta oferta: ofertas){
+            if (oferta.getId()!= ofertaAceita.getId()){
+                oferta.setSituacao(situacao);
+                ofertaRepositorio.save(oferta);
+            }
+        }
+        return dto;
+    }
+
     public OfertaDto salvar(OfertaDto ofertaDto){
         Oferta oferta = ofertaMepper.toEntity(ofertaDto);
         Item item;
@@ -80,4 +101,11 @@ public class OfertaServico {
         ofertaRepositorio.save(oferta);
         return ofertaMepper.toDto(oferta);
     }
+
+//    public OfertaDto situacao(OfertaDto dto){
+//        Oferta oferta = ofertaMepper.toEntity(dto);
+//
+//        OfertaDto ofertaDto = new OfertaDto();
+//        return ofertaDto;
+//    }
 }

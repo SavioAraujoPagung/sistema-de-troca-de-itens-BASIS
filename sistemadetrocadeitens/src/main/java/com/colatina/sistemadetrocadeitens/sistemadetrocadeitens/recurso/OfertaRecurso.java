@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,12 @@ public class OfertaRecurso {
         return new ResponseEntity<>(ofertaListagemDto, HttpStatus.OK);
     }
 
+    @PutMapping("/aceitar")
+    public ResponseEntity<OfertaDto> aceitar(@Valid @RequestBody OfertaDto dto){
+        OfertaDto ofertaDto = ofertaServico.aceitar(dto);
+        return new ResponseEntity<OfertaDto>(ofertaDto, HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<OfertaDto> alterar(@Valid @RequestBody OfertaDto dto){
         OfertaDto ofertaDto = ofertaServico.alterar(dto);
@@ -51,4 +58,11 @@ public class OfertaRecurso {
         ofertaServico.deletar(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+//    @PatchMapping
+//    public ResponseEntity<OfertaDto> situacao(@Valid @RequestBody OfertaDto dto){
+//        OfertaDto ofertaDto = ofertaServico.situacao(dto);
+//        return new ResponseEntity<OfertaDto>(ofertaDto, HttpStatus.OK);
+//    }
+
 }
