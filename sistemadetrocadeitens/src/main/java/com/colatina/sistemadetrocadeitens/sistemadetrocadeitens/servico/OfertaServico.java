@@ -1,8 +1,6 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Situacao;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.EmailDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
@@ -46,14 +44,14 @@ public class OfertaServico {
     }
     public OfertaDto alterar(OfertaDto ofertaDto){
         obterPorId(ofertaDto.getId());
-        return OfertaDtoSave(ofertaDto);
+        return ofertaDtoSave(ofertaDto);
     }
 
     public OfertaDto salvar(OfertaDto dto){
         validarDonoDoItemDisponivel(dto);
         validarDonoDosItensOfertados(dto);
         dto.setSituacaoId(ABERTA);
-        OfertaDto ofertaDto = OfertaDtoSave(dto);
+        OfertaDto ofertaDto = ofertaDtoSave(dto);
         enviarEmailNovaOferta(dto);
         return ofertaDto;
     }
@@ -76,6 +74,9 @@ public class OfertaServico {
         }
         ofertaDto.setSituacaoId(novaSituacao);
         ofertaDto = alterar(ofertaDto);
+        if (ACEITAR.equals(novaSituacao)){ enviarEmailOfertaAceita(ofertaDto); }
+        else if (CANCELAR.equals(novaSituacao)){ enviarEmailOfertaCancelada(ofertaDto); }
+        else if (RECUSAR.equals(novaSituacao)){ enviarEmailOfertaRecusada(ofertaDto); }
         return ofertaDto;
     }
 
@@ -95,7 +96,7 @@ public class OfertaServico {
         }
     }
 
-    private OfertaDto OfertaDtoSave(OfertaDto ofertaDto){
+    private OfertaDto ofertaDtoSave(OfertaDto ofertaDto){
         Oferta oferta = ofertaMepper.toEntity(ofertaDto);
         ofertaRepositorio.save(oferta);
         return ofertaMepper.toDto(oferta);
@@ -103,7 +104,7 @@ public class OfertaServico {
 
     private void trocarItemOfertado(OfertaDto ofertaDto){
         UsuarioDto usuarioDto = itemServico.obterDono(ofertaDto.getItemId());
-        List<ItemDto> itensDto = new ArrayList<ItemDto>();
+        List<ItemDto> itensDto = new ArrayList<>();
         ofertaDto.getItensOfertados().forEach(itemOfertado -> {
             ItemDto dto = itemServico.obterPorId(itemOfertado);
             dto.setDisponibilidade(false);
@@ -129,7 +130,7 @@ public class OfertaServico {
 
     private void cancelarOfertasComItem(Long idItem){
         List<OfertaDto> ofertaDtos = ofertaMepper.toDto(ofertaRepositorio.findAllBySituacao_Id(ABERTA));
-        List<OfertaDto> ofertaDtosCanceladas = new ArrayList<OfertaDto>();
+        List<OfertaDto> ofertaDtosCanceladas = new ArrayList<>();
         ofertaDtos.forEach(oferta -> {
             if ( idItem.equals(oferta.getItemId()) || oferta.getItensOfertados().contains(idItem) ){
                 oferta.setSituacaoId(CANCELAR);
@@ -154,12 +155,12 @@ public class OfertaServico {
         enviarEmail(emailDto);
     }
 
-    private void enviarEmailOfertaAprovada(OfertaDto ofertaDto){
+    private void enviarEmailOfertaAceita(OfertaDto ofertaDto){
         UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
         UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
 
         EmailDto emailDto = new EmailDto();
-        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI APROVADA!");
+        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI ACEITA!");
         emailDto.setDestinatario(usuarioDtoDisponivel.getEmail());
 
         emailDto.setTexto("O senhor(a) " + usuarioDtoOfertante.getNome() +
@@ -168,6 +169,38 @@ public class OfertaServico {
                 "\n\n\tAVISO: todas as outras ofertas de troca envolvendo qualquer um dos itens que você ofereceu" +
                 " (tenham elas sido feitas desejando seu item ou você oferendo-o para em outra troca) foram automaticamente canceladas." +
                 " Essa operaçao não pode ser revertida (pelo menos não diretamente).");
+
+        enviarEmail(emailDto);
+    }
+
+    private void enviarEmailOfertaCancelada(OfertaDto ofertaDto){
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+
+        EmailDto emailDto = new EmailDto();
+        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI CANCELADA!");
+        emailDto.setDestinatario(usuarioDtoDisponivel.getEmail());
+
+        emailDto.setTexto("A oferta que você fez pelo(a)" + itemServico.obterPorId(ofertaDto.getItemId()).getNome() +
+                " do(a) senhor(a) " + usuarioDtoDisponivel.getNome() +
+                " foi CANCELADA." +
+                "\nCaso não tenha sido você mesmo não tenha pedido o cancelamento," +
+                " é provavel que um dos itens envolvidas na oferta tenha sido trocado em outra oferta.");
+
+        enviarEmail(emailDto);
+    }
+
+    private void enviarEmailOfertaRecusada(OfertaDto ofertaDto){
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
+
+        EmailDto emailDto = new EmailDto();
+        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI RECUSADA!");
+        emailDto.setDestinatario(usuarioDtoDisponivel.getEmail());
+
+        emailDto.setTexto("Lamentamos senhor(a) " + usuarioDtoOfertante.getNome() +
+                ", mas o(a) senhor(a) " + usuarioDtoDisponivel.getNome() +
+                " RECUSOU a sua oferta feita pelo " + itemServico.obterPorId(ofertaDto.getItemId()).getNome() +
+                " que voce tanto queria. Uma pena.");
 
         enviarEmail(emailDto);
     }
