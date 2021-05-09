@@ -8,19 +8,15 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Ofer
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-09T14:25:01-0300",
+    date = "2021-05-09T16:42:33-0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 11.0.11 (Ubuntu)"
 )
 @Component
 public class OfertaMepperImpl implements OfertaMepper {
-
-    @Autowired
-    private ItemMapper itemMapper;
 
     @Override
     public List<Oferta> toEntity(List<OfertaDto> dtoList) {
@@ -62,7 +58,8 @@ public class OfertaMepperImpl implements OfertaMepper {
         oferta.setItem( ofertaDtoToItem( dto ) );
         oferta.setSituacao( ofertaDtoToSituacao( dto ) );
         oferta.setId( dto.getId() );
-        oferta.setItensOfertados( itemMapper.toEntity( dto.getItensOfertados() ) );
+
+        mapearToEntity( dto, oferta );
 
         return oferta;
     }
@@ -79,7 +76,6 @@ public class OfertaMepperImpl implements OfertaMepper {
         ofertaDto.setItemId( dtoItemId( dto ) );
         ofertaDto.setSituacaoId( dtoSituacaoId( dto ) );
         ofertaDto.setId( dto.getId() );
-        ofertaDto.setItensOfertados( itemMapper.toDto( dto.getItensOfertados() ) );
 
         return ofertaDto;
     }
