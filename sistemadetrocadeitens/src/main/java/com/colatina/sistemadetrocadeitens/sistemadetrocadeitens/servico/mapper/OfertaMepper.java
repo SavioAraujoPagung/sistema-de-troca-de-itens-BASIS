@@ -8,20 +8,21 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
 import java.util.stream.Collectors;
+
 
 @Mapper(componentModel = "spring", uses = {ItemMapper.class})
 public interface OfertaMepper extends EntityMapper<OfertaDto, Oferta>{
 
     @AfterMapping
     default void mapearToEntity(OfertaDto ofertaDto, @MappingTarget Oferta oferta){
-        oferta.setItensOfertados(ofertaDto.getItensOfertados().stream().forEach(id -> {
+        oferta.setItensOfertados(ofertaDto.getItensOfertados().stream().map(id -> {
             Item item = new Item();
             item.setId(id);
             return item;
         }).collect(Collectors.toList()));
     }
+
     @Override
     @Mapping(source = "usuarioOfertanteId", target = "usuarioOfertante.id")
     @Mapping(source = "itemId", target = "item.id")
