@@ -51,7 +51,7 @@ public class OfertaRecurso {
     @PostMapping
     public ResponseEntity<OfertaDto> salvar(@Valid @RequestBody OfertaDto dto){
         OfertaDto ofertaDto = ofertaServico.salvar(dto);
-        return new ResponseEntity<>(ofertaDto, HttpStatus.OK);
+        return new ResponseEntity<>(ofertaDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
