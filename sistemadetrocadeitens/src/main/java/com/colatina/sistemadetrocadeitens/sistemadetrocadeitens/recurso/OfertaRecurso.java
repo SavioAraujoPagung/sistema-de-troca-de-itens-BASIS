@@ -35,6 +35,12 @@ public class OfertaRecurso {
         return new ResponseEntity<>(ofertaListagemDto, HttpStatus.OK);
     }
 
+    @PutMapping("/aceitar")
+    public ResponseEntity<OfertaDto> aceitar(@Valid @RequestBody OfertaDto dto){
+        OfertaDto ofertaDto = ofertaServico.aceitar(dto);
+        return new ResponseEntity<OfertaDto>(ofertaDto, HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<OfertaDto> alterar(@Valid @RequestBody OfertaDto dto){
         OfertaDto ofertaDto = ofertaServico.alterar(dto);

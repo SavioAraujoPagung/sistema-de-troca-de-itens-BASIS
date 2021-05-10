@@ -2,24 +2,21 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Situacao;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-07T19:55:46-0300",
+    date = "2021-05-09T02:53:46-0300",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_292 (Private Build)"
 )
 @Component
 public class OfertaMepperImpl implements OfertaMepper {
-
-    @Autowired
-    private ItemMapper itemMapper;
 
     @Override
     public List<Oferta> toEntity(List<OfertaDto> dtoList) {
@@ -59,8 +56,10 @@ public class OfertaMepperImpl implements OfertaMepper {
 
         oferta.setUsuarioOfertante( ofertaDtoToUsuario( dto ) );
         oferta.setItem( ofertaDtoToItem( dto ) );
+        oferta.setSituacao( ofertaDtoToSituacao( dto ) );
         oferta.setId( dto.getId() );
-        oferta.setItensOfertados( itemMapper.toEntity( dto.getItensOfertados() ) );
+
+        mapearToEntity( dto, oferta );
 
         return oferta;
     }
@@ -75,8 +74,8 @@ public class OfertaMepperImpl implements OfertaMepper {
 
         ofertaDto.setUsuarioOfertanteId( dtoUsuarioOfertanteId( dto ) );
         ofertaDto.setItemId( dtoItemId( dto ) );
+        ofertaDto.setSituacaoId( dtoSituacaoId( dto ) );
         ofertaDto.setId( dto.getId() );
-        ofertaDto.setItensOfertados( itemMapper.toDto( dto.getItensOfertados() ) );
 
         return ofertaDto;
     }
@@ -105,6 +104,18 @@ public class OfertaMepperImpl implements OfertaMepper {
         return item;
     }
 
+    protected Situacao ofertaDtoToSituacao(OfertaDto ofertaDto) {
+        if ( ofertaDto == null ) {
+            return null;
+        }
+
+        Situacao situacao = new Situacao();
+
+        situacao.setId( ofertaDto.getSituacaoId() );
+
+        return situacao;
+    }
+
     private Long dtoUsuarioOfertanteId(Oferta oferta) {
         if ( oferta == null ) {
             return null;
@@ -129,6 +140,21 @@ public class OfertaMepperImpl implements OfertaMepper {
             return null;
         }
         Long id = item.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Long dtoSituacaoId(Oferta oferta) {
+        if ( oferta == null ) {
+            return null;
+        }
+        Situacao situacao = oferta.getSituacao();
+        if ( situacao == null ) {
+            return null;
+        }
+        Long id = situacao.getId();
         if ( id == null ) {
             return null;
         }
