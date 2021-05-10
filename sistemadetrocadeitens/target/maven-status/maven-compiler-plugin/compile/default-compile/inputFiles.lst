@@ -1,5 +1,4 @@
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/OfertaRepositorio.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMepper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/EmailDto.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/UsuarioDto.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Item.java
@@ -10,6 +9,7 @@
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/configuracao/ApplicationProperties.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioMapper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Oferta.java
+/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMapper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/exception/RegraNegocioException.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/ItemDto.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/EmailServico.java

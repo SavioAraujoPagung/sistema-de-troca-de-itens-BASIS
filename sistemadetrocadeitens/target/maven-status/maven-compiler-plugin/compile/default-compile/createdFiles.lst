@@ -1,6 +1,7 @@
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/OfertaRepositorio.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Oferta.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/EntityMapper.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMapperImpl.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplication.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/exception/RegraNegocioException.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Categoria.class
@@ -10,12 +11,10 @@ com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/ItemReposit
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioListagemMapper.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/ItemMapperImpl.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/OfertaServico.class
-com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMepper.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/ItemDto.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/OfertaDto.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/UsuarioRepositorio.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/UsuarioListagemDto.class
-com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMepperImpl.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/EmailServico.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/UsuarioServico.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioMapper.class
@@ -27,6 +26,7 @@ com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioL
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/ItemMapper.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/CategoriaRepositorio.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/configuracao/ApplicationProperties.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMapper.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/EmailDto.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Item.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/ItemRecurso.class
