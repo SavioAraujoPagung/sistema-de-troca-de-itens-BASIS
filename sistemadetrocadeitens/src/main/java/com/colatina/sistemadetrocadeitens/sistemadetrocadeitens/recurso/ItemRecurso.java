@@ -44,7 +44,7 @@ public class ItemRecurso {
 
     @PutMapping
     public ResponseEntity<ItemDto> alterar(@Valid @RequestBody ItemDto dto){
-        ItemDto itemDto = itemServico.alterar(dto);
+        ItemDto itemDto = itemServico.salvar(dto);
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
