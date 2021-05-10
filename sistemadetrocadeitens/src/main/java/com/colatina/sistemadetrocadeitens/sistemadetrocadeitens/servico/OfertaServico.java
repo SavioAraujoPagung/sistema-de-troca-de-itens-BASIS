@@ -45,6 +45,7 @@ public class OfertaServico {
     }
 
     public OfertaDto salvar(OfertaDto dto){
+        validarDisponibilidade(dto);
         validarDonoDoItemDisponivel(dto);
         validarDonoDosItensOfertados(dto);
         dto.setSituacaoId(ABERTA);
@@ -75,6 +76,13 @@ public class OfertaServico {
         ofertaRepositorio.save(ofertaMapper.toEntity(ofertaDto));
         enviarEmailsSituacao(ofertaDto, novaSituacao);
         return ofertaDto;
+    }
+
+    private void validarDisponibilidade(OfertaDto ofertaDto){
+        ItemDto itemDto = itemServico.obterPorId(ofertaDto.getItemId());
+        if (!itemDto.getDisponibilidade()){
+            throw new RegraNegocioException("Você só pode fazer uma oferta por um item caso ele esta disponível");
+        }
     }
 
     private void validarDonoDosItensOfertados(OfertaDto ofertaDto){
