@@ -23,15 +23,12 @@ public class OfertaServico {
     private final OfertaRepositorio ofertaRepositorio;
     private final OfertaMapper ofertaMapper;
     private final ItemServico itemServico;
-    private final UsuarioServico usuarioServico;
-    private final EmailServico emailServico;
+    private final EnviarEmailServico enviarEmailServico;
 
     private final Long ABERTA = 1L;
     private final Long ACEITAR = 2L;
     private final Long CANCELAR = 3L;
     private final Long RECUSAR = 4L;
-
-    private void enviarEmail(EmailDto emailDto) { emailServico.sendMail(emailDto); }
 
     public OfertaDto obterPorId(Long id){
         Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
@@ -52,7 +49,7 @@ public class OfertaServico {
         validarDonoDosItensOfertados(dto);
         dto.setSituacaoId(ABERTA);
         OfertaDto ofertaDto = ofertaDtoSave(dto);
-        enviarEmailNovaOferta(dto);
+        enviarEmailServico.enviarEmailNovaOferta(dto);
         return ofertaDto;
     }
 
@@ -74,9 +71,7 @@ public class OfertaServico {
         }
         ofertaDto.setSituacaoId(novaSituacao);
         ofertaDto = alterar(ofertaDto);
-        if (ACEITAR.equals(novaSituacao)){ enviarEmailOfertaAceita(ofertaDto); }
-        else if (CANCELAR.equals(novaSituacao)){ enviarEmailOfertaCancelada(ofertaDto); }
-        else if (RECUSAR.equals(novaSituacao)){ enviarEmailOfertaRecusada(ofertaDto); }
+        enviarEmailsSituacao(ofertaDto, novaSituacao);
         return ofertaDto;
     }
 
@@ -140,69 +135,9 @@ public class OfertaServico {
         if (!ofertaDtosCanceladas.isEmpty()){ salvarVarios(ofertaDtosCanceladas); }
     }
 
-    private void enviarEmailNovaOferta(OfertaDto ofertaDto){
-        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
-        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
-
-        EmailDto emailDto = new EmailDto();
-        emailDto.setAssunto("UM DE SEUS PRODUTOS RECEBEU UMA NOVA OFERTA!");
-        emailDto.setDestinatario(usuarioDtoDisponivel.getEmail());
-
-        emailDto.setTexto("O senhor(a) " + usuarioDtoOfertante.getNome() +
-                " ofereceu "+ ofertaDto.getItensOfertados().size() +
-                " produto(s) pelo seu produto: " + itemServico.obterPorId(ofertaDto.getItemId()).getNome());
-
-        enviarEmail(emailDto);
-    }
-
-    private void enviarEmailOfertaAceita(OfertaDto ofertaDto){
-        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
-        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
-
-        EmailDto emailDto = new EmailDto();
-        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI ACEITA!");
-        emailDto.setDestinatario(usuarioDtoOfertante.getEmail());
-
-        emailDto.setTexto("O senhor(a) " + usuarioDtoDisponivel.getNome() +
-                " ACEITOU a sua oferta feita pelo(a) " + itemServico.obterPorId(ofertaDto.getItemId()).getNome() +
-                " que voce tanto queria." +
-                "\n\n\tAVISO: todas as outras ofertas de troca envolvendo qualquer um dos itens que você ofereceu" +
-                " (tenham elas sido feitas desejando seu item ou você oferendo-o para em outra troca) foram automaticamente canceladas." +
-                " Essa operaçao não pode ser revertida (pelo menos não diretamente).");
-
-        enviarEmail(emailDto);
-    }
-
-    private void enviarEmailOfertaCancelada(OfertaDto ofertaDto){
-        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
-        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
-
-        EmailDto emailDto = new EmailDto();
-        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI CANCELADA!");
-        emailDto.setDestinatario(usuarioDtoOfertante.getEmail());
-
-        emailDto.setTexto("A oferta que você fez pelo(a) " + itemServico.obterPorId(ofertaDto.getItemId()).getNome() +
-                " do(a) senhor(a) " + usuarioDtoDisponivel.getNome() +
-                " foi CANCELADA." +
-                "\nCaso não tenha sido você mesmo não tenha pedido o cancelamento," +
-                " é provavel que um dos itens envolvidas na oferta tenha sido trocado em outra oferta.");
-
-        enviarEmail(emailDto);
-    }
-
-    private void enviarEmailOfertaRecusada(OfertaDto ofertaDto){
-        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
-        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
-
-        EmailDto emailDto = new EmailDto();
-        emailDto.setAssunto("UMA DE SUAS OFERTAS FOI RECUSADA!");
-        emailDto.setDestinatario(usuarioDtoOfertante.getEmail());
-
-        emailDto.setTexto("Lamentamos " + usuarioDtoOfertante.getNome() +
-                ", mas o(a) senhor(a) " + usuarioDtoDisponivel.getNome() +
-                " RECUSOU a sua oferta feita pelo " + itemServico.obterPorId(ofertaDto.getItemId()).getNome() +
-                " que voce tanto queria. Uma pena.");
-
-        enviarEmail(emailDto);
+    private void enviarEmailsSituacao(OfertaDto ofertaDto, Long situacaoId){
+        if (ACEITAR.equals(situacaoId)){ enviarEmailServico.enviarEmailOfertaAceita(ofertaDto); }
+        else if (CANCELAR.equals(situacaoId)){ enviarEmailServico.enviarEmailOfertaCancelada(ofertaDto); }
+        else if (RECUSAR.equals(situacaoId)){ enviarEmailServico.enviarEmailOfertaRecusada(ofertaDto); }
     }
 }

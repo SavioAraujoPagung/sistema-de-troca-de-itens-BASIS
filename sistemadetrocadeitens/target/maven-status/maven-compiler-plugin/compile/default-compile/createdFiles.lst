@@ -24,6 +24,7 @@ com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioM
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/UsuarioRecurso.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioListagemMapperImpl.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/ItemMapper.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/EnviarEmailServico.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/CategoriaRepositorio.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/configuracao/ApplicationProperties.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMapper.class
