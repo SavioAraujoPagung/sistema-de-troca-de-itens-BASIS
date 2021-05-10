@@ -40,14 +40,13 @@ public class OfertaServico {
         return ofertaMapper.toDto(oferta);
     }
     public OfertaDto alterar(OfertaDto ofertaDto){
+        validarOferta(ofertaDto);
         obterPorId(ofertaDto.getId());
         return ofertaDtoSave(ofertaDto);
     }
 
     public OfertaDto salvar(OfertaDto dto){
-        validarDisponibilidade(dto);
-        validarDonoDoItemDisponivel(dto);
-        validarDonoDosItensOfertados(dto);
+        validarOferta(dto);
         dto.setSituacaoId(ABERTA);
         OfertaDto ofertaDto = ofertaDtoSave(dto);
         UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
@@ -76,6 +75,12 @@ public class OfertaServico {
         ofertaRepositorio.save(ofertaMapper.toEntity(ofertaDto));
         enviarEmailsSituacao(ofertaDto, novaSituacao);
         return ofertaDto;
+    }
+
+    private void validarOferta(OfertaDto ofertaDto){
+        validarDisponibilidade(ofertaDto);
+        validarDonoDoItemDisponivel(ofertaDto);
+        validarDonoDosItensOfertados(ofertaDto);
     }
 
     private void validarDisponibilidade(OfertaDto ofertaDto){

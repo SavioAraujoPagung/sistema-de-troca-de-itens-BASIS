@@ -10,8 +10,12 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.ItemRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.UsuarioRepositorio;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.ItemServico;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.OfertaServico;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.ItemMapper;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMapper;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util.IntTestComum;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util.TestUtil;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,12 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,36 +41,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class OfertaRecursoIT extends IntTestComum {
 
-    @Autowired
-    private OfertaBuilder ofertaBuilder;
+    @Autowired private OfertaBuilder ofertaBuilder;
+    @Autowired private OfertaMapper ofertaMapper;
+    @Autowired private OfertaRepositorio ofertaRepositorio;
+    @Autowired private OfertaServico ofertaServico;
 
-    @Autowired
-    private OfertaMapper ofertaMapper;
+    @Autowired private ItemBuilder itemBuilder;
+    @Autowired private ItemMapper itemMapper;
+    @Autowired private ItemServico itemServico;
+    @Autowired private ItemRepositorio itemRepositorio;
 
-    @Autowired
-    OfertaRepositorio ofertaRepositorio;
-
-    @Autowired
-    private ItemBuilder itemBuilder;
-
-    @Autowired
-    private ItemRepositorio itemRepositorio;
-
-    @Autowired
-    private UsuarioBuilder usuarioBuilder;
-
-    @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
-
-    private Oferta criarOferta(Usuario usuarioOfertante, Item itemDesejado, List<Item> itensOfertados){
-        Oferta oferta = ofertaBuilder.construir();
-
-        oferta.setUsuarioOfertante(usuarioOfertante);
-        oferta.setItem(itemDesejado);
-        oferta.setItensOfertados(itensOfertados);
-
-        return oferta;
-    }
+    @Autowired private UsuarioBuilder usuarioBuilder;
+    @Autowired private UsuarioRepositorio usuarioRepositorio;
 
     @BeforeEach
     public void inicializar(){
@@ -77,10 +66,19 @@ public class OfertaRecursoIT extends IntTestComum {
 
     @Test
     public void listar() throws Exception {
+        salvarOferta();
+        getMockMvc().perform(get("/api/oferta"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.hasSize(1)));
     }
 
     @Test
     public void listar2() throws Exception {
+        Oferta oferta = salvarOferta();
+        salvarOfertaExtra(oferta);
+        getMockMvc().perform(get("/api/oferta"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.hasSize(2)));
     }
 
     @Test
@@ -92,6 +90,9 @@ public class OfertaRecursoIT extends IntTestComum {
 
     @Test
     public void obterPorId() throws Exception {
+        Oferta oferta = salvarOferta();
+        getMockMvc().perform(get("/api/oferta/" + oferta.getId()))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -102,17 +103,179 @@ public class OfertaRecursoIT extends IntTestComum {
 
     @Test
     public void salvar() throws Exception {
+        Oferta oferta = criarOferta();
+        getMockMvc().perform(post("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaMapper.toDto(oferta))))
+                .andExpect(status().isCreated());
     }
 
     @Test
     public void alterar() throws Exception{
+        Oferta oferta = salvarOferta();
+        oferta = criarOfertaAlterada(oferta);
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaMapper.toDto(oferta))))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void deletar() throws Exception{
+        Oferta oferta = salvarOferta();
+        getMockMvc().perform(delete("/api/oferta/" + oferta.getId()))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void deletarInvalido() throws Exception{
+    public void aceitar() throws Exception{
+        Oferta oferta = salvarOferta();
+        getMockMvc().perform(patch("/api/oferta/aceitar/" + oferta.getId()))
+                .andExpect(status().isOk());
     }
+
+    @Test
+    public void cancelar() throws Exception{
+        Oferta oferta = salvarOferta();
+        getMockMvc().perform(patch("/api/oferta/cancelar/" + oferta.getId()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void recusar() throws Exception{
+        Oferta oferta = salvarOferta();
+        getMockMvc().perform(patch("/api/oferta/recusar/" + oferta.getId()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void alterarDisponibilidadeDoItem() throws Exception{
+        Oferta oferta = salvarOferta();
+        Item itemDisponivel = itemMapper.toEntity( itemServico.obterPorId( oferta.getItem().getId() ) );
+        itemDisponivel.setDisponibilidade(false);
+        itemServico.salvar( itemMapper.toDto(itemDisponivel) );
+        getMockMvc().perform(get("/api/oferta/" + oferta.getId()))
+                .andExpect(status().isOk());
+    }
+
+    private Oferta criarOferta(){
+        Usuario usuarioDisponivel = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24603471033");
+            entidade.setEmail("testeA@gmail.com");
+        }).construir();
+
+        Usuario usuarioOfertante = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24877455094");
+            entidade.setEmail("testeB@gmail.com");
+        }).construir();
+
+        Item itemDisponivel = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Disponivel");
+            entidade.setUsuario(usuarioDisponivel);
+        }).construir();
+
+        Item itemOfertado1 = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Ofertado 1");
+            entidade.setUsuario(usuarioOfertante);
+        }).construir();
+        Item itemOfertado2 = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Ofertado 2");
+            entidade.setUsuario(usuarioOfertante);
+        }).construir();
+
+        List<Item> itensOfertados = new ArrayList<>();
+        itensOfertados.add(itemOfertado1);
+        itensOfertados.add(itemOfertado2);
+
+        Oferta oferta = ofertaBuilder.construirEntidade();
+        oferta.setUsuarioOfertante(usuarioOfertante);
+        oferta.setItem(itemDisponivel);
+        oferta.setItensOfertados(itensOfertados);
+
+        return oferta;
+    }
+
+    private Oferta criarOfertaAlterada(Oferta oferta){
+        Usuario novoUsuarioOfertante = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("65761446014");
+            entidade.setEmail("testeC@gmail.com");
+        }).construir();
+
+        Item novoItemOfertado = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Novo Item Ofertado");
+            entidade.setUsuario(novoUsuarioOfertante);
+        }).construir();
+
+        Item novoItemDisponivel = oferta.getItensOfertados().get(0);
+
+        List<Item> novoItensOfertados = new ArrayList<>();
+        novoItensOfertados.add(novoItemOfertado);
+
+        oferta.setItem(novoItemDisponivel);
+        oferta.setUsuarioOfertante(novoUsuarioOfertante);
+        oferta.setItensOfertados(novoItensOfertados);
+
+        return oferta;
+    }
+
+    private Oferta salvarOferta(){
+
+        Usuario usuarioDisponivel = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24603471033");
+            entidade.setEmail("testeA@gmail.com");
+        }).construir();
+
+        Usuario usuarioOfertante = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24877455094");
+            entidade.setEmail("testeB@gmail.com");
+        }).construir();
+
+        Item itemDisponivel = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Disponivel");
+            entidade.setUsuario(usuarioDisponivel);
+        }).construir();
+
+        Item itemOfertado1 = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Ofertado 1");
+            entidade.setUsuario(usuarioOfertante);
+        }).construir();
+        Item itemOfertado2 = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Ofertado 2");
+            entidade.setUsuario(usuarioOfertante);
+        }).construir();
+
+        List<Item> itensOfertados = new ArrayList<>();
+        itensOfertados.add(itemOfertado1);
+        itensOfertados.add(itemOfertado2);
+
+        Oferta oferta = ofertaBuilder.construirEntidade();
+        oferta.setUsuarioOfertante(usuarioOfertante);
+        oferta.setItem(itemDisponivel);
+        oferta.setItensOfertados(itensOfertados);
+        oferta = ofertaMapper.toEntity(ofertaServico.salvar(ofertaMapper.toDto(oferta)));
+
+        return oferta;
+    }
+
+    private Oferta salvarOfertaExtra(Oferta oferta){
+
+        Usuario usuarioDisponivel = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("65761446014");
+            entidade.setEmail("testeC@gmail.com");
+        }).construir();
+
+        Item itemDisponivel = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Item Disponivel Extra");
+            entidade.setUsuario(usuarioDisponivel);
+        }).construir();
+
+        Oferta novaOferta = ofertaBuilder.construirEntidade();
+        novaOferta.setItem(itemDisponivel);
+        novaOferta.setUsuarioOfertante(oferta.getUsuarioOfertante());
+        novaOferta.setItensOfertados(oferta.getItensOfertados());
+        novaOferta = ofertaMapper.toEntity(ofertaServico.salvar(ofertaMapper.toDto(novaOferta)));
+
+        return novaOferta;
+    }
+
 }
