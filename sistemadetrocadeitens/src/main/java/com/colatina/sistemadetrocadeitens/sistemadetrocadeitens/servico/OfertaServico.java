@@ -2,7 +2,6 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.EmailDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioDto;
@@ -23,7 +22,8 @@ public class OfertaServico {
     private final OfertaRepositorio ofertaRepositorio;
     private final OfertaMapper ofertaMapper;
     private final ItemServico itemServico;
-    private final EnviarEmailServico enviarEmailServico;
+    private final EmailServico emailServico;
+    private final UsuarioServico usuarioServico;
 
     private final Long ABERTA = 1L;
     private final Long ACEITAR = 2L;
@@ -49,7 +49,9 @@ public class OfertaServico {
         validarDonoDosItensOfertados(dto);
         dto.setSituacaoId(ABERTA);
         OfertaDto ofertaDto = ofertaDtoSave(dto);
-        enviarEmailServico.enviarEmailNovaOferta(dto);
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
+        emailServico.enviarEmailNovaOferta(dto, itemServico.obterPorId(dto.getItemId()), usuarioDtoDisponivel, usuarioDtoOfertante);
         return ofertaDto;
     }
 
@@ -136,8 +138,10 @@ public class OfertaServico {
     }
 
     private void enviarEmailsSituacao(OfertaDto ofertaDto, Long situacaoId){
-        if (ACEITAR.equals(situacaoId)){ enviarEmailServico.enviarEmailOfertaAceita(ofertaDto); }
-        else if (CANCELAR.equals(situacaoId)){ enviarEmailServico.enviarEmailOfertaCancelada(ofertaDto); }
-        else if (RECUSAR.equals(situacaoId)){ enviarEmailServico.enviarEmailOfertaRecusada(ofertaDto); }
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
+        if (ACEITAR.equals(situacaoId)){ emailServico.enviarEmailOfertaAceita(usuarioDtoDisponivel, usuarioDtoOfertante); }
+        else if (CANCELAR.equals(situacaoId)){ emailServico.enviarEmailOfertaCancelada(usuarioDtoDisponivel, usuarioDtoOfertante); }
+        else if (RECUSAR.equals(situacaoId)){ emailServico.enviarEmailOfertaRecusada(usuarioDtoDisponivel, usuarioDtoOfertante); }
     }
 }

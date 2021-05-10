@@ -39,9 +39,7 @@ public interface OfertaMapper extends EntityMapper<OfertaDto, Oferta>{
 
     @AfterMapping
     default void mapearToDto(Oferta oferta, @MappingTarget OfertaDto ofertaDto){
-        List<Long> itemIds = new ArrayList<>();
-        oferta.getItensOfertados().forEach(item -> itemIds.add(item.getId()));
-        ofertaDto.setItensOfertados(itemIds);
+        ofertaDto.setItensOfertados(oferta.getItensOfertados().stream().map(itemOfertado -> itemOfertado.getId()).collect(Collectors.toList()));
     }
 
     @Override
