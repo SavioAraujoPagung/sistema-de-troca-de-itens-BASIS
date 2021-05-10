@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.shaded.org.apache.commons.lang.ArrayUtils;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -146,18 +149,6 @@ public class ItemRecursoIT extends IntTestComum {
     }
 
     @Test
-    public void salvarImagemInvalido() throws Exception {
-        Usuario usuario = usuarioBuilder.construir();
-        Item item = itemBuilder.construirEntidade();
-        item.setImagem(null);
-        item.setUsuario(usuario);
-        getMockMvc().perform(post("/api/item")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     public void salvarDisponibilidadeInvalido() throws Exception {
         Usuario usuario = usuarioBuilder.construir();
         Item item = itemBuilder.construirEntidade();
@@ -174,6 +165,18 @@ public class ItemRecursoIT extends IntTestComum {
         Usuario usuario = usuarioBuilder.construir();
         Item item = itemBuilder.construirEntidade();
         item.setDescricao("");
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarImagemInvalido() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setImagem(null);
         item.setUsuario(usuario);
         getMockMvc().perform(post("/api/item")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -233,13 +236,126 @@ public class ItemRecursoIT extends IntTestComum {
 
     @Test
     public void alterar() throws Exception{
-        Usuario usuario = usuarioBuilder.construir();
+        String str = "Byte array de imagem alterada";
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        Byte[] imagemAlterada = ArrayUtils.toObject(bytes);
+
+        Categoria categoriaAlterada = new Categoria();
+        categoriaAlterada.setId(10L);
+
+        Usuario usuario = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24603471033");
+            entidade.setEmail("testeA@gmail.com");
+        }).construir();
+        Usuario usuarioAlterado = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("24877455094");
+            entidade.setEmail("testeB@gmail.com");
+        }).construir();
+
         Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
         item.setNome("Nome Item Alterado");
+        item.setDisponibilidade(false);
+        item.setDescricao("Descrição Alterada");
+        item.setImagem(imagemAlterada);
+        item.setCategoria(categoriaAlterada);
+        item.setUsuario(usuarioAlterado);
+
         getMockMvc().perform(put("/api/item")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void alterarNomeInvalido() throws Exception{
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setNome("");
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarDisponibilidadeInvalido() throws Exception{
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setDisponibilidade(null);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarDescricaoInvalido() throws Exception{
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setDescricao("");
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarImagemInvalido() throws Exception{
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setImagem(null);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarCategoriaInvalido() throws Exception{
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setCategoria(null);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarCategoriaInvalido2() throws Exception{
+        Categoria categoria = new Categoria();
+        categoria.setId(-5L);
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setCategoria(categoria);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarCategoriaInvalido3() throws Exception{
+        Categoria categoria = new Categoria();
+        categoria.setId(CATEGORIA_MAX + 5L);
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setCategoria(categoria);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarUsuarioInvalido() throws Exception{
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setUsuario(null);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

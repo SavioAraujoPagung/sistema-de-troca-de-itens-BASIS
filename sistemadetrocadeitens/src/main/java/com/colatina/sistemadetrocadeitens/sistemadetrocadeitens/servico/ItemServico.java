@@ -48,6 +48,11 @@ public class ItemServico {
         validarCategoria(itemDto);
         usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
+        if (item.getId() == null){
+            if (itemDto.getDisponibilidade() == false && obterPorId(itemDto.getId()).getDisponibilidade() == true){
+                cancelarOfertasComItem(itemDto);
+            }
+        }
         itemRepositorio.save(item);
         return itemMapper.toDto(item);
     }
@@ -56,17 +61,6 @@ public class ItemServico {
         List<Item> itens = itemMapper.toEntity(itensDto);
         itemRepositorio.saveAll(itens);
         return itemMapper.toDto(itens);
-    }
-
-    public ItemDto alterar(ItemDto itemDto){
-        validarCategoria(itemDto);
-        usuarioServico.obterPorId(itemDto.getUsuarioId());
-        Item item = itemMapper.toEntity(itemDto);
-        if (itemDto.getDisponibilidade() == false && obterPorId(itemDto.getId()).getDisponibilidade() == true){
-            cancelarOfertasComItem(itemDto);
-        }
-        itemRepositorio.save(item);
-        return itemMapper.toDto(item);
     }
 
     public void deletar(Long id){

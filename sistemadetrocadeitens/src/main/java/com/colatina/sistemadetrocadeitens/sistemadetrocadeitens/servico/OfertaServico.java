@@ -130,7 +130,7 @@ public class OfertaServico {
         ItemDto itemDto = itemServico.obterPorId(ofertaDto.getItemId());
         itemDto.setDisponibilidade(false);
         itemDto.setUsuarioId(ofertaDto.getUsuarioOfertanteId());
-        itemServico.alterar(itemDto);
+        itemServico.salvar(itemDto);
     }
 
     private void cancelarOfertasComItem(Long idItem){
