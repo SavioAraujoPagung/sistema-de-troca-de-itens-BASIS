@@ -20,7 +20,6 @@ public class ItemServico {
     private final ItemMapper itemMapper;
     private final UsuarioServico usuarioServico;
 
-
     public List<ItemDto> listar(){
         return itemRepositorio.listarItem();
     }

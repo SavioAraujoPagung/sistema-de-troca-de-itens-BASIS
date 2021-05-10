@@ -2,12 +2,17 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.ItemServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -16,11 +21,13 @@ public interface OfertaMapper extends EntityMapper<OfertaDto, Oferta>{
 
     @AfterMapping
     default void mapearToEntity(OfertaDto ofertaDto, @MappingTarget Oferta oferta){
-        oferta.setItensOfertados(ofertaDto.getItensOfertados().stream().map(id -> {
+        List<Item> itens = new ArrayList<>();
+        ofertaDto.getItensOfertados().forEach(itemId -> {
             Item item = new Item();
-            item.setId(id);
-            return item;
-        }).collect(Collectors.toList()));
+            item.setId(itemId);
+            itens.add(item);
+        });
+        oferta.setItensOfertados(itens);
     }
 
     @Override
@@ -32,7 +39,9 @@ public interface OfertaMapper extends EntityMapper<OfertaDto, Oferta>{
 
     @AfterMapping
     default void mapearToDto(Oferta oferta, @MappingTarget OfertaDto ofertaDto){
-        ofertaDto.setItensOfertados(oferta.getItensOfertados().stream().map(itemOfertado -> itemOfertado.getId()).collect(Collectors.toList()));
+        List<Long> itemIds = new ArrayList<>();
+        oferta.getItensOfertados().forEach(item -> itemIds.add(item.getId()));
+        ofertaDto.setItensOfertados(itemIds);
     }
 
     @Override
