@@ -3,6 +3,7 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.recurso;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.SistemadetrocadeitensApplication;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.builder.ItemBuilder;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.builder.UsuarioBuilder;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Categoria;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Usuario;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.ItemRepositorio;
@@ -30,6 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SistemadetrocadeitensApplication.class)
 @Transactional
 public class ItemRecursoIT extends IntTestComum {
+
+    private final Long CATEGORIA_MAX = 20L;
 
     @Autowired
     private ItemBuilder itemBuilder;
@@ -128,6 +131,104 @@ public class ItemRecursoIT extends IntTestComum {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void salvarNomeInvalido() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setNome("");
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarImagemInvalido() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setImagem(null);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarDisponibilidadeInvalido() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setDisponibilidade(null);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarDescricaoeInvalido() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setDescricao("");
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarCategoriaInvalido() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setCategoria(null);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarCategoriaInvalido2() throws Exception {
+        Categoria categoria = new Categoria();
+        categoria.setId(-5L);
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setCategoria(categoria);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarCategoriaInvalido3() throws Exception {
+        Categoria categoria = new Categoria();
+        categoria.setId(CATEGORIA_MAX + 5L);
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setCategoria(categoria);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarUsuarioInvalido() throws Exception {
+        Item item = itemBuilder.construirEntidade();
+        item.setUsuario(null);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

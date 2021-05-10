@@ -30,6 +30,7 @@ public class ItemServico {
 
     private final Long SITUACAO_ABERTA = 1L;
     private final Long SITUACAO_CANCELAR = 3L;
+    private final Long CATEGORIA_MAX = 20L;
 
     public List<ItemDto> listar(){
         return itemRepositorio.listarItem();
@@ -44,6 +45,7 @@ public class ItemServico {
     }
 
     public ItemDto salvar(ItemDto itemDto){
+        validarCategoria(itemDto);
         usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
         itemRepositorio.save(item);
@@ -57,6 +59,7 @@ public class ItemServico {
     }
 
     public ItemDto alterar(ItemDto itemDto){
+        validarCategoria(itemDto);
         usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
         if (itemDto.getDisponibilidade() == false && obterPorId(itemDto.getId()).getDisponibilidade() == true){
@@ -76,7 +79,7 @@ public class ItemServico {
         return usuarioServico.obterPorId(itemDto.getUsuarioId());
     }
 
-    public void cancelarOfertasComItem(ItemDto itemDto){
+    private void cancelarOfertasComItem(ItemDto itemDto){
         List<OfertaDto> ofertaDtos = ofertaMapper.toDto(ofertaRepositorio.findAllBySituacao_Id(SITUACAO_ABERTA));
         List<OfertaDto> ofertaDtosCanceladas = new ArrayList<>();
         ofertaDtos.forEach(oferta -> {
@@ -88,6 +91,12 @@ public class ItemServico {
         if (!ofertaDtosCanceladas.isEmpty()){
             List<Oferta> ofertas = ofertaMapper.toEntity(ofertaDtos);
             ofertaRepositorio.saveAll(ofertas);
+        }
+    }
+
+    private void validarCategoria(ItemDto itemDto){
+        if (itemDto.getCategoriaId() < 1L || itemDto.getCategoriaId() > CATEGORIA_MAX){
+            throw new RegraNegocioException("ID da categoria invalido");
         }
     }
 
