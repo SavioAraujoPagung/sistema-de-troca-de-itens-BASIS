@@ -149,6 +149,18 @@ public class ItemRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarNomeInvalido2() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setNome(null);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void salvarDisponibilidadeInvalido() throws Exception {
         Usuario usuario = usuarioBuilder.construir();
         Item item = itemBuilder.construirEntidade();
@@ -173,10 +185,38 @@ public class ItemRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarDescricaoeInvalido2() throws Exception {
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setDescricao(null);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void salvarImagemInvalido() throws Exception {
         Usuario usuario = usuarioBuilder.construir();
         Item item = itemBuilder.construirEntidade();
         item.setImagem(null);
+        item.setUsuario(usuario);
+        getMockMvc().perform(post("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarImagemInvalido2() throws Exception {
+        String str = "";
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        Byte[] imagem = ArrayUtils.toObject(bytes);
+
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setImagem(imagem);
         item.setUsuario(usuario);
         getMockMvc().perform(post("/api/item")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

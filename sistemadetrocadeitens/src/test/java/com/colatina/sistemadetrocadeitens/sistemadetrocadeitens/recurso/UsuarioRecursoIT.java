@@ -126,6 +126,16 @@ public class UsuarioRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarNomeInvalido2() throws Exception {
+        Usuario usuario = usuarioBuilder.construirEntidade();
+        usuario.setNome(null);
+        getMockMvc().perform(post("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void salvarCpfInvalido() throws Exception {
         Usuario usuario = usuarioBuilder.construirEntidade();
         usuario.setCpf("11122233344");
@@ -136,9 +146,49 @@ public class UsuarioRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarCpfInvalido2() throws Exception {
+        Usuario usuario = usuarioBuilder.construirEntidade();
+        usuario.setCpf(null);
+        getMockMvc().perform(post("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarCpfInvalido3() throws Exception {
+        Usuario usuario = usuarioBuilder.construirEntidade();
+        usuario.setCpf("");
+        getMockMvc().perform(post("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void salvarEmailInvalido() throws Exception {
         Usuario usuario = usuarioBuilder.construirEntidade();
         usuario.setEmail("abcdefg");
+        getMockMvc().perform(post("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarEmailInvalido2() throws Exception {
+        Usuario usuario = usuarioBuilder.construirEntidade();
+        usuario.setEmail(null);
+        getMockMvc().perform(post("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarEmailInvalido3() throws Exception {
+        Usuario usuario = usuarioBuilder.construirEntidade();
+        usuario.setEmail("");
         getMockMvc().perform(post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuario))))
@@ -180,6 +230,9 @@ public class UsuarioRecursoIT extends IntTestComum {
     public void alterar() throws Exception{
         Usuario usuarioSalvo = usuarioBuilder.construir();
         usuarioSalvo.setNome("Teste Usuario 2");
+        usuarioSalvo.setEmail("Teste2@gmail.com");
+        usuarioSalvo.setCpf("54268604081");
+        usuarioSalvo.setData(LocalDate.now().minusDays(5L));
         getMockMvc().perform(put("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
@@ -207,9 +260,49 @@ public class UsuarioRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void alterarCpfInvalido2() throws Exception{
+        Usuario usuarioSalvo = usuarioBuilder.construir();
+        usuarioSalvo.setCpf(null);
+        getMockMvc().perform(put("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarCpfInvalido3() throws Exception{
+        Usuario usuarioSalvo = usuarioBuilder.construir();
+        usuarioSalvo.setCpf("");
+        getMockMvc().perform(put("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void alterarEmailInvalido() throws Exception{
         Usuario usuarioSalvo = usuarioBuilder.construir();
         usuarioSalvo.setEmail("abcdefg");
+        getMockMvc().perform(put("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarEmailInvalido2() throws Exception{
+        Usuario usuarioSalvo = usuarioBuilder.construir();
+        usuarioSalvo.setEmail(null);
+        getMockMvc().perform(put("/api/usuario")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarEmailInvalido3() throws Exception{
+        Usuario usuarioSalvo = usuarioBuilder.construir();
+        usuarioSalvo.setEmail("");
         getMockMvc().perform(put("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(usuarioMapper.toDto(usuarioSalvo))))
