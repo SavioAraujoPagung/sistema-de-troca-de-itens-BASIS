@@ -1,20 +1,17 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 
-
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.SituacaoRepositorio;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.EmailDto;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.exception.RegraNegocioException;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.ItemMapper;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMepper;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,68 +20,128 @@ import java.util.List;
 public class OfertaServico {
 
     private final OfertaRepositorio ofertaRepositorio;
-    private final OfertaMepper ofertaMepper;
+    private final OfertaMapper ofertaMapper;
+    private final ItemServico itemServico;
     private final EmailServico emailServico;
     private final UsuarioServico usuarioServico;
-    private final ItemServico itemServico;
-    private final ItemMapper itemMapper;
-    private final Long IDACEITAR = 2L;
-    private final Long IDCANCELADA = 3L;
 
-    private void enviarEmail(EmailDto emailDto) {
-        emailServico.sendMail(emailDto);
-    }
+    private final Long ABERTA = 1L;
+    private final Long ACEITAR = 2L;
+    private final Long CANCELAR = 3L;
+    private final Long RECUSAR = 4L;
 
-    public OfertaDto obter (Long id){
-        Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta " +
-                "não encontrada"));
-        return ofertaMepper.toDto(oferta);
+    public OfertaDto obterPorId(Long id){
+        Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
+        return ofertaMapper.toDto(oferta);
     }
 
     public List<OfertaDto> listar(){
         List<Oferta> oferta = ofertaRepositorio.findAll();
-        return ofertaMepper.toDto(oferta);
+        return ofertaMapper.toDto(oferta);
     }
     public OfertaDto alterar(OfertaDto ofertaDto){
-        obter(ofertaDto.getId());
-        return OfertaDtoSave(ofertaDto);
+        obterPorId(ofertaDto.getId());
+        return ofertaDtoSave(ofertaDto);
     }
 
-    public OfertaDto aceitar(OfertaDto ofertaDto){
-        OfertaDto dto = ofertaRepositorio.aceitar(IDACEITAR, ofertaDto.getId());
-        ofertaRepositorio.cancelar(IDCANCELADA, ofertaDto.getItemId(), ofertaDto.getId());
-        return dto;
+    public OfertaDto salvar(OfertaDto dto){
+        validarDonoDoItemDisponivel(dto);
+        validarDonoDosItensOfertados(dto);
+        dto.setSituacaoId(ABERTA);
+        OfertaDto ofertaDto = ofertaDtoSave(dto);
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
+        emailServico.enviarEmailNovaOferta(dto, itemServico.obterPorId(dto.getItemId()), usuarioDtoDisponivel, usuarioDtoOfertante);
+        return ofertaDto;
     }
 
-    public OfertaDto salvar(OfertaDto ofertaDto){
-        Oferta oferta = ofertaMepper.toEntity(ofertaDto);
-        Item item = itemMapper.toEntity(itemServico.obterPorId(oferta.getItem().getId()));
-        UsuarioDto usuarioDtoProprietario = usuarioServico.obterPorId(item.getUsuario().getId());
-        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(oferta.getUsuarioOfertante().getId());
-
-        EmailDto emailDto = new EmailDto();
-        emailDto.setAssunto("SEU PRODUTO TEM UMA NOVA OFERTA");
-        emailDto.setDestinatario(usuarioDtoProprietario.getEmail());
-        emailDto.setTexto("O senhor(a) " +
-                usuarioDtoOfertante.getNome()+
-                " ofereceu "+
-                oferta.getItensOfertados().size() +
-                " produto(s) pelo seu produto: " +
-                item.getNome());
-
-        ofertaRepositorio.save(oferta);
-
-        enviarEmail(emailDto);
-        return ofertaMepper.toDto(oferta);
-    }
     public void deletar(Long id){
-        Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
+        Oferta oferta = ofertaMapper.toEntity(obterPorId(id));
         ofertaRepositorio.delete(oferta);
     }
 
-    private OfertaDto OfertaDtoSave(OfertaDto ofertaDto){
-        Oferta oferta = ofertaMepper.toEntity(ofertaDto);
+    public OfertaDto mudarSituacao(Long id, Long novaSituacao){
+        OfertaDto ofertaDto = obterPorId(id);
+        if (!ABERTA.equals(ofertaDto.getSituacaoId())){
+            throw new RegraNegocioException("Apenas ofertas em ABERTO podem ser ACEITAS/CANCELADAS/RECUSADAS");
+        }
+        if (ACEITAR.equals(novaSituacao)){
+            trocarItemOfertado(ofertaDto);
+            trocarItemDisponivel(ofertaDto);
+            cancelarOfertasComItem(ofertaDto.getItemId());
+            ofertaDto.getItensOfertados().forEach( itemOfertado -> { cancelarOfertasComItem(itemOfertado); } );
+        }
+        ofertaDto.setSituacaoId(novaSituacao);
+        ofertaRepositorio.save(ofertaMapper.toEntity(ofertaDto));
+        enviarEmailsSituacao(ofertaDto, novaSituacao);
+        return ofertaDto;
+    }
+
+    private void validarDonoDosItensOfertados(OfertaDto ofertaDto){
+        ofertaDto.getItensOfertados().forEach(itemOfertado -> {
+            UsuarioDto usuarioDto = itemServico.obterDono(itemOfertado);
+            if (!ofertaDto.getUsuarioOfertanteId().equals(usuarioDto.getId())){
+                throw new RegraNegocioException("Um ou mais dos itens ofertados não pertencem ao usuario ofertante");
+            }
+        });
+    }
+
+    private void validarDonoDoItemDisponivel(OfertaDto ofertaDto){
+        UsuarioDto usuarioDto = itemServico.obterDono(ofertaDto.getItemId());
+        if (ofertaDto.getUsuarioOfertanteId().equals(usuarioDto.getId())){
+            throw new RegraNegocioException("Um usuario não pode propor uma troca por um item que já o pertence");
+        }
+    }
+
+    private OfertaDto ofertaDtoSave(OfertaDto ofertaDto){
+        Oferta oferta = ofertaMapper.toEntity(ofertaDto);
         ofertaRepositorio.save(oferta);
-        return ofertaMepper.toDto(oferta);
+        return ofertaMapper.toDto(oferta);
+    }
+
+    private void trocarItemOfertado(OfertaDto ofertaDto){
+        UsuarioDto usuarioDto = itemServico.obterDono(ofertaDto.getItemId());
+        List<ItemDto> itensDto = new ArrayList<>();
+        ofertaDto.getItensOfertados().forEach(itemOfertado -> {
+            ItemDto dto = itemServico.obterPorId(itemOfertado);
+            dto.setDisponibilidade(false);
+            dto.setUsuarioId(usuarioDto.getId());
+            itensDto.add(dto);
+        });
+        itemServico.salvarVarios(itensDto);
+
+    }
+
+    public List<OfertaDto> salvarVarios(List<OfertaDto> ofertaDtos){
+        List<Oferta> ofertas = ofertaMapper.toEntity(ofertaDtos);
+        ofertaRepositorio.saveAll(ofertas);
+        return ofertaMapper.toDto(ofertas);
+    }
+
+    private void trocarItemDisponivel(OfertaDto ofertaDto){
+        ItemDto itemDto = itemServico.obterPorId(ofertaDto.getItemId());
+        itemDto.setDisponibilidade(false);
+        itemDto.setUsuarioId(ofertaDto.getUsuarioOfertanteId());
+        itemServico.alterar(itemDto);
+    }
+
+    private void cancelarOfertasComItem(Long idItem){
+        List<OfertaDto> ofertaDtos = ofertaMapper.toDto(ofertaRepositorio.findAllBySituacao_Id(ABERTA));
+        List<OfertaDto> ofertaDtosCanceladas = new ArrayList<>();
+        ofertaDtos.forEach(oferta -> {
+            if ( idItem.equals(oferta.getItemId()) || oferta.getItensOfertados().contains(idItem) ){
+                oferta.setSituacaoId(CANCELAR);
+                ofertaDtosCanceladas.add(oferta);
+            }
+        });
+        if (!ofertaDtosCanceladas.isEmpty()){ salvarVarios(ofertaDtosCanceladas); }
+    }
+
+    private void enviarEmailsSituacao(OfertaDto ofertaDto, Long situacaoId){
+        UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
+        UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
+        if (ACEITAR.equals(situacaoId)){ emailServico.enviarEmailOfertaAceita(usuarioDtoDisponivel, usuarioDtoOfertante); }
+        else if (CANCELAR.equals(situacaoId)){ emailServico.enviarEmailOfertaCancelada(usuarioDtoDisponivel, usuarioDtoOfertante); }
+        else if (RECUSAR.equals(situacaoId)){ emailServico.enviarEmailOfertaRecusada(usuarioDtoDisponivel, usuarioDtoOfertante); }
     }
 }

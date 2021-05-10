@@ -23,17 +23,17 @@ import java.util.List;
 @Table(name = "tb_oferta")
 public class Oferta {
 	@Id
-    @Column(name = "id")
-    @SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_oferta", name = "seq_tb_oferta")
-    @GeneratedValue(generator = "seq_tb_oferta", strategy = GenerationType.SEQUENCE)
-    private Long id;
+	@Column(name = "id")
+	@SequenceGenerator(allocationSize = 1, sequenceName = "seq_tb_oferta", name = "seq_tb_oferta")
+	@GeneratedValue(generator = "seq_tb_oferta", strategy = GenerationType.SEQUENCE)
+	private Long id;
 
 	@ManyToMany
-	@JoinTable(name="tb_item_ofertado", joinColumns=
-			{@JoinColumn(name="id_oferta")}, inverseJoinColumns=
-			{@JoinColumn(name="id_item_ofertado")})
+	@JoinTable(name="tb_item_ofertado",
+			joinColumns = @JoinColumn(name="id_oferta"),
+			inverseJoinColumns= @JoinColumn(name="id_item_ofertado"))
 	private List<Item> itensOfertados;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_situacao")
 	private Situacao situacao;
