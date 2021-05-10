@@ -28,7 +28,6 @@ public class OfertaServico {
     private final UsuarioServico usuarioServico;
     private final ItemServico itemServico;
     private final ItemMapper itemMapper;
-    private final SituacaoRepositorio situacaoRepositorio;
     private final Long IDACEITAR = 2L;
     private final Long IDCANCELADA = 3L;
 
@@ -52,18 +51,6 @@ public class OfertaServico {
     }
 
     public OfertaDto aceitar(OfertaDto ofertaDto){
-//         = new OfertaDto();
-//        Oferta ofertaAceita = ofertaMepper.toEntity(ofertaDto);
-//        List<Oferta> ofertas = ofertaRepositorio.findAll();
-//        List<Oferta> ofertasCanceladas = new ArrayList<>();
-
-//        Situacao situacao = situacaoRepositorio.getOne(IDCANCELADA);
-//        ofertas.forEach(oferta -> {
-//            if (oferta.getId()!= ofertaAceita.getId()){
-//                oferta.setSituacao(situacao);
-//                ofertasCanceladas.add(oferta);
-//            }
-//        });
         OfertaDto dto = ofertaRepositorio.aceitar(IDACEITAR, ofertaDto.getId());
         ofertaRepositorio.cancelar(IDCANCELADA, ofertaDto.getItemId(), ofertaDto.getId());
         return dto;
@@ -71,9 +58,7 @@ public class OfertaServico {
 
     public OfertaDto salvar(OfertaDto ofertaDto){
         Oferta oferta = ofertaMepper.toEntity(ofertaDto);
-        Item item;
-        item = itemMapper.toEntity(itemServico.obterPorId(oferta.getItem().getId()));
-
+        Item item = itemMapper.toEntity(itemServico.obterPorId(oferta.getItem().getId()));
         UsuarioDto usuarioDtoProprietario = usuarioServico.obterPorId(item.getUsuario().getId());
         UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(oferta.getUsuarioOfertante().getId());
 
