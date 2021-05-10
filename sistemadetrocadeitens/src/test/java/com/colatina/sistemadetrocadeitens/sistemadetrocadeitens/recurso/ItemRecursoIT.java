@@ -122,7 +122,8 @@ public class ItemRecursoIT extends IntTestComum {
     @Test
     public void salvar() throws Exception {
         Usuario usuario = usuarioBuilder.construir();
-        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        Item item = itemBuilder.construirEntidade();
+        item.setUsuario(usuario);
         getMockMvc().perform(post("/api/item")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
