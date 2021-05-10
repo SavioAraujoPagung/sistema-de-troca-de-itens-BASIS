@@ -70,7 +70,7 @@ public class OfertaServico {
             ofertaDto.getItensOfertados().forEach( itemOfertado -> { cancelarOfertasComItem(itemOfertado); } );
         }
         ofertaDto.setSituacaoId(novaSituacao);
-        ofertaDto = alterar(ofertaDto);
+        ofertaRepositorio.save(ofertaMapper.toEntity(ofertaDto));
         enviarEmailsSituacao(ofertaDto, novaSituacao);
         return ofertaDto;
     }
