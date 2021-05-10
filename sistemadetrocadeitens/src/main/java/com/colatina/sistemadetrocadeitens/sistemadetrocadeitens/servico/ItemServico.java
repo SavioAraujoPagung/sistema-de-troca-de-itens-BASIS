@@ -48,7 +48,7 @@ public class ItemServico {
         validarCategoria(itemDto);
         usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
-        if (item.getId() == null){
+        if (item.getId() != null){
             if (itemDto.getDisponibilidade() == false && obterPorId(itemDto.getId()).getDisponibilidade() == true){
                 cancelarOfertasComItem(itemDto);
             }
