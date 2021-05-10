@@ -3,6 +3,7 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Situacao;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.ItemRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.SituacaoRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.EmailDto;
@@ -29,6 +30,7 @@ public class OfertaServico {
     private final UsuarioServico usuarioServico;
     private final ItemServico itemServico;
     private final ItemMapper itemMapper;
+    private final ItemRepositorio itemRepositorio;
     private final Long IDCANCELADA = 3L;
     private final Long IDACEITAR = 2L;
     private final SituacaoRepositorio situacaoRepositorio;
@@ -38,27 +40,27 @@ public class OfertaServico {
     }
 
     public OfertaDto aceitar(OfertaDto ofertaAceitaDto){
-        Oferta ofertaAceita = ofertaRepositorio.findById(ofertaAceitaDto.getId()).orElseThrow(() -> new RegraNegocioException("Oferta " +
-                "não encontrada"));
-        Situacao cancelada = situacaoRepositorio.findById(IDACEITAR).orElseThrow(() -> new RegraNegocioException(""));
-        ofertaAceita.setSituacao(cancelada);
-        Oferta oferta = ofertaMepper.toEntity(ofertaAceitaDto);
+        Oferta oferta;
+        oferta = ofertaRepositorio.findById(ofertaAceitaDto.getId()).orElseThrow(()->new RegraNegocioException(""));
+        ofertaAceitaDto.setSituacaoId(IDACEITAR);
+        Item item = itemRepositorio.findById(ofertaAceitaDto.getItemId()).orElseThrow(()->new RegraNegocioException(""));
+        oferta.setItem(item);
 
-        Situacao concluida = situacaoRepositorio.getOne(IDACEITAR);
+        Situacao concluida = situacaoRepositorio.findById(IDACEITAR).orElseThrow(()->new RegraNegocioException(""));
+        Situacao cancelada = situacaoRepositorio.findById(IDCANCELADA).orElseThrow(()->new RegraNegocioException(""));
         oferta.setSituacao(concluida);
         ofertaRepositorio.save(oferta);
 
         List<OfertaDto> ofertasDtoCanceladas = listar();
         List<Oferta> ofertasCanceladas = new ArrayList<>();
-        for (OfertaDto oft: ofertasDtoCanceladas) {
-//            if (ofertaAceita.getItemId().equals(oft.getItemId()) &&oferta.getId().equals(ofertasCanceladas)){
-//                Oferta ofertaCancelada = ofertaMepper.toEntity(oft);
-//                ofertaCancelada.setSituacao(cancelada);
-//                ofertasCanceladas.add(ofertaCancelada);
-//            }
-        }
+        ofertasDtoCanceladas.forEach(oft->{
+            if ((ofertaAceitaDto.getItemId().equals(oft.getItemId()))&&(!ofertaAceitaDto.getId().equals(oft.getId()))){
+                Oferta ofertaCancelada = ofertaMepper.toEntity(oft);
+                ofertaCancelada.setSituacao(cancelada);
+                ofertasCanceladas.add(ofertaCancelada);
+            }
+        });
         ofertaRepositorio.saveAll(ofertasCanceladas);
-//
         return ofertaAceitaDto;
     }
 
