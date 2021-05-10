@@ -1,5 +1,6 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.builder;
 
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Categoria;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.ItemServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
@@ -19,9 +20,6 @@ public class ItemBuilder extends ConstrutorEntidade<Item>{
     @Autowired
     private ItemMapper itemMapper;
 
-    @Autowired
-    private UsuarioBuilder usuarioBuilder;
-
     @Override
     public Item construirEntidade() {
         Item item = new Item();
@@ -29,8 +27,7 @@ public class ItemBuilder extends ConstrutorEntidade<Item>{
         item.setDisponibilidade(true);
         item.setDescricao("Descrição do Item Teste");
         item.setImagem(iniciarImagem());
-        item.getCategoria().setId(1L);
-        item.getUsuario().setId(usuarioBuilder.construir().getId());
+        item.setCategoria(iniciarCategoria());
         return item;
     }
 
@@ -38,6 +35,12 @@ public class ItemBuilder extends ConstrutorEntidade<Item>{
     public Item persistir(Item entidade) {
         ItemDto dto = itemMapper.toDto(entidade);
         return itemMapper.toEntity(itemServico.salvar(dto));
+    }
+
+    private Categoria iniciarCategoria(){
+        Categoria categoria = new Categoria();
+        categoria.setId(1L);
+        return categoria;
     }
 
     private Byte[] iniciarImagem(){

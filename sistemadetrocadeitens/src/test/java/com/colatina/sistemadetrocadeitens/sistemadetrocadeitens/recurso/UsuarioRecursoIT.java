@@ -158,9 +158,7 @@ public class UsuarioRecursoIT extends IntTestComum {
 
     @Test
     public void salvarCpfDuplicado() throws Exception {
-        usuarioBuilder.customizar(entidade -> {
-            entidade.setEmail("teste2@gmail.com");
-        }).construir();
+        usuarioBuilder.customizar(entidade -> entidade.setEmail("teste2@gmail.com")).construir();
         Usuario usuario = usuarioBuilder.construirEntidade();
         getMockMvc().perform(post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -170,9 +168,7 @@ public class UsuarioRecursoIT extends IntTestComum {
 
     @Test
     public void salvarEmailDuplicado() throws Exception {
-        usuarioBuilder.customizar(entidade -> {
-            entidade.setCpf("24877455094");
-        }).construir();
+        usuarioBuilder.customizar(entidade -> entidade.setCpf("24877455094")).construir();
         Usuario usuario = usuarioBuilder.construirEntidade();
         getMockMvc().perform(post("/api/usuario")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
