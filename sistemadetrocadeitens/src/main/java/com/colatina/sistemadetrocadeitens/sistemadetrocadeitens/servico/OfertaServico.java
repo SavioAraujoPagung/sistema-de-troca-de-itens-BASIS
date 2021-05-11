@@ -31,8 +31,7 @@ public class OfertaServico {
     private final Long RECUSAR = 4L;
 
     public List<OfertaDto> listar(){
-        List<Oferta> oferta = ofertaRepositorio.findAll();
-        return ofertaMapper.toDto(oferta);
+        return ofertaMapper.toDto(ofertaRepositorio.findAll());
     }
 
     public OfertaDto obterPorId(Long id){
@@ -98,11 +97,13 @@ public class OfertaServico {
     }
 
     private void validarSituacao(Long situacao){
-        if (situacao != ABERTA &&
-                situacao != ACEITAR &&
-                situacao != CANCELAR &&
-                situacao != RECUSAR
-        ){
+        List<Long> situacaoValida = new ArrayList<>();
+        situacaoValida.add(ABERTA);
+        situacaoValida.add(ACEITAR);
+        situacaoValida.add(CANCELAR);
+        situacaoValida.add(RECUSAR);
+
+        if (!situacaoValida.contains(situacao)){
             throw new RegraNegocioException("Situação da oferta inválida");
         }
     }
