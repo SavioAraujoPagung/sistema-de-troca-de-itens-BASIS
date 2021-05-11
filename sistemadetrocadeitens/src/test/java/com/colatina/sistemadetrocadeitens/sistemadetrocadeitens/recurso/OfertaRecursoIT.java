@@ -12,6 +12,8 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.Ofer
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.UsuarioRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.ItemServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.OfertaServico;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.ItemMapper;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMapper;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.util.IntTestComum;
@@ -111,6 +113,70 @@ public class OfertaRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarItemOfertadoInvalido() throws Exception {
+        OfertaDto ofertaDto = ofertaMapper.toDto(criarOferta());
+        ofertaDto.setItensOfertados(null);
+        getMockMvc().perform(post("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarItemOfertadoInvalido2() throws Exception {
+        Usuario usuario = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("65761446014");
+            entidade.setEmail("testeC@gmail.com");
+        }).construir();
+
+        OfertaDto ofertaDto = ofertaMapper.toDto(criarOferta());
+        ItemDto itemOfertanteDto = itemServico.obterPorId( ofertaDto.getItensOfertados().get(0) );
+        itemOfertanteDto.setUsuarioId( usuario.getId() );
+        itemServico.salvar(itemOfertanteDto);
+
+        getMockMvc().perform(post("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarItemDisponivelInvalido() throws Exception {
+        OfertaDto ofertaDto = ofertaMapper.toDto(criarOferta());
+        ofertaDto.setItemId(null);
+        getMockMvc().perform(post("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarItemDisponivelInvalido2() throws Exception {
+        OfertaDto ofertaDto = ofertaMapper.toDto(criarOferta());
+        ItemDto itemDisponivelDto = itemServico.obterPorId(ofertaDto.getItemId());
+        itemDisponivelDto.setUsuarioId( ofertaDto.getUsuarioOfertanteId() );
+        itemServico.salvar(itemDisponivelDto);
+
+        getMockMvc().perform(post("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void salvarItemDisponivelInvalido3() throws Exception {
+        OfertaDto ofertaDto = ofertaMapper.toDto(criarOferta());
+        ItemDto itemDisponivelDto = itemServico.obterPorId(ofertaDto.getItemId());
+        itemDisponivelDto.setDisponibilidade(false);
+        itemServico.salvar(itemDisponivelDto);
+
+        getMockMvc().perform(post("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void alterar() throws Exception{
         Oferta oferta = salvarOferta();
         oferta = criarOfertaAlterada(oferta);
@@ -121,10 +187,108 @@ public class OfertaRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void alterarItemDisponivelInvalido() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ofertaDto.setItemId(null);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarItemDisponivelInvalido2() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ItemDto itemDisponivelDto = itemServico.obterPorId(ofertaDto.getItemId());
+        itemDisponivelDto.setUsuarioId( ofertaDto.getUsuarioOfertanteId() );
+        itemServico.salvar(itemDisponivelDto);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarItemDisponivelInvalido3() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ItemDto itemDisponivelDto = itemServico.obterPorId(ofertaDto.getItemId());
+        itemDisponivelDto.setDisponibilidade(false);
+        itemServico.salvar(itemDisponivelDto);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarSituacaoInvalido() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ofertaDto.setSituacaoId(null);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarUsuarioOfertanteInvalido() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ofertaDto.setUsuarioOfertanteId(null);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarItemOfertadoInvalido() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ofertaDto.setItensOfertados(null);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarItemOfertadoInvalido2() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+
+        Usuario usuario = usuarioBuilder.customizar(entidade -> {
+            entidade.setCpf("65761446014");
+            entidade.setEmail("testeC@gmail.com");
+        }).construir();
+
+        Item itemOfertado = itemBuilder.customizar(entidade -> {
+            entidade.setNome("Novo Item Disponivel");
+            entidade.setUsuario(usuario);
+        }).construir();
+
+        ofertaDto.getItensOfertados().add( itemOfertado.getId() );
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void deletar() throws Exception{
         Oferta oferta = salvarOferta();
         getMockMvc().perform(delete("/api/oferta/" + oferta.getId()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deletarInvalido() throws Exception{
+        getMockMvc().perform(delete("/api/oferta/1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -135,6 +299,12 @@ public class OfertaRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void aceitarInvalido() throws Exception{
+        getMockMvc().perform(patch("/api/oferta/aceitar/1"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void cancelar() throws Exception{
         Oferta oferta = salvarOferta();
         getMockMvc().perform(patch("/api/oferta/cancelar/" + oferta.getId()))
@@ -142,10 +312,22 @@ public class OfertaRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void cancelarInvalido() throws Exception{
+        getMockMvc().perform(patch("/api/oferta/cancelar/1"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void recusar() throws Exception{
         Oferta oferta = salvarOferta();
         getMockMvc().perform(patch("/api/oferta/recusar/" + oferta.getId()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void recusarInvalido() throws Exception{
+        getMockMvc().perform(patch("/api/oferta/recusar/1"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -219,39 +401,7 @@ public class OfertaRecursoIT extends IntTestComum {
     }
 
     private Oferta salvarOferta(){
-
-        Usuario usuarioDisponivel = usuarioBuilder.customizar(entidade -> {
-            entidade.setCpf("24603471033");
-            entidade.setEmail("testeA@gmail.com");
-        }).construir();
-
-        Usuario usuarioOfertante = usuarioBuilder.customizar(entidade -> {
-            entidade.setCpf("24877455094");
-            entidade.setEmail("testeB@gmail.com");
-        }).construir();
-
-        Item itemDisponivel = itemBuilder.customizar(entidade -> {
-            entidade.setNome("Item Disponivel");
-            entidade.setUsuario(usuarioDisponivel);
-        }).construir();
-
-        Item itemOfertado1 = itemBuilder.customizar(entidade -> {
-            entidade.setNome("Item Ofertado 1");
-            entidade.setUsuario(usuarioOfertante);
-        }).construir();
-        Item itemOfertado2 = itemBuilder.customizar(entidade -> {
-            entidade.setNome("Item Ofertado 2");
-            entidade.setUsuario(usuarioOfertante);
-        }).construir();
-
-        List<Item> itensOfertados = new ArrayList<>();
-        itensOfertados.add(itemOfertado1);
-        itensOfertados.add(itemOfertado2);
-
-        Oferta oferta = ofertaBuilder.construirEntidade();
-        oferta.setUsuarioOfertante(usuarioOfertante);
-        oferta.setItem(itemDisponivel);
-        oferta.setItensOfertados(itensOfertados);
+        Oferta oferta = criarOferta();
         oferta = ofertaMapper.toEntity(ofertaServico.salvar(ofertaMapper.toDto(oferta)));
 
         return oferta;

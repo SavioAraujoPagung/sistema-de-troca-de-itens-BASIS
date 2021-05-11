@@ -30,15 +30,16 @@ public class OfertaServico {
     private final Long CANCELAR = 3L;
     private final Long RECUSAR = 4L;
 
+    public List<OfertaDto> listar(){
+        List<Oferta> oferta = ofertaRepositorio.findAll();
+        return ofertaMapper.toDto(oferta);
+    }
+
     public OfertaDto obterPorId(Long id){
         Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
         return ofertaMapper.toDto(oferta);
     }
 
-    public List<OfertaDto> listar(){
-        List<Oferta> oferta = ofertaRepositorio.findAll();
-        return ofertaMapper.toDto(oferta);
-    }
     public OfertaDto alterar(OfertaDto ofertaDto){
         validarOferta(ofertaDto);
         obterPorId(ofertaDto.getId());
@@ -46,8 +47,8 @@ public class OfertaServico {
     }
 
     public OfertaDto salvar(OfertaDto dto){
-        validarOferta(dto);
         dto.setSituacaoId(ABERTA);
+        validarOferta(dto);
         OfertaDto ofertaDto = ofertaDtoSave(dto);
         UsuarioDto usuarioDtoDisponivel = itemServico.obterDono(ofertaDto.getItemId());
         UsuarioDto usuarioDtoOfertante = usuarioServico.obterPorId(ofertaDto.getUsuarioOfertanteId());
@@ -77,16 +78,46 @@ public class OfertaServico {
         return ofertaDto;
     }
 
+    public List<OfertaDto> salvarVarios(List<OfertaDto> ofertaDtos){
+        List<Oferta> ofertas = ofertaMapper.toEntity(ofertaDtos);
+        ofertaRepositorio.saveAll(ofertas);
+        return ofertaMapper.toDto(ofertas);
+    }
+
+    private OfertaDto ofertaDtoSave(OfertaDto ofertaDto){
+        Oferta oferta = ofertaMapper.toEntity(ofertaDto);
+        ofertaRepositorio.save(oferta);
+        return ofertaMapper.toDto(oferta);
+    }
+
     private void validarOferta(OfertaDto ofertaDto){
-        validarDisponibilidade(ofertaDto);
+        validarSituacao(ofertaDto.getSituacaoId());
+        validarDisponibilidade(ofertaDto.getItemId());
         validarDonoDoItemDisponivel(ofertaDto);
         validarDonoDosItensOfertados(ofertaDto);
     }
 
-    private void validarDisponibilidade(OfertaDto ofertaDto){
-        ItemDto itemDto = itemServico.obterPorId(ofertaDto.getItemId());
+    private void validarSituacao(Long situacao){
+        if (situacao != ABERTA &&
+                situacao != ACEITAR &&
+                situacao != CANCELAR &&
+                situacao != RECUSAR
+        ){
+            throw new RegraNegocioException("Situação da oferta inválida");
+        }
+    }
+
+    private void validarDisponibilidade(Long itemDisponivelId){
+        ItemDto itemDto = itemServico.obterPorId(itemDisponivelId);
         if (!itemDto.getDisponibilidade()){
             throw new RegraNegocioException("Você só pode fazer uma oferta por um item caso ele esta disponível");
+        }
+    }
+
+    private void validarDonoDoItemDisponivel(OfertaDto ofertaDto){
+        UsuarioDto usuarioDto = itemServico.obterDono(ofertaDto.getItemId());
+        if (ofertaDto.getUsuarioOfertanteId().equals(usuarioDto.getId())){
+            throw new RegraNegocioException("Um usuario não pode propor uma troca por um item que já o pertence");
         }
     }
 
@@ -97,19 +128,6 @@ public class OfertaServico {
                 throw new RegraNegocioException("Um ou mais dos itens ofertados não pertencem ao usuario ofertante");
             }
         });
-    }
-
-    private void validarDonoDoItemDisponivel(OfertaDto ofertaDto){
-        UsuarioDto usuarioDto = itemServico.obterDono(ofertaDto.getItemId());
-        if (ofertaDto.getUsuarioOfertanteId().equals(usuarioDto.getId())){
-            throw new RegraNegocioException("Um usuario não pode propor uma troca por um item que já o pertence");
-        }
-    }
-
-    private OfertaDto ofertaDtoSave(OfertaDto ofertaDto){
-        Oferta oferta = ofertaMapper.toEntity(ofertaDto);
-        ofertaRepositorio.save(oferta);
-        return ofertaMapper.toDto(oferta);
     }
 
     private void trocarItemOfertado(OfertaDto ofertaDto){
@@ -123,12 +141,6 @@ public class OfertaServico {
         });
         itemServico.salvarVarios(itensDto);
 
-    }
-
-    public List<OfertaDto> salvarVarios(List<OfertaDto> ofertaDtos){
-        List<Oferta> ofertas = ofertaMapper.toEntity(ofertaDtos);
-        ofertaRepositorio.saveAll(ofertas);
-        return ofertaMapper.toDto(ofertas);
     }
 
     private void trocarItemDisponivel(OfertaDto ofertaDto){
