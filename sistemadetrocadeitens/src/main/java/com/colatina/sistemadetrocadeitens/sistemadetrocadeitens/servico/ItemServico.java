@@ -49,7 +49,7 @@ public class ItemServico {
         usuarioServico.obterPorId(itemDto.getUsuarioId());
         Item item = itemMapper.toEntity(itemDto);
         if (item.getId() != null){
-            if (itemDto.getDisponibilidade() == false && obterPorId(itemDto.getId()).getDisponibilidade() == true){
+            if (!itemDto.getDisponibilidade() && obterPorId(itemDto.getId()).getDisponibilidade()){
                 cancelarOfertasComItem(itemDto);
             }
         }

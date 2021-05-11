@@ -2,6 +2,7 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.recurso;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.OfertaServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaListagemDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +38,8 @@ public class OfertaRecurso {
     }
 
     @GetMapping
-    public ResponseEntity<List<OfertaDto>> listar(){
-        List<OfertaDto> ofertaListagemDto = ofertaServico.listar();
+    public ResponseEntity<List<OfertaListagemDto>> listar(){
+        List<OfertaListagemDto> ofertaListagemDto = ofertaServico.listar();
         return new ResponseEntity<>(ofertaListagemDto, HttpStatus.OK);
     }
 
