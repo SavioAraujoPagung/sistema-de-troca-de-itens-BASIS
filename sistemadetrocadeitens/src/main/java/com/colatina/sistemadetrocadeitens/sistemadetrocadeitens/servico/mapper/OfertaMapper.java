@@ -2,14 +2,12 @@ package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper;
 
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
-import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.ItemServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;

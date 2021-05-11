@@ -4,6 +4,7 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Oferta;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.repositorio.OfertaRepositorio;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaDto;
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaListagemDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.UsuarioDto;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.exception.RegraNegocioException;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMapper;
@@ -30,8 +31,8 @@ public class OfertaServico {
     private final Long CANCELAR = 3L;
     private final Long RECUSAR = 4L;
 
-    public List<OfertaDto> listar(){
-        return ofertaMapper.toDto(ofertaRepositorio.findAll());
+    public List<OfertaListagemDto> listar(){
+        return ofertaRepositorio.listarOferta();
     }
 
     public OfertaDto obterPorId(Long id){
