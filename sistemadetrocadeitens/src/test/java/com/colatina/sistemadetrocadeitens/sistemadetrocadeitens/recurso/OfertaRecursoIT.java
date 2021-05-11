@@ -178,8 +178,7 @@ public class OfertaRecursoIT extends IntTestComum {
 
     @Test
     public void alterar() throws Exception{
-        Oferta oferta = salvarOferta();
-        oferta = criarOfertaAlterada(oferta);
+        Oferta oferta = criarOfertaAlterada(salvarOferta());
         getMockMvc().perform(put("/api/oferta")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(ofertaMapper.toDto(oferta))))
@@ -229,6 +228,28 @@ public class OfertaRecursoIT extends IntTestComum {
         ofertaDto.setSituacaoId(null);
 
         getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarSituacaoInvalido2() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ofertaDto.setSituacaoId(100L);
+
+        getMockMvc().perform(put("/api/oferta")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void alterarSituacaoInvalido3() throws Exception{
+        OfertaDto ofertaDto = ofertaMapper.toDto(salvarOferta());
+        ofertaServico.mudarSituacao(ofertaDto.getId(), 3L);
+
+        getMockMvc().perform(patch("/api/oferta/aceitar/" + ofertaDto.getId())
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(ofertaDto)))
                 .andExpect(status().isBadRequest());
@@ -328,6 +349,14 @@ public class OfertaRecursoIT extends IntTestComum {
     public void recusarInvalido() throws Exception{
         getMockMvc().perform(patch("/api/oferta/recusar/1"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void segundaRegraDeNegocio() throws Exception{
+        Oferta oferta = salvarOferta();
+        salvarOfertaExtra(oferta);
+        getMockMvc().perform(patch("/api/oferta/aceitar/" + oferta.getId()))
+                .andExpect(status().isOk());
     }
 
     @Test
