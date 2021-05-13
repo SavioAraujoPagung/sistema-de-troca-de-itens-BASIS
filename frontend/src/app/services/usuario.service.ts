@@ -1,0 +1,30 @@
+import { environment } from './../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UsuarioService {
+
+  private api = `${environment.apiUrl}/usuarios`;
+
+  constructor(private http: HttpClient) { }
+
+  buscarTodos(){
+    return this.http.get<any[]>('api/usuario');
+  }
+
+  salvar(usuario){
+    return this.http.post('api/usuario', usuario);
+  }
+
+  atualizar(usuario){
+    return this.http.put('api/usuario', usuario);
+  }
+
+  excluir(id){
+    return this.http.delete('api/usuario' +"/"+ id);
+  }
+
+}
