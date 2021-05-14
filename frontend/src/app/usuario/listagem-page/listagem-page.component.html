@@ -1,34 +1,45 @@
 <h3 class="first">LISTAGEM DE USUÁRIOS</h3>
 
-<p-dialog header="Cadastro de usuario" [(visible)]="displayModal" [modal]="true" [style]="{width: '60vw'}" [baseZIndex]="9999999"
-    [draggable]="false" [resizable]="false">
-        <form [formGroup]="form">
-            <div class="ui-fluid">
-                <div class="p-field">
-                    <label for="nome">Nome</label>
-                    <input id="nome" type="text" formControlName="nome" pInputText> 
-                </div>
-                <div class="p-field">
-                    <label for="email">E-mail</label>
-                    <input id="email" type="" formControlName="email" pInputText>
-                </div>
-                <div class="p-field">
-                    <label for="cpf">CPF</label>
-                    <p-inputMask mask="999.999.999-99" formControlName="cpf"></p-inputMask>
-                </div>
-                <div class="p-field">
-                    <label for="data">Data de Nascimento</label>
-                    <p-calendar [(ngModel)]="data" formControlName="data"></p-calendar>
-                </div>
+<form [formGroup]="form" (ngSubmit)="salvar()">
+    <p-dialog 
+        [header]="!this.isEditing ? 'Cadastro' : 'Atualizar'"
+        [(visible)]="displayModal"
+        [modal]="true"
+        [style]="{width: '60vw'}"
+        [baseZIndex]="9999999"
+        [draggable]="false"
+        [resizable]="false"
+        (onHide)="fecharModal()"
+    >
+        <div class="ui-fluid">
+            <div class="p-field">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" formControlName="nome" pInputText> 
             </div>
-        </form>
-
+            <div class="p-field">
+                <label for="email">E-mail</label>
+                <input id="email" type="" formControlName="email" pInputText>
+            </div>
+            <div class="p-field">
+                <label for="cpf">CPF</label>
+                <p-inputMask mask="999.999.999-99" formControlName="cpf" [unmask]="true"></p-inputMask>
+            </div>
+            <div class="p-field">
+                <label for="data">Data de Nascimento</label>
+                <p-calendar formControlName="data"></p-calendar>
+            </div>
+        </div>
         <p-footer>
-            <button type="submit" pButton label="Salvar"></button>
+            <button 
+            type="submit"
+            pButton 
+            [label]="!this.isEditing ? 'Criar' : 'Salvar'" [disabled]="this.form.invalid || this.submit"></button>
             
-            <button type="button" pButton icon="pi pi-times" (click)="displayModal=false" label="Fechar" class="ui-button-secondary"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
         </p-footer>
-</p-dialog>
+    </p-dialog>
+</form>
+
 
 <button pButton type="button" label="CRIAR" (click)="abrirModal()" ></button>
 
@@ -39,14 +50,19 @@
             <th>NOME</th>
             <th>E-MAIL</th>
             <th>DATA NASCIMENTO</th>
+            <th>AÇÕES</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-usuario>
         <tr>
-            <td>{{usuario.id}}</td>
-            <td>{{usuario.nome}}</td>
-            <td>{{usuario.email}}</td>
-            <td>{{usuario.data}}</td>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.data }}</td>
+            <td>
+                <button pButton type="button" label="Editar" class="ui-button-secondary" (click)="editar(usuario.id)"></button>
+                <button pButton type="button" label="Excluir" class="ui-button-danger" (click)="excluir(usuario.id)"></button>
+            </td>
         </tr>
     </ng-template>
 </p-table>
