@@ -11,6 +11,10 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
+  buscarPorId(id){
+    return this.http.get<any>('api/usuario/'+id);
+  }
+
   buscarTodos(){
     return this.http.get<any[]>('api/usuario');
   }
