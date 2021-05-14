@@ -27,14 +27,6 @@ public class UsuarioServico {
         return usuarioRepositorio.listarUsuario();
     }
 
-    private void enviarEmail(Usuario usuario){
-        List<String> copias = new ArrayList<>();
-        EmailDto emailDto = new EmailDto(usuario.getEmail(),
-                                "SISTEMA DE TROCA DE ITENS",
-                                copias,
-                                usuario.getToken());
-        emailServico.sendMail(emailDto);
-    }
     public UsuarioDto obterPorId(Long id){
         UsuarioDto usuarioDto = usuarioRepositorio.obterUsuarioPorId(id);
         if (usuarioDto == null){
@@ -52,7 +44,7 @@ public class UsuarioServico {
             Usuario usuarioSalvo = findById(usuario.getId());
             usuario.setToken(usuarioSalvo.getToken());
         }
-        enviarEmail(usuario);
+        emailServico.enviarEmailNovoUsuario(usuario);
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }
