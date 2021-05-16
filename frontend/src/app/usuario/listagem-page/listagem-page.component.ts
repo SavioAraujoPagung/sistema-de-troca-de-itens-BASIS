@@ -27,10 +27,10 @@ export class ListagemPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.iniciarForm();
-    this.buscarTodo();
+    this.buscarTodos();
   }
 
-  buscarTodo(){
+  buscarTodos(){
     this.usuarioService.buscarTodos().subscribe(
       (usuarios) => {
         this.usuarios = usuarios;
@@ -64,7 +64,7 @@ export class ListagemPageComponent implements OnInit {
         })
       ).subscribe(
         () => {
-          this.buscarTodo();
+          this.buscarTodos();
           this.notification.addSuccessMessage("Usuario atualizado com sucesso");
         },
         ()=>{
@@ -79,7 +79,7 @@ export class ListagemPageComponent implements OnInit {
         })
       ).subscribe(
         (usuario) => {
-          this.buscarTodo();
+          this.buscarTodos();
           this.notification.addSuccessMessage("Usuario Cadastrado com sucesso");
         },
         ()=>{
@@ -107,11 +107,11 @@ export class ListagemPageComponent implements OnInit {
   excluir(id){
     this.usuarioService.excluir(id).subscribe(
       ()=>{
-        this.buscarTodo();
+        this.buscarTodos();
         this.notification.addSuccessMessage("Usuario excluído");
       },
       ()=>{
-        this.buscarTodo();
+        this.buscarTodos();
         this.notification.addErrorMessage("Erro ao excluir");
       }
     )
