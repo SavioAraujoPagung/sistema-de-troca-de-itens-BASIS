@@ -43,8 +43,8 @@ public class UsuarioServico {
         } else {
             Usuario usuarioSalvo = findById(usuario.getId());
             usuario.setToken(usuarioSalvo.getToken());
+            emailServico.enviarEmailNovoUsuario(usuario);
         }
-        emailServico.enviarEmailNovoUsuario(usuario);
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);
     }

@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 })
 export class UsuarioService {
 
-  private api = `${environment.apiUrl}/usuarios`;
+  private api = `${environment.apiUrl}/usuarios/`;
 
   constructor(private http: HttpClient) { }
 
   buscarPorId(id){
-    return this.http.get<any>('api/usuario/'+id);
+    return this.http.get<any>('api/usuario/' + id);
   }
 
   buscarTodos(){
@@ -28,7 +28,7 @@ export class UsuarioService {
   }
 
   excluir(id){
-    return this.http.delete('api/usuario' +"/"+ id);
+    return this.http.delete('api/usuario/' + id);
   }
 
 }
