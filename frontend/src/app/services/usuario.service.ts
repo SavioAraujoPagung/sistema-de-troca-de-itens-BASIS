@@ -1,3 +1,5 @@
+import { UsuarioListagem } from './../shared/models/usuario-listagem.model';
+import { Usuario } from './../shared/models/usuario.model';
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,28 +9,28 @@ import { Injectable } from '@angular/core';
 })
 export class UsuarioService {
 
-  private api = `${environment.apiUrl}/usuarios/`;
+  private api = `${environment.apiUrl}/usuario/`;
 
   constructor(private http: HttpClient) { }
 
   buscarPorId(id){
-    return this.http.get<any>('api/usuario/' + id);
+    return this.http.get<Usuario>(this.api + id);
   }
 
   buscarTodos(){
-    return this.http.get<any[]>('api/usuario');
+    return this.http.get<UsuarioListagem[]>(this.api);
   }
 
   salvar(usuario){
-    return this.http.post('api/usuario', usuario);
+    return this.http.post(this.api, usuario);
   }
 
   atualizar(usuario){
-    return this.http.put('api/usuario', usuario);
+    return this.http.put(this.api, usuario);
   }
 
   excluir(id){
-    return this.http.delete('api/usuario/' + id);
+    return this.http.delete(this.api + id);
   }
 
 }

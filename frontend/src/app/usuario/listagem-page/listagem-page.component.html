@@ -1,8 +1,9 @@
 <h3 class="first">LISTAGEM DE USUÁRIOS</h3>
 
+<block-ui>
 <form [formGroup]="form" (ngSubmit)="salvar()">
     <p-dialog 
-        [header]="!this.isEditing ? 'Cadastro' : 'Atualizar'"
+        [header]="labelHeader()"
         [(visible)]="displayModal"
         [modal]="true"
         [style]="{width: '60vw'}"
@@ -30,16 +31,12 @@
             </div>
         </div>
         <p-footer>
-            <button 
-            type="submit"
-            pButton 
-            [label]="!this.isEditing ? 'Criar' : 'Salvar'" [disabled]="this.form.invalid || this.submit"></button>
-            
+            <button type="submit" pButton [label]="labelSubmit()" [disabled]="this.form.invalid || this.submit"></button>
             <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
         </p-footer>
     </p-dialog>
 </form>
-
+</block-ui>
 
 <button pButton type="button" label="CRIAR" (click)="abrirModal()" ></button>
 
