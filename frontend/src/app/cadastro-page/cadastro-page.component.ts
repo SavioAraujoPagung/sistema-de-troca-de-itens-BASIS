@@ -58,4 +58,6 @@ export class CadastroPageComponent implements OnInit {
     })
   }
 
+  loginUsuario(){ this.router.navigate(['login']); }
+
 }

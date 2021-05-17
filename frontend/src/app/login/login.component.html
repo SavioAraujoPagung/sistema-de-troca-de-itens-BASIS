@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="login()">
+<form [formGroup]="form" (ngSubmit)="login()" class="form-login">
     <div class="ui-fluid">
         <div class="p-field">
             <label for="email">Email</label>
@@ -10,6 +10,6 @@
         </div>
     </div>
 
-    <button pButton type="submit" label="Logar" [disabled]="form.invalid || submit" ></button>
-    <button pButton type="button" label="Cadastrar" (click)="abrirModal()" ></button>
+    <button pButton type="submit" label="Logar" [disabled]="form.invalid || submit"></button>
+    <button pButton type="button" label="Cadastrar" (click)="cadastrarUsuario()"></button>
 </form>

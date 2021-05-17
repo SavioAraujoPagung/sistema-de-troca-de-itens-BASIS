@@ -4,7 +4,7 @@
         <div class="ui-fluid">
             <div class="p-field">
                 <label for="nome">Nome</label>
-                <input id="nome" type="text" pInputText> 
+                <input id="nome" formControlName="nome" type="text" pInputText> 
             </div>
             <div class="p-field">
                 <label for="email">E-mail</label>
@@ -19,6 +19,7 @@
                 <p-calendar formControlName="data"></p-calendar>
             </div>
         </div>
-        <button type="submit" pButton label="Cadastrar" [disabled]="this.form.invalid"></button>
+        <button type="submit" pButton label="Cadastrar" [disabled]="form.invalid"></button>
+        <button pButton type="button" label="Login" (click)="loginUsuario()"></button>
     </form>
 </block-ui>
