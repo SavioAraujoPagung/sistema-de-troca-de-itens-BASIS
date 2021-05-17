@@ -1,8 +1,10 @@
 import { finalize } from 'rxjs/operators';
-import { LoginService } from './../services/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
+import { LoginService } from './../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +13,11 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  @BlockUI() blockUI: NgBlockUI;
+  private _mensagemBlockUi: String = 'Carregando...';
+
   form: FormGroup;
-  submit: Boolean = false;
+  displayModal: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -24,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.form = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       token: [null, [Validators.required]]
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -32,10 +37,10 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    this.submit = true;
+    this.blockUI.start(this._mensagemBlockUi);
     this.loginService.login(this.form.value).pipe(
       finalize(() => {
-        this.submit = false;
+        this.blockUI.stop();
       })
     ).subscribe(
       (data) => {

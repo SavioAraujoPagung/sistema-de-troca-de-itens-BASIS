@@ -1,0 +1,24 @@
+<block-ui>
+    <h3>CADASTRO DE USUÁRIO</h3>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+        <div class="ui-fluid">
+            <div class="p-field">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" pInputText> 
+            </div>
+            <div class="p-field">
+                <label for="email">E-mail</label>
+                <input id="email" type="" formControlName="email" pInputText>
+            </div>
+            <div class="p-field">
+                <label for="cpf">CPF</label>
+                <p-inputMask mask="999.999.999-99" formControlName="cpf" [unmask]="true"></p-inputMask>
+            </div>
+            <div class="p-field">
+                <label for="data">Data de Nascimento</label>
+                <p-calendar formControlName="data"></p-calendar>
+            </div>
+        </div>
+        <button type="submit" pButton label="Cadastrar" [disabled]="this.form.invalid"></button>
+    </form>
+</block-ui>
