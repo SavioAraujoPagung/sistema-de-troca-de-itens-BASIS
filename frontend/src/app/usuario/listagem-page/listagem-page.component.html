@@ -1,0 +1,65 @@
+<h3 class="first">LISTAGEM DE USUÁRIOS</h3>
+
+<block-ui>
+<form [formGroup]="form" (ngSubmit)="salvar()">
+    <p-dialog 
+        [header]="labelHeader()"
+        [(visible)]="displayModal"
+        [modal]="true"
+        [style]="{width: '60vw'}"
+        [baseZIndex]="9999999"
+        [draggable]="false"
+        [resizable]="false"
+        (onHide)="fecharModal()"
+    >
+        <div class="ui-fluid">
+            <div class="p-field">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" formControlName="nome" pInputText> 
+            </div>
+            <div class="p-field">
+                <label for="email">E-mail</label>
+                <input id="email" type="" formControlName="email" pInputText>
+            </div>
+            <div class="p-field">
+                <label for="cpf">CPF</label>
+                <p-inputMask mask="999.999.999-99" formControlName="cpf" [unmask]="true"></p-inputMask>
+            </div>
+            <div class="p-field">
+                <label for="data">Data de Nascimento</label>
+                <p-calendar formControlName="data"></p-calendar>
+            </div>
+        </div>
+        <p-footer>
+            <button type="submit" pButton [label]="labelSubmit()" [disabled]="this.form.invalid || this.submit"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
+        </p-footer>
+    </p-dialog>
+</form>
+</block-ui>
+
+<button pButton type="button" label="CRIAR" (click)="abrirModal()" ></button>
+
+<p-table [value]="usuarios">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID</th>
+            <th>NOME</th>
+            <th>E-MAIL</th>
+            <th>DATA NASCIMENTO</th>
+            <th>AÇÕES</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usuario>
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.data }}</td>
+            <td>
+                <button pButton type="button" label="Editar" class="ui-button-secondary" (click)="editar(usuario.id)"></button>
+                <button pButton type="button" label="Excluir" class="ui-button-danger" (click)="excluir(usuario.id)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
