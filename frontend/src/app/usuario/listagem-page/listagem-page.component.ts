@@ -124,9 +124,11 @@ export class ListagemPageComponent implements OnInit {
   }
 
   excluir(id){
+    this.blockUI.start(this._mensagemBlockUi);
     this.usuarioService.excluir(id).pipe(
       finalize(() => {
         this.buscarTodos();
+        this.blockUI.stop();
       })
     ).subscribe(
       () => { this.notification.addSuccessMessage("Usuario excluído"); },
