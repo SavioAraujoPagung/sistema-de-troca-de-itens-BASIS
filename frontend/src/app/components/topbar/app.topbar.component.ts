@@ -1,3 +1,4 @@
+import { AdminComponent } from './../../admin/admin.component';
 import { Component } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { Authentication, User } from '@nuvem/angular-base';
@@ -8,7 +9,7 @@ import { Authentication, User } from '@nuvem/angular-base';
 })
 export class AppTopbarComponent {
 
-    constructor(public app: AppComponent, private readonly _authentication: Authentication<User>) {
+    constructor(public app: AdminComponent, private readonly _authentication: Authentication<User>) {
     }
 
     get usuario() {

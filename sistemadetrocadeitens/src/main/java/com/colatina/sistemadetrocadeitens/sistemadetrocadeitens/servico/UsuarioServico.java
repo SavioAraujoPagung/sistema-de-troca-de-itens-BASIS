@@ -40,10 +40,10 @@ public class UsuarioServico {
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
         if (usuario.getId() == null){
             usuario.setToken(UUID.randomUUID().toString().replace("-", ""));
+            emailServico.enviarEmailNovoUsuario(usuario);
         } else {
             Usuario usuarioSalvo = findById(usuario.getId());
             usuario.setToken(usuarioSalvo.getToken());
-            emailServico.enviarEmailNovoUsuario(usuario);
         }
         usuarioRepositorio.save(usuario);
         return usuarioMapper.toDto(usuario);

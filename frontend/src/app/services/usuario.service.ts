@@ -1,8 +1,9 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import { UsuarioListagem } from './../shared/models/usuario-listagem.model';
 import { Usuario } from './../shared/models/usuario.model';
 import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
