@@ -36,7 +36,7 @@ export class ListagemPageComponent implements OnInit {
 
   buscarTodos(){
     this.blockUI.start(this._mensagemBlockUi);
-    this.usuarioService.buscarTodos().pipe(
+    this.usuarioService.listar().pipe(
       finalize(()=>{
         this.blockUI.stop();
       })
@@ -53,7 +53,7 @@ export class ListagemPageComponent implements OnInit {
 
   editar(id){
     this.isEditing = true;
-    this.usuarioService.buscarPorId(id).subscribe(
+    this.usuarioService.obterPorId(id).subscribe(
       (usuario) => {
         this.displayModal = true;
         this.form.patchValue({
@@ -72,7 +72,7 @@ export class ListagemPageComponent implements OnInit {
   }
 
   alterarDadosUsuario(){
-    this.usuarioService.atualizar(this.form.value).pipe(
+    this.usuarioService.alterar(this.form.value).pipe(
       finalize(()=>{
         this.submit = false;
         this.fecharModal();
@@ -125,7 +125,7 @@ export class ListagemPageComponent implements OnInit {
 
   excluir(id){
     this.blockUI.start(this._mensagemBlockUi);
-    this.usuarioService.excluir(id).pipe(
+    this.usuarioService.deletar(id).pipe(
       finalize(() => {
         this.buscarTodos();
         this.blockUI.stop();

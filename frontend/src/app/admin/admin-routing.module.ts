@@ -5,7 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', component: AdminComponent, children: [
-    { path: 'usuarios', loadChildren: () => import('../usuario/usuario.module').then(m => m.UsuarioModule) }
+    { path: 'usuarios', loadChildren: () => import('../usuario/usuario.module').then(m => m.UsuarioModule) },
+    { path: 'itens', loadChildren: () => import('../item/item.module').then(m => m.ItemModule) }
   ] }
 ];
 
