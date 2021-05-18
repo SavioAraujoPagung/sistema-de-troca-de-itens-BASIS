@@ -1,41 +1,41 @@
 <h3 class="first">LISTAGEM DE USUÁRIOS</h3>
 
 <block-ui>
-<form [formGroup]="form" (ngSubmit)="salvar()">
-    <p-dialog 
-        [header]="labelHeader()"
-        [(visible)]="displayModal"
-        [modal]="true"
-        [style]="{width: '60vw'}"
-        [baseZIndex]="9999999"
-        [draggable]="false"
-        [resizable]="false"
-        (onHide)="fecharModal()"
-    >
-        <div class="ui-fluid">
-            <div class="p-field">
-                <label for="nome">Nome</label>
-                <input id="nome" type="text" formControlName="nome" pInputText> 
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+        <p-dialog
+            [header]="labelHeader()"
+            [(visible)]="displayModal"
+            [modal]="true"
+            [style]="{width: '60vw'}"
+            [baseZIndex]="9999999"
+            [draggable]="false"
+            [resizable]="false"
+            (onHide)="fecharModal()"
+        >
+            <div class="ui-fluid">
+                <div class="p-field">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" formControlName="nome" pInputText>
+                </div>
+                <div class="p-field">
+                    <label for="email">E-mail</label>
+                    <input id="email" type="email" formControlName="email" pInputText>
+                </div>
+                <div class="p-field">
+                    <label for="cpf">CPF</label>
+                    <p-inputMask mask="999.999.999-99" formControlName="cpf" [unmask]="true"></p-inputMask>
+                </div>
+                <div class="p-field">
+                    <label for="data">Data de Nascimento</label>
+                    <p-calendar formControlName="data" dateFormat="dd/mm/yy"></p-calendar>
+                </div>
             </div>
-            <div class="p-field">
-                <label for="email">E-mail</label>
-                <input id="email" type="" formControlName="email" pInputText>
-            </div>
-            <div class="p-field">
-                <label for="cpf">CPF</label>
-                <p-inputMask mask="999.999.999-99" formControlName="cpf" [unmask]="true"></p-inputMask>
-            </div>
-            <div class="p-field">
-                <label for="data">Data de Nascimento</label>
-                <p-calendar formControlName="data"></p-calendar>
-            </div>
-        </div>
-        <p-footer>
-            <button type="submit" pButton [label]="labelSubmit()" [disabled]="this.form.invalid || this.submit"></button>
-            <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
-        </p-footer>
-    </p-dialog>
-</form>
+            <p-footer>
+                <button type="submit" pButton [label]="labelSubmit()" [disabled]="this.form.invalid || this.submit"></button>
+                <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
+            </p-footer>
+        </p-dialog>
+    </form>
 </block-ui>
 
 <button pButton type="button" label="CRIAR" (click)="abrirModal()" ></button>

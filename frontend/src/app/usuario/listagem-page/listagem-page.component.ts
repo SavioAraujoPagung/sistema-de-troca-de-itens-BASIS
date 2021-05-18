@@ -59,7 +59,7 @@ export class ListagemPageComponent implements OnInit {
         this.form.patchValue({
           ...usuario,
           data: new Date(usuario.data)
-        }); 
+        });
       }
     )
   }
@@ -142,7 +142,7 @@ export class ListagemPageComponent implements OnInit {
 
   blockUiDelayPadrao(){
     this.blockUI.start(this._mensagemBlockUi); // Start blocking
- 
+
     setTimeout(() => {
       this.blockUI.stop(); // Stop blocking
     }, 2000);

@@ -22,4 +22,8 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
     UsuarioDto obterUsuarioPorId(@Param("id") Long id);
 
     List<Usuario> findByCpfOrEmail(String cpf, String email);
+
+    Usuario findByToken(String token);
+
+    Usuario findByEmailAndToken(String email, String token);
 }
