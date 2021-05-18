@@ -7,6 +7,7 @@
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/OfertaListagemDto.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/OfertaServico.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/ItemServico.java
+/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/CategoriaRecurso.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Categoria.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/LoginRecurso.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplication.java
@@ -15,12 +16,13 @@
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioMapper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Oferta.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/OfertaMapper.java
+/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/CategoriaDto.java
+/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/CategoriaServico.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/exception/RegraNegocioException.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/ItemDto.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/EmailServico.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/UsuarioListagemMapper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/UsuarioServico.java
-/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/SituacaoRepositorio.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Situacao.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/OfertaRecurso.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/dominio/Usuario.java
@@ -28,6 +30,7 @@
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/UsuarioListagemDto.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/EntityMapper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/dto/OfertaDto.java
+/home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/servico/mapper/CategoriaMapper.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/ItemRepositorio.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/ItemRecurso.java
 /home/fernando_mf/Documentos/Basis/Projeto/sistemadetrocadeitens/sistemadetrocadeitens/src/main/java/com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/repositorio/UsuarioRepositorio.java

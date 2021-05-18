@@ -1,7 +1,7 @@
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/util/TestUtil.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/ConstrutorEntidade.class
-com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/OfertaBuilder.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/SistemadetrocadeitensApplicationTests.class
+com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/OfertaBuilder.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/OfertaRecursoIT.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/builder/ItemBuilder.class
 com/colatina/sistemadetrocadeitens/sistemadetrocadeitens/recurso/ItemRecursoIT.class
