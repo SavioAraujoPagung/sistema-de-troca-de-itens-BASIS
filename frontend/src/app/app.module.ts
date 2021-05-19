@@ -14,14 +14,12 @@ import { ErrorModule, SecurityModule, VersionTagModule } from '@nuvem/angular-ba
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { LoginComponent } from './login/login.component';
-import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DiarioErrosComponent,
-        LoginComponent,
-        CadastroPageComponent
+        LoginComponent
     ],
     imports: [
         BlockUIModule.forRoot({

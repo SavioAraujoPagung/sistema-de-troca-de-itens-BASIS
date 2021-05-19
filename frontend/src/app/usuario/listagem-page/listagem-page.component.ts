@@ -1,7 +1,8 @@
-import { UsuarioListagem } from './../../shared/models/usuario-listagem.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PageNotificationService } from '@nuvem/primeng-components';
+
+import { UsuarioListagem } from './../../shared/models/usuario-listagem.model';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { finalize } from 'rxjs/operators';
 

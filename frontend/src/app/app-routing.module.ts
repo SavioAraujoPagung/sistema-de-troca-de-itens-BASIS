@@ -1,12 +1,13 @@
-import { AuthGuard } from './guard/auth.guard';
-import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { LoginSuccessComponent } from '@nuvem/angular-base';
+
+import { AuthGuard } from './guard/auth.guard';
+import { LoginComponent } from './login/login.component';
+import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { GuestGuard } from './guard/guest.guard';
-import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
+import { CadastroPageComponent } from './usuario/cadastro-page/cadastro-page.component';
+
 
 const routes: Routes = [
     { path: '', redirectTo: 'admin', pathMatch: 'full' },

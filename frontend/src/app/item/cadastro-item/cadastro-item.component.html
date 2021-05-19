@@ -1,0 +1,35 @@
+
+<block-ui>
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+        <h3>CADASTRAR ITEM</h3>
+        <div class="ui-fluid">
+            <div class="p-field">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" formControlName="nome" pInputText>
+            </div>
+            <div class="p-field">
+                <label for="descricao">Descricao</label>
+                <textarea rows="5" cols="30" pInputTextarea></textarea>
+            </div>
+            <div>
+                <input type="radio" id="male" formControlName="disponibilidade" value="true">
+                <label for="disponibilidade">DISPONÍVEL</label><br>
+                <input type="radio" id="female" formControlName="disponibilidade" value="false">
+                <label for="disponibilidade">INDISPONÍVEL</label><br>
+            </div>
+            <div>
+                <select name="categoria" id="categoria" formControlName="categoria">
+                    <option *ngForm="let categoria of categorias">{{ categoria.descricao }}</option>
+                </select>
+            </div>
+            <div>
+                <label for="imagem">Imagem</label>
+                <input type="file" formControleName="imagem">
+            </div>
+        </div>
+        <p-footer>
+            <button type="submit" pButton [label]="labelSubmit()" [disabled]="this.form.invalid || this.submit"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
+        </p-footer>
+    </form>
+</block-ui>
