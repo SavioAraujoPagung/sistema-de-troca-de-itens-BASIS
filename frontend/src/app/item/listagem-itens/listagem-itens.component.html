@@ -18,34 +18,35 @@
             </div>
         </div>
     </p-header>
-    <ng-template let-item pTemplate="listItem">
+    <ng-template let-item pTemplate="listItem" class="listagem-list">
         <div class="p-col-12">
             <div class="car-details">
                 <div>
-                    <img src="">
-                    <div class="p-grid">
+                    <img src="" class="p-col-3">
+                    <div class="p-grid p-col-7">
                         <div class="p-col-12">NOME: <b>{{ item.nome }}</b></div>
                         <div class="p-col-12">DONO: <b>{{ item.usuarioId }}</b></div>
                         <div class="p-col-12">CATEGORIA: <b>{{ item.categoriaId }}</b></div>
                         <div class="p-col-12">DESCRICAO: <b>{{ item.descricao }}</b></div>
                     </div>
                 </div>
-                <button pButton type="button" icon="pi pi-search" (click)="selectCar($event, item)"></button>
+                <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)"></button>
             </div>
         </div>
+        <hr>
     </ng-template>
-    <ng-template let-car pTemplate="gridItem">
+    <ng-template let-item pTemplate="gridItem" class="listagem-grid">
         <div style="padding:.5em" class="p-col-12 p-md-3">
-            <p-panel [header]="car.vin" [style]="{'text-align':'center'}">
+            <p-panel [header]="item.nome" [style]="{'text-align':'center'}">
                 <img src="" width="60">
-                <div class="car-detail">{{car.year}} - {{car.color}}</div>
-                <button pButton type="button" icon="pi pi-search" (click)="selectCar($event, item)" style="margin-top:0"></button>
+                <div class="car-detail">{{ item.nome }} - {{ item.categoriaId }}</div>
+                <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)" style="margin-top:0"></button>
             </p-panel>
         </div>
     </ng-template>
 </p-dataView>
 
-<p-dialog header="Car Details" [(visible)]="displayDialog" [minY]="70" showEffect="fade" [modal]="true" 
+<p-dialog header="Detalhes do Item" [(visible)]="displayDialog" [minY]="70" showEffect="fade" [modal]="true" 
     [style]="{width: '225px'}" (onAfterHide)="onDialogHide()" [contentStyle]="{padding: '2em', textAlign: 'center'}">
     <div *ngIf="selectedItem">
         <img src="">

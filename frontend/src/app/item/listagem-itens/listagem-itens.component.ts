@@ -85,7 +85,7 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
-  selectCar(event: Event, item: Item) {
+  selectItem(event: Event, item: Item) {
     this.selectedItem = item;
     this.displayDialog = true;
     event.preventDefault();

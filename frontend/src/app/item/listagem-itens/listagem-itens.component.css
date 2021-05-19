@@ -1,0 +1,7 @@
+.car-details[_ngcontent-vif-c2] {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 2em !important;
+    border-bottom: 1px solid #d9dad9 !important;
+  }
