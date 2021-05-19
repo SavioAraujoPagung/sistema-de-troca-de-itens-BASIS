@@ -95,29 +95,8 @@ export class ListagemItensComponent implements OnInit {
     this.selectedItem = null;
   }
 
-  /*
-  selectCar(event: Event, car: Item) {
-      this.selectedItem = car;
-      this.displayDialog = true;
-      event.preventDefault();
-  }
-
-  onSortChange(event) {
-      let value = event.value;
-
-      if (value.indexOf('!') === 0) {
-          this.sortOrder = -1;
-          this.sortField = value.substring(1, value.length);
-      }
-      else {
-          this.sortOrder = 1;
-          this.sortField = value;
-      }
-  }
-
-  onDialogHide() {
-      this.selectedItem = null;
-  }
-  */
+  toImage(img: any): any {
+    return 'data:image/jpeg;base64,' + img;
+}
 
 }
