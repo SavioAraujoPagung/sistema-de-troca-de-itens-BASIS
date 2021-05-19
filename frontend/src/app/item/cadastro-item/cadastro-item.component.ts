@@ -56,7 +56,8 @@ export class CadastroItemComponent implements OnInit {
       categoriaId: [null, [Validators.required]]
     });
   }
+
   salvar(){
-    
+    console.log(this.form.value);
   }
 }

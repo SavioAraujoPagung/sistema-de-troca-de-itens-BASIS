@@ -1,7 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser'
 
 import { CadastroItemComponent } from './cadastro-item/cadastro-item.component';
 import { SharedModule } from './../shared/shared.module';

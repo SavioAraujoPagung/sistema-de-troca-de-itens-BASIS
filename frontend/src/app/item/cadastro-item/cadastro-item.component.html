@@ -12,14 +12,17 @@
                 <textarea rows="5" cols="30" pInputTextarea></textarea>
             </div>
             <div>
-                <input type="radio" id="male" formControlName="disponibilidade" value="true">
-                <label for="disponibilidade">DISPONÍVEL</label><br>
-                <input type="radio" id="female" formControlName="disponibilidade" value="false">
-                <label for="disponibilidade">INDISPONÍVEL</label><br>
+                <input type="radio" id="disponivel" formControlName="disponibilidade" [value]="true">
+                <label for="disponivel">DISPONÍVEL</label><br>
+                <input type="radio" id="indisponivel" formControlName="disponibilidade" [value]="false">
+                <label for="indisponivel">INDISPONÍVEL</label><br>
             </div>
             <div>
-                <select name="categoria" id="categoria" formControlName="categoria">
-                    <option *ngForm="let categoria of categorias">{{ categoria.descricao }}</option>
+                <select name="categoria" id="categoria" formControlName="categoriaId">
+                    <ng-container *ngFor="let categoria of categorias">
+                    <option value="{{ categoria.id }}">{{ categoria.descricao }}</option>
+
+                    </ng-container>
                 </select>
             </div>
             <div>
@@ -28,8 +31,7 @@
             </div>
         </div>
         <p-footer>
-            <button type="submit" pButton [label]="labelSubmit()" [disabled]="this.form.invalid || this.submit"></button>
-            <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="Fechar" class="ui-button-secondary"></button>
+            <button type="submit" pButton>Cadastrar</button>
         </p-footer>
     </form>
 </block-ui>
