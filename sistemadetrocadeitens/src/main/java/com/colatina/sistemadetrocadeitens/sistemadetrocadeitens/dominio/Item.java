@@ -36,7 +36,7 @@ public class Item implements Serializable {
 
 	@Lob
 	@Column(name = "imagem", nullable = false)
-    private Byte[] imagem;
+    private byte[] imagem;
 	
 	@Column(name = "descricao", nullable = false)
     private String descricao;
