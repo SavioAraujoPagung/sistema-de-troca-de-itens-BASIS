@@ -9,29 +9,35 @@
             </div>
             <div class="p-field">
                 <label for="descricao">Descricao</label>
-                <textarea rows="5" cols="30" pInputTextarea></textarea>
+                <textarea rows="3" cols="30" pInputTextarea formControlName="descricao"></textarea>
             </div>
+            <br>
             <div>
+                <h4>Situação do seu item</h4>
                 <input type="radio" id="disponivel" formControlName="disponibilidade" [value]="true">
                 <label for="disponivel">DISPONÍVEL</label><br>
                 <input type="radio" id="indisponivel" formControlName="disponibilidade" [value]="false">
                 <label for="indisponivel">INDISPONÍVEL</label><br>
             </div>
+            <br>
             <div>
+                <h4>Categoria do item</h4>
                 <select name="categoria" id="categoria" formControlName="categoriaId">
                     <ng-container *ngFor="let categoria of categorias">
                     <option value="{{ categoria.id }}">{{ categoria.descricao }}</option>
-
                     </ng-container>
                 </select>
             </div>
+            <br>
             <div>
-                <label for="imagem">Imagem</label>
-                <input type="file" formControleName="imagem">
+                <h4>Insira a imagem do item</h4>
+                <p-fileUpload mode="basic" customUpload="true" name="imagem[]" accept="image/*" maxFileSize="1500000" (onSelect)="uploadImagem($event)"></p-fileUpload>
             </div>
         </div>
-        <p-footer>
-            <button type="submit" pButton>Cadastrar</button>
-        </p-footer>
+        <p>
+            <p-footer>
+                <button type="submit" label="CADASTRAR" pButton></button>
+            </p-footer>
+        </p>
     </form>
 </block-ui>

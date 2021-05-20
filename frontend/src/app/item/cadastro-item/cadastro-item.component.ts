@@ -1,3 +1,4 @@
+import { PageNotificationService } from '@nuvem/primeng-components';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,13 +18,18 @@ import { Categoria } from 'src/app/shared/models/categoria.model';
 export class CadastroItemComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
+  private _mensagemBlockUi: String = 'Carregando...';
+
   private form: FormGroup;
   private categorias: Categoria[] = [];
+  private imagem: any;
+  private usuarioLogado: any;
 
   constructor(
     private itensServices: ItemService,
     private categoriaService: CategoriaService,
     private formBuilder: FormBuilder,
+    private notification: PageNotificationService
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +48,6 @@ export class CadastroItemComponent implements OnInit {
         console.log(this.categorias);
       }
     )
-    
   }
 
   iniciarForm(){
@@ -57,7 +62,37 @@ export class CadastroItemComponent implements OnInit {
     });
   }
 
+  uploadImagem(event){
+    let fileReader = new FileReader();
+    
+    let file = event.currentFiles[0];
+    
+    fileReader.onloadend = () => {
+      this.imagem = fileReader.result;
+
+      let blob = this.imagem.split(",");
+      
+      this.form.patchValue({ imagem: blob[1] });
+    }
+    fileReader.readAsDataURL(file);
+  }
+
   salvar(){
-    console.log(this.form.value);
+    this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
+    this.form.value.usuarioId = this.usuarioLogado.id;
+    this.blockUI.start(this._mensagemBlockUi);
+    this.itensServices.salvar(this.form.value).pipe(
+      finalize(()=>{
+        this.blockUI.stop();
+      })
+    ).subscribe(
+      () => {
+        this.notification.addSuccessMessage("Usuario Cadastrado com sucesso");
+      },
+      ()=>{
+        this.notification.addErrorMessage("Erro ao cadastrar usuario");
+      }
+    );
+    
   }
 }
