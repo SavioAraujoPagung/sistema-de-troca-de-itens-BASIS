@@ -6,7 +6,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { GuestGuard } from './guard/guest.guard';
-import { CadastroPageComponent } from './usuario/cadastro-page/cadastro-page.component';
+import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
 
 
 const routes: Routes = [
