@@ -24,10 +24,10 @@
                 <div>
                     <img [src]="item.imagem" class="center-img">
                     <div class="p-grid">
-                        <div class="p-col-12">NOME: <b>{{ item.nome }}</b></div>
-                        <div class="p-col-12">DONO: <b>{{ item.usuarioId }}</b></div>
-                        <div class="p-col-12">CATEGORIA: <b>{{ item.categoriaId }}</b></div>
-                        <div class="p-col-12">DESCRICAO: <b>{{ item.descricao }}</b></div>
+                        <div class="p-col-12">NOME:&nbsp;<b>{{ item.nome }}</b></div>
+                        <div class="p-col-12">DONO:&nbsp;<b>{{ item.usuarioId }}</b></div>
+                        <div class="p-col-12">CATEGORIA:&nbsp;<b>{{ item.categoriaId }}</b></div>
+                        <div class="p-col-12">DESCRICAO:&nbsp;<b>{{ item.descricao }}</b></div>
                     </div>
                 </div>
                 <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)"></button>

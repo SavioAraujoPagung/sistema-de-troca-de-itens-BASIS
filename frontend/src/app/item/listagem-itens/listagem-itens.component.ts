@@ -28,7 +28,6 @@ export class ListagemItensComponent implements OnInit {
   sortKey: string;
   sortField: string;
   sortOrder: number;
-  imageSource;
 
   constructor(
     private itemService: ItemService,
