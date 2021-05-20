@@ -346,6 +346,19 @@ public class ItemRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void alterarImagemInvalido2() throws Exception{
+        byte[] imagemInvalida = "".getBytes(StandardCharsets.UTF_8);
+
+        Usuario usuario = usuarioBuilder.construir();
+        Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
+        item.setImagem(imagemInvalida);
+        getMockMvc().perform(put("/api/item")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(itemMapper.toDto(item))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void alterarCategoriaInvalido() throws Exception{
         Usuario usuario = usuarioBuilder.construir();
         Item item = itemBuilder.customizar(entidade -> entidade.setUsuario(usuario)).construir();
