@@ -7,7 +7,6 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Item
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.testcontainers.shaded.org.apache.commons.lang.ArrayUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -26,7 +25,7 @@ public class ItemBuilder extends ConstrutorEntidade<Item>{
         item.setNome("Item Teste");
         item.setDisponibilidade(true);
         item.setDescricao("Descrição do Item Teste");
-        item.setImagem(iniciarImagem());
+        item.setImagem("Byte array de imagem para Item teste".getBytes(StandardCharsets.UTF_8));
         item.setCategoria(iniciarCategoria());
         return item;
     }
@@ -41,11 +40,5 @@ public class ItemBuilder extends ConstrutorEntidade<Item>{
         Categoria categoria = new Categoria();
         categoria.setId(1L);
         return categoria;
-    }
-
-    private Byte[] iniciarImagem(){
-        String str = "Byte array de imagem para Item teste";
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        return ArrayUtils.toObject(bytes);
     }
 }

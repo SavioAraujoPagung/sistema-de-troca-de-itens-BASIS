@@ -102,7 +102,6 @@ export class ListagemItensComponent implements OnInit {
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
       let imagem = formatoImagem.concat(element.imagem);
-      console.log(imagem);
       element.imagem = imagem;
     });
     return itens;

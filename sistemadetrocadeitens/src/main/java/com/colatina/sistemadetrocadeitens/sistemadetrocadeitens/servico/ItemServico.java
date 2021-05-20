@@ -47,17 +47,6 @@ public class ItemServico {
         return itemDto;
     }
 
-    public byte[] toBase64(Long id) {
-        ItemDto itemDto = obterPorId(id);
-        byte[] bytes = new byte[itemDto.getImagem().length];
-        int index = 0;
-        for (Byte aByte : itemDto.getImagem()) {
-            bytes[index++] = aByte.byteValue();
-        }
-        //String encoded = Base64.getEncoder().encodeToString(bytes);
-        return bytes;
-    }
-
     public ItemDto salvar(ItemDto itemDto){
         validarCategoria(itemDto);
         usuarioServico.obterPorId(itemDto.getUsuarioId());

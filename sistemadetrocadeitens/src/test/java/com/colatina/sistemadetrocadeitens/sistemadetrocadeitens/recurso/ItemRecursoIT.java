@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.shaded.org.apache.commons.lang.ArrayUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -210,13 +209,11 @@ public class ItemRecursoIT extends IntTestComum {
 
     @Test
     public void salvarImagemInvalido2() throws Exception {
-        String str = "";
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        Byte[] imagem = ArrayUtils.toObject(bytes);
+        byte[] imagemInvalida = "".getBytes(StandardCharsets.UTF_8);
 
         Usuario usuario = usuarioBuilder.construir();
         Item item = itemBuilder.construirEntidade();
-        item.setImagem(imagem);
+        item.setImagem(imagemInvalida);
         item.setUsuario(usuario);
         getMockMvc().perform(post("/api/item")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -276,9 +273,7 @@ public class ItemRecursoIT extends IntTestComum {
 
     @Test
     public void alterar() throws Exception{
-        String str = "Byte array de imagem alterada";
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        Byte[] imagemAlterada = ArrayUtils.toObject(bytes);
+        byte[] imagemAlterada = "Byte array de imagem alterada".getBytes(StandardCharsets.UTF_8);
 
         Categoria categoriaAlterada = new Categoria();
         categoriaAlterada.setId(10L);
