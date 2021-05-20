@@ -74,14 +74,14 @@ export class CadastroItemComponent implements OnInit {
 
       let blob = this.imagem.split(",");
       
-      this.form.patchValue({ imagem: blob[1] });
+      this.form.controls['imagem'].setValue(blob[1]);
     }
     fileReader.readAsDataURL(file);
   }
 
   salvar(){
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
-    this.form.value.usuarioId = this.usuarioLogado.id;
+    this.form.controls['usuarioId'].setValue(this.usuarioLogado.id);
     this.blockUI.start(this._mensagemBlockUi);
     this.itensServices.salvar(this.form.value).pipe(
       finalize(()=>{
@@ -94,7 +94,6 @@ export class CadastroItemComponent implements OnInit {
       },
       (error)=>{
         this.notification.addErrorMessage("Erro ao cadastrar item");
-        console.log(error);
       }
     );
     

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -32,8 +30,6 @@ export class ListagemItensComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private notification: PageNotificationService,
-    private sanitizer: DomSanitizer
     ) { }
 
   ngOnInit() {

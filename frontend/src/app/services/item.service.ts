@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 
-import { Item } from '../shared/models/item.model';
+import { Item } from './../shared/models/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +13,20 @@ export class ItemService {
 
   constructor(private http: HttpClient) { }
 
-  listar(){
+  listar(): Observable<Item[]>{
     return this.http.get<Item[]>(this.api);
   }
 
-  obterPorId(id){
+  obterPorId(id): Observable<Item>{
     return this.http.get<Item>(this.api + id);
   }
 
-  salvar(item){
-    return this.http.post(this.api, item);
+  salvar(item): Observable<Item>{
+    return this.http.post<Item>(this.api, item);
   }
 
-  alterar(item){
-    return this.http.put(this.api, item);
+  alterar(item): Observable<Item>{
+    return this.http.put<Item>(this.api, item);
   }
 
   deletar(id){
