@@ -7,6 +7,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { CategoriaService } from './../../services/categoria.service';
 import { ItemService } from './../../services/item.service';
 import { Categoria } from 'src/app/shared/models/categoria.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class CadastroItemComponent implements OnInit {
     private itensServices: ItemService,
     private categoriaService: CategoriaService,
     private formBuilder: FormBuilder,
-    private notification: PageNotificationService
+    private notification: PageNotificationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -72,14 +74,14 @@ export class CadastroItemComponent implements OnInit {
 
       let blob = this.imagem.split(",");
       
-      this.form.patchValue({ imagem: blob[1] });
+      this.form.controls['imagem'].setValue(blob[1]);
     }
     fileReader.readAsDataURL(file);
   }
 
   salvar(){
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
-    this.form.value.usuarioId = this.usuarioLogado.id;
+    this.form.controls['usuarioId'].setValue(this.usuarioLogado.id);
     this.blockUI.start(this._mensagemBlockUi);
     this.itensServices.salvar(this.form.value).pipe(
       finalize(()=>{
@@ -87,10 +89,11 @@ export class CadastroItemComponent implements OnInit {
       })
     ).subscribe(
       () => {
-        this.notification.addSuccessMessage("Usuario Cadastrado com sucesso");
+        this.notification.addSuccessMessage("Item cadastrado com sucesso");
+        this.router.navigate(['..']);
       },
-      ()=>{
-        this.notification.addErrorMessage("Erro ao cadastrar usuario");
+      (error)=>{
+        this.notification.addErrorMessage("Erro ao cadastrar item");
       }
     );
     

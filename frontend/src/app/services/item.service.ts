@@ -1,35 +1,35 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-import { Item } from './../shared/models/item.model';
 import { environment } from './../../environments/environment';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Item } from './../shared/models/item.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
-  private api = `${environment.apiUrl}/item`
+  private api = `${environment.apiUrl}/item/`
 
   constructor(private http: HttpClient) { }
 
-  listar(){
-
+  listar(): Observable<Item[]>{
+    return this.http.get<Item[]>(this.api);
   }
-  
-  obterPorId(id){
+
+  obterPorId(id): Observable<Item>{
     return this.http.get<Item>(this.api + id);
   }
 
-  salvar(item){
-    return this.http.post(this.api, item);
+  salvar(item): Observable<Item>{
+    return this.http.post<Item>(this.api, item);
   }
 
-  alterar(){
-
+  alterar(item): Observable<Item>{
+    return this.http.put<Item>(this.api, item);
   }
 
-  deletar(){
-
+  deletar(id){
+    return this.http.delete(this.api + id);
   }
 
 }

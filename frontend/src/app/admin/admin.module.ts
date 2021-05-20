@@ -25,7 +25,7 @@ import { VersionTagModule } from '@nuvem/angular-base';
     SharedModule,
     BreadcrumbModule,
     MenuModule,
-    VersionTagModule
+    VersionTagModule,
   ]
 })
 export class AdminModule { }

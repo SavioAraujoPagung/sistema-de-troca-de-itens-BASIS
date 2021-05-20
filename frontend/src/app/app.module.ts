@@ -1,3 +1,4 @@
+import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,6 +21,10 @@ import { LoginComponent } from './login/login.component';
         AppComponent,
         DiarioErrosComponent,
         LoginComponent,
+<<<<<<< HEAD
+=======
+        CadastroPageComponent
+>>>>>>> 222657a878833ac63b3c83aa1ca204a4e70df054
     ],
     imports: [
         BlockUIModule.forRoot({

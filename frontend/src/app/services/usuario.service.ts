@@ -13,24 +13,24 @@ export class UsuarioService {
   private api = `${environment.apiUrl}/usuario/`;
 
   constructor(private http: HttpClient) { }
-
-  buscarPorId(id){
-    return this.http.get<Usuario>(this.api + id);
-  }
-
-  buscarTodos(){
+  
+  listar(){
     return this.http.get<UsuarioListagem[]>(this.api);
+  }
+  
+  obterPorId(id){
+    return this.http.get<Usuario>(this.api + id);
   }
 
   salvar(usuario){
     return this.http.post(this.api, usuario);
   }
 
-  atualizar(usuario){
+  alterar(usuario){
     return this.http.put(this.api, usuario);
   }
 
-  excluir(id){
+  deletar(id){
     return this.http.delete(this.api + id);
   }
 
