@@ -7,7 +7,6 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.Item
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.testcontainers.shaded.org.apache.commons.lang.ArrayUtils;
 
 import java.nio.charset.StandardCharsets;
 
