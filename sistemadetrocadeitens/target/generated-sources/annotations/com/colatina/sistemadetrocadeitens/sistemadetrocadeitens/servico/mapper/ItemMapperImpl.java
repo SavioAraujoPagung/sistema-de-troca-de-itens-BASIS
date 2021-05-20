@@ -58,7 +58,7 @@ public class ItemMapperImpl implements ItemMapper {
         item.setUsuario( itemDtoToUsuario( dto ) );
         item.setId( dto.getId() );
         item.setNome( dto.getNome() );
-        Byte[] imagem = dto.getImagem();
+        byte[] imagem = dto.getImagem();
         if ( imagem != null ) {
             item.setImagem( Arrays.copyOf( imagem, imagem.length ) );
         }
@@ -80,7 +80,7 @@ public class ItemMapperImpl implements ItemMapper {
         itemDto.setUsuarioId( entityUsuarioId( entity ) );
         itemDto.setId( entity.getId() );
         itemDto.setNome( entity.getNome() );
-        Byte[] imagem = entity.getImagem();
+        byte[] imagem = entity.getImagem();
         if ( imagem != null ) {
             itemDto.setImagem( Arrays.copyOf( imagem, imagem.length ) );
         }
