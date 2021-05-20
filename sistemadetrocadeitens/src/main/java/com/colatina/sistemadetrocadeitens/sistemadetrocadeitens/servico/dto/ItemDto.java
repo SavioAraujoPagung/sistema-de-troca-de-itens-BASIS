@@ -24,7 +24,7 @@ public class ItemDto{
     @NotNull( message = "Imagem invalida" )
     @NotEmpty( message = "Imagem invalida" )
     @Lob
-    private Byte[] imagem;
+    private byte[] imagem;
 
     @NotNull( message = "Descricao invalida" )
     @NotEmpty( message = "Descricao invalida" )
