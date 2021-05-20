@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
 import { finalize } from 'rxjs/operators';
-import {DataViewModule} from 'primeng/dataview';
 
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/shared/models/item.model';
@@ -28,11 +28,13 @@ export class ListagemItensComponent implements OnInit {
   sortKey: string;
   sortField: string;
   sortOrder: number;
+  imageSource;
 
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private notification: PageNotificationService
+    private notification: PageNotificationService,
+    private sanitizer: DomSanitizer
     ) { }
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class ListagemItensComponent implements OnInit {
     ).subscribe(
       (itens) => {
         this.itens = itens;
+        this.itens = this.montarImagem(this.itens);
       }
     )
   }
@@ -95,8 +98,13 @@ export class ListagemItensComponent implements OnInit {
     this.selectedItem = null;
   }
 
-  toImage(img: any): any {
-    return 'data:image/jpeg;base64,' + img;
-}
-
+  montarImagem(itens: Item[]){
+    itens.forEach(element => {
+      let formatoImagem = "data:image/jpg;base64,";
+      let imagem = formatoImagem.concat(element.imagem);
+      console.log(imagem);
+      element.imagem = imagem;
+    });
+    return itens;
+  }
 }

@@ -39,8 +39,4 @@ public class ItemDto{
     @NotNull( message = "ID da categoria invalido")
     private Long usuarioId;
 
-    public ItemDto (Long id){
-        setId(id);
-    }
-
 }

@@ -12,8 +12,11 @@ import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.I
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.mapper.OfertaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -42,6 +45,17 @@ public class ItemServico {
             throw(new RegraNegocioException("Item nao encontrado"));
         }
         return itemDto;
+    }
+
+    public byte[] toBase64(Long id) {
+        ItemDto itemDto = obterPorId(id);
+        byte[] bytes = new byte[itemDto.getImagem().length];
+        int index = 0;
+        for (Byte aByte : itemDto.getImagem()) {
+            bytes[index++] = aByte.byteValue();
+        }
+        //String encoded = Base64.getEncoder().encodeToString(bytes);
+        return bytes;
     }
 
     public ItemDto salvar(ItemDto itemDto){

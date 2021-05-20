@@ -20,6 +20,10 @@ export class ItemService {
     return this.http.get<Item>(this.api + id);
   }
 
+  obterImagem(id){
+    return this.http.get<string>(this.api + 'imagem/' + id);
+  }
+
   salvar(item){
     return this.http.post(this.api, item);
   }

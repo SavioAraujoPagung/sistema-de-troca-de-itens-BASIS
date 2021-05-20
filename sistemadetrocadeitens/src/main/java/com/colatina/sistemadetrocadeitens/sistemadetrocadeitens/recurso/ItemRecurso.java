@@ -36,6 +36,12 @@ public class ItemRecurso {
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
+    @GetMapping("/imagem/{id}")
+    public ResponseEntity<byte[]> obterImagem(@PathVariable("id") Long id){
+        byte[] imagem = itemServico.toBase64(id);
+        return new ResponseEntity<>(imagem, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<ItemDto> salvar(@Valid @RequestBody ItemDto dto){
         ItemDto itemDto = itemServico.salvar(dto);
