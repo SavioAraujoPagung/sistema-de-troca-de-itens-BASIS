@@ -7,6 +7,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { CategoriaService } from './../../services/categoria.service';
 import { ItemService } from './../../services/item.service';
 import { Categoria } from 'src/app/shared/models/categoria.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class CadastroItemComponent implements OnInit {
     private itensServices: ItemService,
     private categoriaService: CategoriaService,
     private formBuilder: FormBuilder,
-    private notification: PageNotificationService
+    private notification: PageNotificationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -87,10 +89,12 @@ export class CadastroItemComponent implements OnInit {
       })
     ).subscribe(
       () => {
-        this.notification.addSuccessMessage("Usuario Cadastrado com sucesso");
+        this.notification.addSuccessMessage("Item cadastrado com sucesso");
+        this.router.navigate(['..']);
       },
-      ()=>{
-        this.notification.addErrorMessage("Erro ao cadastrar usuario");
+      (error)=>{
+        this.notification.addErrorMessage("Erro ao cadastrar item");
+        console.log(error);
       }
     );
     

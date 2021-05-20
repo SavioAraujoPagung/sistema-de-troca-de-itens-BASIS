@@ -28,7 +28,7 @@ export class ListagemPageComponent implements OnInit {
     private usuarioService: UsuarioService,
     private fb: FormBuilder,
     private notification: PageNotificationService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.iniciarForm();

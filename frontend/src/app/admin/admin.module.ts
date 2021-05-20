@@ -9,7 +9,6 @@ import { BreadcrumbModule, MenuModule } from '@nuvem/primeng-components';
 import { SharedModule } from './../shared/shared.module';
 import { BlockUIModule } from 'ng-block-ui';
 import { VersionTagModule } from '@nuvem/angular-base';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     BreadcrumbModule,
     MenuModule,
     VersionTagModule,
-    ReactiveFormsModule
   ]
 })
 export class AdminModule { }
