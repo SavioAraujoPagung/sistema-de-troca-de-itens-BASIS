@@ -2,3 +2,7 @@
 <a routerLink="cadastro">
     <button pButton type="button" label="CADASTRAR ITEM"></button>
 </a>
+
+    <button pButton type="button" label="ALTERAR ITEM" (click)="alterar()"></button>
+
+<app-alterar-itens [displayBasic]="displayBasic" (displayBasicClose)="fechar($event)"></app-alterar-itens>

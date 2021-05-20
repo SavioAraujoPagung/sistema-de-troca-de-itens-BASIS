@@ -7,11 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListagemItensComponent implements OnInit {
 
-  constructor(
-  ) { }
+  private displayBasic: boolean = false;
+  
+  constructor() { }
 
   ngOnInit(): void {
- 
+
   }
 
+  alterar(){
+    this.displayBasic = true;
+  }
+
+  fechar(displayBasicClose: boolean){
+    this.displayBasic = displayBasicClose;    
+  }
 }

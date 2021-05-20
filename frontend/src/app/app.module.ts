@@ -19,7 +19,7 @@ import { LoginComponent } from './login/login.component';
     declarations: [
         AppComponent,
         DiarioErrosComponent,
-        LoginComponent
+        LoginComponent,
     ],
     imports: [
         BlockUIModule.forRoot({
