@@ -21,6 +21,9 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
             "WHERE u.id = :id")
     UsuarioDto obterUsuarioPorId(@Param("id") Long id);
 
+    @Query("SELECT u.token FROM Usuario u WHERE u.id = :id")
+    String obterToken(@Param("id") Long id);
+
     List<Usuario> findByCpfOrEmail(String cpf, String email);
 
     Usuario findByToken(String token);
