@@ -1,3 +1,4 @@
+import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,7 +15,6 @@ import { ErrorModule, SecurityModule, VersionTagModule } from '@nuvem/angular-ba
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { LoginComponent } from './login/login.component';
-import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
 
 @NgModule({
     declarations: [
