@@ -35,12 +35,12 @@ export class CadastroItemComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.blockUI.start(this._mensagemBlockUi);
     this.iniciarForm();
     this.buscarCategorias();
   }
 
   buscarCategorias(){
+    this.blockUI.start(this._mensagemBlockUi);
     this.categoriaService.buscarTodos().pipe(
       finalize(()=>{
         this.blockUI.stop();

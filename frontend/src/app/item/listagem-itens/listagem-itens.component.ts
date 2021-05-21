@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { CriarOfertaComponent } from './../../oferta/criar-oferta/criar-oferta.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -20,6 +22,7 @@ export class ListagemItensComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('dialogOferta') dialogOferta: CriarOfertaComponent;
 
   itens: Item[];
   form: FormGroup;
@@ -38,7 +41,8 @@ export class ListagemItensComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private ofertaService: OfertaService
+    private ofertaService: OfertaService,
+    private notification: PageNotificationService
     ) { }
 
   ngOnInit() {
@@ -117,9 +121,11 @@ export class ListagemItensComponent implements OnInit {
   }
 
   iniciarListas(){
+    this.blockUI.start(this._mensagemBlockUi);
     this.itemService.listar().pipe(
       finalize(() => {
         this.displayOferta = true;
+        this.blockUI.stop();
       })
     ).subscribe(
       (itens) => {
@@ -138,7 +144,7 @@ export class ListagemItensComponent implements OnInit {
   salvarOferta(){
     this.blockUI.start(this._mensagemBlockUi);
     let itensOfertadosId: number[] = [];
-    this.itemTarget.forEach(element => {
+    this.itemTarget.map(element => {
       itensOfertadosId.push(element.id);
     });
     this.novaOferta.itensOfertados = itensOfertadosId;
@@ -147,6 +153,13 @@ export class ListagemItensComponent implements OnInit {
         this.displayOferta = false;
         this.blockUI.stop();
       })
-    ).subscribe();
+    ).subscribe(
+      () => {
+        this.notification.addSuccessMessage("Oferta realizada com sucesso");
+      },
+      ()=>{
+        this.notification.addErrorMessage("Erro realizar oferta");
+      }
+    );
   }
 }

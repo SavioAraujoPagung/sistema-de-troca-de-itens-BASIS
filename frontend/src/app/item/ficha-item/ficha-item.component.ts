@@ -1,6 +1,10 @@
+import { finalize } from 'rxjs/operators';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 import { Item } from './../../shared/models/item.model';
 import { ItemService } from 'src/app/services/item.service';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ficha-item',
@@ -8,6 +12,9 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
   styleUrls: ['./ficha-item.component.css']
 })
 export class FichaItemComponent implements OnInit, OnChanges {
+
+  @BlockUI() blockUI: NgBlockUI;
+  private _mensagemBlockUi: String = 'Carregando...';
 
   @Input("id") itemId;
 
@@ -28,7 +35,12 @@ export class FichaItemComponent implements OnInit, OnChanges {
   }
 
   iniciarItem(){
-    this.itemService.obterPorId(this.itemId).subscribe(
+    this.blockUI.start(this._mensagemBlockUi);
+    this.itemService.obterPorId(this.itemId).pipe(
+      finalize(() => {
+        this.blockUI.stop();
+      })
+    ).subscribe(
       (data) => {
         this.item = data;
         this.item = this.montarImagem(this.item);

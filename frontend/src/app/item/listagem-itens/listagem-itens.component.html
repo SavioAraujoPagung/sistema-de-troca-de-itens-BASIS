@@ -45,7 +45,8 @@
             <p-panel [header]="item.nome" [style]="{'text-align':'center'}">
                 <img [src]="item.imagem" class="center-img">
                 <div class="car-detail">{{ item.nome }} - {{ item.categoriaId }}</div>
-                
+                <hr>
+                <button pButton type="button" label="Fazer Oferta" class="ui-button-warning" (click)="showOfertaDialog(item.id)" ></button>
             </p-panel>
         </div>
     </ng-template>
