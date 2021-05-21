@@ -1,7 +1,7 @@
-import { CategoriaService } from './../../services/categoria.service';
-import { Categoria } from './../../shared/models/categoria.model';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { CriarOfertaComponent } from '../criar-oferta/criar-oferta.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -9,7 +9,9 @@ import { finalize } from 'rxjs/operators';
 
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/shared/models/item.model';
-import { AlterarItensComponent } from 'src/app/inventario/alterar-itens/alterar-itens.component';
+import { Usuario } from './../../shared/models/usuario.model';
+import { OfertaService } from './../../services/oferta.service';
+import { Oferta } from './../../shared/models/oferta.model';
 
 @Component({
   selector: 'app-listagem-itens',
@@ -19,34 +21,33 @@ import { AlterarItensComponent } from 'src/app/inventario/alterar-itens/alterar-
 export class ListagemItensComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
-  @ViewChild("dialogItem") dialogItem: AlterarItensComponent;
   private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('dialogOferta') dialogOferta: CriarOfertaComponent;
 
-  categoria: Categoria;
-  categorias: Categoria[] = [];
   itens: Item[];
   form: FormGroup;
-  selectedItem: Item;
-  itemSelecionado: Item;
-  displayDialog: boolean;
+
   sortOptions: SelectItem[];
   sortKey: string;
   sortField: string;
   sortOrder: number;
 
+  displayOferta: boolean = false;
+  itemSource: Item[];
+  itemTarget: Item[];
+  novaOferta: Oferta = new Oferta;
+  usuarioLogado: Usuario;
 
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private categoriaService: CategoriaService
+    private ofertaService: OfertaService,
+    private notification: PageNotificationService
     ) { }
 
   ngOnInit() {
       this.iniciarForm();
       this.buscarTodos();
-      this.buscarCategorias();
-      console.log("categorias" );
-      console.log(this.categorias);
 
       this.sortOptions = [
           {label: 'Nome A->Z', value: 'nome'},
@@ -65,20 +66,7 @@ export class ListagemItensComponent implements OnInit {
     ).subscribe(
       (itens) => {
         this.itens = itens;
-        this.itens = this.montarImagem(this.itens);
-      }
-    )
-  }
-
-  buscarCategorias(){
-    this.categoriaService.buscarTodos().pipe(
-      finalize(()=>{
-        this.blockUI.stop();
-      })
-    ).subscribe(
-      (categorias) => {
-        this.categorias = categorias;
-        console.log(categorias+ "buscar categirua");
+        this.itens = this.montarImagens(this.itens);
       }
     )
   }
@@ -108,33 +96,7 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
-
-  selectItem(event: Event, item: Item) {
-    this.categorias.forEach(cat =>{
-
-      if(cat.id == item.categoriaId){
-        //this.categoria.descricao = cat.descricao;
-      }
-    })
-    console.log("NOME DA CATEGORIAAAAAAA: " + this.categorias);
-    this.selectedItem = item;
-    this.displayDialog = true;
-    event.preventDefault();
-  }
-   alterarItem(event: Event, item: Item) {
-     this.itemSelecionado = item;
-     console.log(this.itemSelecionado);
-      this.dialogItem.abrir(this.itemSelecionado);
-
-     event.preventDefault();
-   }
-
-  onDialogHide() {
-    this.selectedItem = null;
-  }
-
-  
-  montarImagem(itens: Item[]){
+  montarImagens(itens: Item[]){
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
       let imagem = formatoImagem.concat(element.imagem);
@@ -143,8 +105,8 @@ export class ListagemItensComponent implements OnInit {
     return itens;
   }
 
-  alterar(){
-    console.log(this.selectedItem);
-    this.dialogItem.abrir(this.selectedItem);
+  ofertar(itemDesejadoId){
+    this.dialogOferta.showOfertaDialog(itemDesejadoId);
   }
+
 }
