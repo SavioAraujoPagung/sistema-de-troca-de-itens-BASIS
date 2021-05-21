@@ -1,0 +1,79 @@
+<h3>CATALOGO</h3>
+<p-dataView #dv [value]="itens" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="nome"
+    [sortField]="sortField" [sortOrder]="sortOrder">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-4">
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [style]="{'min-width':'140px'}"></p-dropdown>
+                </div>
+                <div class="p-col-6 p-md-4 filter-container">
+                    <div style="position:relative">
+                        <input type="search" pInputText placeholder="Buscar por nome" (input)="dv.filter($event.target.value)">
+                    </div>
+                </div>
+                <div class="p-col-6 p-md-4" style="text-align:right">
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+            </div>
+        </div>
+    </p-header>
+    <ng-template let-item pTemplate="listItem" class="listagem-list">
+        <div class="p-col-12">
+            <div class="car-details">
+                <div>
+                    <img [src]="item.imagem" class="center-img">
+                    <div class="p-grid">
+                        <div class="p-col-12">NOME:&nbsp;<strong>{{ item.nome }}</strong></div>
+                        <div class="p-col-12">DONO:&nbsp;<strong>{{ item.usuarioId }}</strong></div>
+                        <div class="p-col-12">CATEGORIA:&nbsp;<strong>{{ item.categoriaId }}</strong></div>
+                        <div class="p-col-12" *ngIf="item.disponibilidade" >DISPONIBILIDADE:&nbsp;<strong>Disponível para trocas</strong></div>
+                        <div class="p-col-12" *ngIf="!item.disponibilidade" >DISPONIBILIDADE:&nbsp;<strong>Indisponível para troca</strong></div>
+                        <div class="p-col-12">DESCRICAO:&nbsp;<strong>{{ item.descricao }}</strong></div>
+                    </div>
+                </div>
+                <button pButton type="button" label="Fazer Oferta" class="ui-button-warning" (click)="showOfertaDialog(item.id)" ></button>
+            </div>
+        </div>
+        <hr>
+    </ng-template>
+    <ng-template let-item pTemplate="gridItem" class="listagem-grid">
+        <div style="padding:.5em" class="p-col-12 p-md-3">
+            <p-panel [header]="item.nome" [style]="{'text-align':'center'}">
+                <img [src]="item.imagem" class="center-img">
+                <div class="car-detail">{{ item.nome }} - {{ item.categoriaId }}</div>
+                
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataView>
+
+
+<p-dialog header="Realizar nova oferta" [(visible)]="displayOferta" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    
+    <app-ficha-item [id]="novaOferta.itemId"></app-ficha-item>
+
+    <p-pickList [source]="itemSource" [target]="itemTarget" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true"
+    filterBy="nome" dragdrop="true" sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome"
+    [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+
+        <ng-template let-item pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <img [src]="item.imagem" width="50">
+                <div class="item-detalhe">
+                    {{ item.nome }} - {{ item.categoriaId }}
+                    <hr>
+                    {{ item.descricao }}
+                </div>
+            </div>
+        </ng-template>
+        
+    </p-pickList>
+
+    <p-footer>
+        <button pButton type="button" icon="pi pi-check" label="Ofertar" class="ui-button-raised ui-button-success"
+        [disabled]="itemTarget == 0" (click)="salvarOferta()" ></button>
+        <button type="button" pButton icon="pi pi-times" (click)="displayOferta=false" label="Cancelar" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

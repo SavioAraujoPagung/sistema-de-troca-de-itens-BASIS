@@ -17,6 +17,14 @@ export class ItemService {
     return this.http.get<Item[]>(this.api);
   }
 
+  listarDisponivel(): Observable<Item[]>{
+    return this.http.get<Item[]>(this.api + "disponivel/");
+  }
+
+  listarDisponivelExcetoUsuario(id): Observable<Item[]>{
+    return this.http.get<Item[]>(this.api + "disponivel/" + id);
+  }
+
   obterPorId(id): Observable<Item>{
     return this.http.get<Item>(this.api + id);
   }

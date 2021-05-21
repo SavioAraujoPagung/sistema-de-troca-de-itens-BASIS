@@ -1,27 +1,25 @@
-import { OfertaService } from './../../services/oferta.service';
-import { Oferta } from './../../shared/models/oferta.model';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { finalize } from 'rxjs/operators';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
-import { finalize } from 'rxjs/operators';
 
-import { ItemService } from 'src/app/services/item.service';
-import { Item } from 'src/app/shared/models/item.model';
+import { OfertaService } from './../../services/oferta.service';
+import { ItemService } from './../../services/item.service';
+import { Oferta } from './../../shared/models/oferta.model';
+import { Usuario } from './../../shared/models/usuario.model';
+import { Item } from './../../shared/models/item.model';
 
 @Component({
-  selector: 'app-listagem-itens',
-  templateUrl: './listagem-itens.component.html',
-  styleUrls: ['./listagem-itens.component.css']
+  selector: 'app-listagem-catalogo',
+  templateUrl: './listagem-catalogo.component.html',
+  styleUrls: ['./listagem-catalogo.component.css']
 })
-export class ListagemItensComponent implements OnInit {
-
+export class ListagemCatalogoComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
 
   itens: Item[];
-  form: FormGroup;
 
   sortOptions: SelectItem[];
   sortKey: string;
@@ -32,16 +30,14 @@ export class ListagemItensComponent implements OnInit {
   itemSource: Item[];
   itemTarget: Item[];
   novaOferta: Oferta = new Oferta;
-  usuarioLogado: any;
+  usuarioLogado: Usuario;
 
   constructor(
     private itemService: ItemService,
-    private fb: FormBuilder,
     private ofertaService: OfertaService
     ) { }
 
   ngOnInit() {
-      this.iniciarForm();
       this.buscarTodos();
 
       this.sortOptions = [
@@ -53,8 +49,9 @@ export class ListagemItensComponent implements OnInit {
   }
 
   buscarTodos(){
+    this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.blockUI.start(this._mensagemBlockUi);
-    this.itemService.listar().pipe(
+    this.itemService.listarDisponivelExcetoUsuario(this.usuarioLogado.id).pipe(
       finalize(()=>{
         this.blockUI.stop();
       })
@@ -64,18 +61,6 @@ export class ListagemItensComponent implements OnInit {
         this.itens = this.montarImagens(this.itens);
       }
     )
-  }
-
-  iniciarForm(){
-    this.form = this.fb.group({
-      id: [null],
-      nome: [null, [Validators.required]],
-	    imagem: [null, [Validators.required]],
-	    descricao: [null, [Validators.required]],
-	    disponibilidade: [null, [Validators.required]],
-	    usuarioId: [null, [Validators.required]],
-	    categoriaId: [null, [Validators.required]]
-    })
   }
 
   onSortChange(event) {
@@ -110,7 +95,6 @@ export class ListagemItensComponent implements OnInit {
   }
 
   iniciarOferta(itemDesejadoId){
-    this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.novaOferta.itemId = itemDesejadoId;
     this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
   }
