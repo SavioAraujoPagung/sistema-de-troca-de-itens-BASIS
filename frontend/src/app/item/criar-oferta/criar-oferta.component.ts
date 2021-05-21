@@ -1,13 +1,14 @@
+import { Component, OnInit } from '@angular/core';
+import { PageNotificationService } from '@nuvem/primeng-components';
+
 import { finalize } from 'rxjs/operators';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { Oferta } from './../../shared/models/oferta.model';
-import { Usuario } from './../../shared/models/usuario.model';
-import { Item } from './../../shared/models/item.model';
-import { PageNotificationService } from '@nuvem/primeng-components';
-import { OfertaService } from './../../services/oferta.service';
-import { FormBuilder } from '@angular/forms';
+
+import { OfertaService } from '../../services/oferta.service';
 import { ItemService } from 'src/app/services/item.service';
-import { Component, OnInit } from '@angular/core';
+import { Oferta } from '../../shared/models/oferta.model';
+import { Usuario } from '../../shared/models/usuario.model';
+import { Item } from '../../shared/models/item.model';
 
 @Component({
   selector: 'app-criar-oferta',
@@ -27,7 +28,6 @@ export class CriarOfertaComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    private fb: FormBuilder,
     private ofertaService: OfertaService,
     private notification: PageNotificationService
     

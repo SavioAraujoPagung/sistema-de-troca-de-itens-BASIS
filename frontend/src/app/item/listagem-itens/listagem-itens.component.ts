@@ -1,4 +1,4 @@
-import { CriarOfertaComponent } from './../../oferta/criar-oferta/criar-oferta.component';
+import { CriarOfertaComponent } from '../criar-oferta/criar-oferta.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PageNotificationService } from '@nuvem/primeng-components';
@@ -105,61 +105,8 @@ export class ListagemItensComponent implements OnInit {
     return itens;
   }
 
-  montarImagem(itens: Item[]){
-    itens.forEach(element => {
-      let formatoImagem = "data:image/jpg;base64,";
-      let imagem = formatoImagem.concat(element.imagem);
-      element.imagem = imagem;
-    });
-    return itens;
+  ofertar(itemDesejadoId){
+    this.dialogOferta.showOfertaDialog(itemDesejadoId);
   }
-
-  iniciarOferta(itemDesejadoId){
-    this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
-    this.novaOferta.itemId = itemDesejadoId;
-    this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
-  }
-
-  iniciarListas(){
-    this.blockUI.start(this._mensagemBlockUi);
-    this.itemService.listar().pipe(
-      finalize(() => {
-        this.displayOferta = true;
-        this.blockUI.stop();
-      })
-    ).subscribe(
-      (itens) => {
-        this.itemSource = itens;
-        this.itemSource = this.montarImagem(this.itemSource);
-        this.itemTarget = [];
-      }
-    );
-  }
-
-  showOfertaDialog(id) {
-    this.iniciarOferta(id);
-    this.iniciarListas();
-  }
-
-  salvarOferta(){
-    this.blockUI.start(this._mensagemBlockUi);
-    let itensOfertadosId: number[] = [];
-    this.itemTarget.map(element => {
-      itensOfertadosId.push(element.id);
-    });
-    this.novaOferta.itensOfertados = itensOfertadosId;
-    this.ofertaService.salvar(this.novaOferta).pipe(
-      finalize(() => {
-        this.displayOferta = false;
-        this.blockUI.stop();
-      })
-    ).subscribe(
-      () => {
-        this.notification.addSuccessMessage("Oferta realizada com sucesso");
-      },
-      ()=>{
-        this.notification.addErrorMessage("Erro realizar oferta");
-      }
-    );
-  }
+  
 }
