@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { CriarOfertaComponent } from '../criar-oferta/criar-oferta.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -20,6 +22,7 @@ export class ListagemItensComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('dialogOferta') dialogOferta: CriarOfertaComponent;
 
   itens: Item[];
   form: FormGroup;
@@ -38,7 +41,8 @@ export class ListagemItensComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private ofertaService: OfertaService
+    private ofertaService: OfertaService,
+    private notification: PageNotificationService
     ) { }
 
   ngOnInit() {
@@ -101,52 +105,8 @@ export class ListagemItensComponent implements OnInit {
     return itens;
   }
 
-  montarImagem(itens: Item[]){
-    itens.forEach(element => {
-      let formatoImagem = "data:image/jpg;base64,";
-      let imagem = formatoImagem.concat(element.imagem);
-      element.imagem = imagem;
-    });
-    return itens;
+  ofertar(itemDesejadoId){
+    this.dialogOferta.showOfertaDialog(itemDesejadoId);
   }
 
-  iniciarOferta(itemDesejadoId){
-    this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
-    this.novaOferta.itemId = itemDesejadoId;
-    this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
-  }
-
-  iniciarListasItensOfertados(){
-    this.itemService.listar().pipe(
-      finalize(() => {
-        this.displayOferta = true;
-      })
-    ).subscribe(
-      (itens) => {
-        this.itemSource = itens;
-        this.itemSource = this.montarImagem(this.itemSource);
-        this.itemTarget = [];
-      }
-    );
-  }
-
-  showOfertaDialog(id) {
-    this.iniciarOferta(id);
-    this.iniciarListasItensOfertados();
-  }
-
-  salvarOferta(){
-    this.blockUI.start(this._mensagemBlockUi);
-    let itensOfertadosId: number[] = [];
-    this.itemTarget.forEach(element => {
-      itensOfertadosId.push(element.id);
-    });
-    this.novaOferta.itensOfertados = itensOfertadosId;
-    this.ofertaService.salvar(this.novaOferta).pipe(
-      finalize(() => {
-        this.displayOferta = false;
-        this.blockUI.stop();
-      })
-    ).subscribe();
-  }
 }

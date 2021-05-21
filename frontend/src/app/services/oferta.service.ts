@@ -1,10 +1,11 @@
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OfertaListagem } from '../shared/models/oferta-listagem';
-import { Oferta } from '../shared/models/oferta.model';
+
+import { Observable } from 'rxjs';
 
 import { environment } from './../../environments/environment.prod';
+import { OfertaListagem } from '../shared/models/oferta-listagem.model';
+import { Oferta } from '../shared/models/oferta.model';
 
 @Injectable({
   providedIn: 'root'
