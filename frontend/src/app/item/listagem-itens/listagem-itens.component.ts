@@ -37,7 +37,7 @@ export class ListagemItensComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private ofertaServico: OfertaService
+    private ofertaService: OfertaService
     ) { }
 
   ngOnInit() {
@@ -135,12 +135,17 @@ export class ListagemItensComponent implements OnInit {
   }
 
   salvarOferta(){
+    this.blockUI.start(this._mensagemBlockUi);
     let itensOfertadosId: number[] = [];
     this.itemTarget.forEach(element => {
       itensOfertadosId.push(element.id);
     });
     this.novaOferta.itensOfertados = itensOfertadosId;
-    console.log(this.novaOferta);
-    this.displayOferta = false;
+    this.ofertaService.salvar(this.novaOferta).pipe(
+      finalize(() => {
+        this.displayOferta = false;
+        this.blockUI.stop();
+      })
+    )
   }
 }
