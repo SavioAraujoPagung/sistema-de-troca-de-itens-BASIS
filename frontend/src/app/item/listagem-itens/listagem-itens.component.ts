@@ -146,6 +146,6 @@ export class ListagemItensComponent implements OnInit {
         this.displayOferta = false;
         this.blockUI.stop();
       })
-    )
+    ).subscribe();
   }
 }
