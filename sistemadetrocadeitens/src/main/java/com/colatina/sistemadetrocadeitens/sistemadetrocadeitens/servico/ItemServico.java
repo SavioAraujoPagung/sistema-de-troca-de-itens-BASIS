@@ -33,10 +33,18 @@ public class ItemServico {
 
     private final Long SITUACAO_ABERTA = 1L;
     private final Long SITUACAO_CANCELAR = 3L;
-    private final Long CATEGORIA_MAX = 20L;
+    private final Long CATEGORIA_MAX = 25L;
 
     public List<ItemDto> listar(){
         return itemRepositorio.listarItem();
+    }
+
+    public List<ItemDto> listarDisponivel(){
+        return itemRepositorio.listarItemDisponivel(true);
+    }
+
+    public List<ItemDto> listarDisponivelExcluirUsuario(Long usuarioId){
+        return itemRepositorio.listarItemDisponivelExcluirUsuario(true, usuarioId);
     }
 
     public ItemDto obterPorId(Long id){

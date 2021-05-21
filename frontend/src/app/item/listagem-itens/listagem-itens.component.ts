@@ -115,7 +115,7 @@ export class ListagemItensComponent implements OnInit {
     this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
   }
 
-  iniciarListas(){
+  iniciarListasItensOfertados(){
     this.itemService.listar().pipe(
       finalize(() => {
         this.displayOferta = true;
@@ -131,7 +131,7 @@ export class ListagemItensComponent implements OnInit {
 
   showOfertaDialog(id) {
     this.iniciarOferta(id);
-    this.iniciarListas();
+    this.iniciarListasItensOfertados();
   }
 
   salvarOferta(){
