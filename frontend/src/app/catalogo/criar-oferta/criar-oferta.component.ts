@@ -51,9 +51,9 @@ export class CriarOfertaComponent implements OnInit {
     this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
   }
 
-  iniciarListas(){
+  iniciarListasItensOfertados(){
     this.blockUI.start(this._mensagemBlockUi);
-    this.itemService.listar().pipe(
+    this.itemService.listarPorDono(this.usuarioLogado.id).pipe(
       finalize(() => {
         this.displayOferta = true;
         this.blockUI.stop();
@@ -69,12 +69,12 @@ export class CriarOfertaComponent implements OnInit {
 
   showOfertaDialog(id) {
     this.iniciarOferta(id);
-    this.iniciarListas();
+    this.iniciarListasItensOfertados();
   }
 
   salvarOferta(){
     this.blockUI.start(this._mensagemBlockUi);
-    
+
     let itensOfertadosId: number[] = [];
 
     this.itemTarget.map(element => {
@@ -82,7 +82,7 @@ export class CriarOfertaComponent implements OnInit {
     });
 
     this.novaOferta.itensOfertados = itensOfertadosId;
-
+    
     this.ofertaService.salvar(this.novaOferta).pipe(
       finalize(() => {
         this.displayOferta = false;
@@ -93,5 +93,4 @@ export class CriarOfertaComponent implements OnInit {
       () => { this.notification.addErrorMessage("Erro realizar oferta"); }
     );
   }
-
 }

@@ -35,7 +35,6 @@
                         <div class="p-col-12">DESCRICAO:&nbsp;<strong>{{ item.descricao }}</strong></div>
                     </div>
                 </div>
-                <button pButton type="button" label="Fazer Oferta" class="ui-button-warning" (click)="ofertar(item.id)" ></button>
             </div>
         </div>
         <hr>
@@ -45,11 +44,7 @@
             <p-panel [header]="item.nome" [style]="{'text-align':'center'}">
                 <img [src]="item.imagem" class="center-img">
                 <div class="car-detail">{{ item.nome }} - {{ item.categoriaId }}</div>
-                <hr>
-                <button pButton type="button" label="Fazer Oferta" class="ui-button-warning" (click)="ofertar(item.id)" ></button>
             </p-panel>
         </div>
     </ng-template>
 </p-dataView>
-
-<app-criar-oferta #dialogOferta></app-criar-oferta>

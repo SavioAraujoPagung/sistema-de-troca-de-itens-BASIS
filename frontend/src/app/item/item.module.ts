@@ -8,7 +8,6 @@ import { CadastroItemComponent } from './cadastro-item/cadastro-item.component';
 import { ItemRoutingModule } from './item-routing.module';
 import { ListagemItensComponent } from './listagem-itens/listagem-itens.component';
 import { FichaItemComponent } from './ficha-item/ficha-item.component';
-import { CriarOfertaComponent } from './criar-oferta/criar-oferta.component';
 
 
 
@@ -16,8 +15,7 @@ import { CriarOfertaComponent } from './criar-oferta/criar-oferta.component';
   declarations: [
     ListagemItensComponent,
     CadastroItemComponent,
-    FichaItemComponent,
-    CriarOfertaComponent
+    FichaItemComponent
   ],
   imports: [
     CommonModule,

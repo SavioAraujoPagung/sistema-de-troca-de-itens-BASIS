@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { PageNotificationService } from '@nuvem/primeng-components';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { finalize } from 'rxjs/operators';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -9,6 +10,7 @@ import { ItemService } from './../../services/item.service';
 import { Oferta } from './../../shared/models/oferta.model';
 import { Usuario } from './../../shared/models/usuario.model';
 import { Item } from './../../shared/models/item.model';
+import { CriarOfertaComponent } from './../criar-oferta/criar-oferta.component';
 
 @Component({
   selector: 'app-listagem-catalogo',
@@ -18,6 +20,7 @@ import { Item } from './../../shared/models/item.model';
 export class ListagemCatalogoComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('dialogOferta') dialogOferta: CriarOfertaComponent;
 
   itens: Item[];
 
@@ -34,7 +37,8 @@ export class ListagemCatalogoComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    private ofertaService: OfertaService
+    private ofertaService: OfertaService,
+    private notification: PageNotificationService
     ) { }
 
   ngOnInit() {
@@ -85,6 +89,11 @@ export class ListagemCatalogoComponent implements OnInit {
     return itens;
   }
 
+  ofertar(itemDesejadoId){
+    this.dialogOferta.showOfertaDialog(itemDesejadoId);
+  }
+
+  /*
   montarImagem(itens: Item[]){
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
@@ -100,9 +109,11 @@ export class ListagemCatalogoComponent implements OnInit {
   }
 
   iniciarListasItensOfertados(){
+    this.blockUI.start(this._mensagemBlockUi);
     this.itemService.listarPorDono(this.usuarioLogado.id).pipe(
       finalize(() => {
         this.displayOferta = true;
+        this.blockUI.stop();
       })
     ).subscribe(
       (itens) => {
@@ -120,16 +131,24 @@ export class ListagemCatalogoComponent implements OnInit {
 
   salvarOferta(){
     this.blockUI.start(this._mensagemBlockUi);
+
     let itensOfertadosId: number[] = [];
-    this.itemTarget.forEach(element => {
+
+    this.itemTarget.map(element => {
       itensOfertadosId.push(element.id);
     });
+
     this.novaOferta.itensOfertados = itensOfertadosId;
+
     this.ofertaService.salvar(this.novaOferta).pipe(
       finalize(() => {
         this.displayOferta = false;
         this.blockUI.stop();
       })
-    ).subscribe();
+    ).subscribe(
+      () => { this.notification.addSuccessMessage("Oferta realizada com sucesso"); },
+      () => { this.notification.addErrorMessage("Erro realizar oferta"); }
+    );
   }
+  */
 }
