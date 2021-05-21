@@ -47,6 +47,10 @@ public class ItemServico {
         return itemRepositorio.listarItemDisponivelExcluirUsuario(true, usuarioId);
     }
 
+    public List<ItemDto> listarPorDono(Long usuarioId){
+        return itemRepositorio.listarItemPorUsuario(usuarioId);
+    }
+
     public ItemDto obterPorId(Long id){
         ItemDto itemDto = itemRepositorio.obterItemPorId(id);
         if (itemDto == null){
