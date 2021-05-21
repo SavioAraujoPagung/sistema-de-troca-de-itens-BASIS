@@ -1,4 +1,4 @@
-<div style="display: flex;">
+<div style="display: flex;" *ngIf="itemId" >
     <img src="{{ item.imagem }}" alt="Imagem de item" width="200">
     <section style="display: flex; flex-direction: column;justify-content: space-between;">
         <p>NOME:&nbsp;<strong>{{ item.nome }}</strong></p>

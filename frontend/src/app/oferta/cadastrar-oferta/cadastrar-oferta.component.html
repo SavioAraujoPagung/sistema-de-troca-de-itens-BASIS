@@ -1,7 +1,7 @@
-</block-ui>
+<block-ui>
     <app-ficha-item [id]="itemDesejadoId"></app-ficha-item>
 
-    <p-pickList [source]="itemSource" [target]="itemAlvo" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true"
+    <p-pickList [source]="itemSource" [target]="itemTarget" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true"
     filterBy="nome" dragdrop="true" sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome"
     [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
         <ng-template let-item pTemplate="item">
@@ -18,4 +18,4 @@
 
     <button pButton type="button" icon="pi pi-check" label="Ofertar" class="ui-button-raised ui-button-success"
     [disabled]="itemAlvo == 0" (click)="salvar()" ></button>
-<block-ui>
+</block-ui>

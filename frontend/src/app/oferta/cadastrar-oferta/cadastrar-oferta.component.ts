@@ -19,7 +19,7 @@ export class CadastrarOfertaComponent implements OnInit {
 
   @Input() itemDesejadoId: number = 1;
   itemSource: Item[];
-  itemAlvo: Item[];
+  itemTarget: Item[];
   novaOferta: Oferta = new Oferta;
   usuarioLogado: any;
 
@@ -49,7 +49,7 @@ export class CadastrarOfertaComponent implements OnInit {
         (itens) => {
           this.itemSource = itens;
           this.itemSource = this.montarImagem(this.itemSource);
-          this.itemAlvo = [];
+          this.itemTarget = [];
         }
       );
     }
@@ -65,7 +65,7 @@ export class CadastrarOfertaComponent implements OnInit {
 
     salvar(){
       let itensOfertadosId: number[] = [];
-      this.itemAlvo.forEach(element => {
+      this.itemTarget.forEach(element => {
         itensOfertadosId.push(element.id);
       });
       this.novaOferta.itensOfertados = itensOfertadosId;

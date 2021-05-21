@@ -1,3 +1,5 @@
+import { OfertaService } from './../../services/oferta.service';
+import { Oferta } from './../../shared/models/oferta.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -20,16 +22,22 @@ export class ListagemItensComponent implements OnInit {
 
   itens: Item[];
   form: FormGroup;
-  selectedItem: Item;
-  displayDialog: boolean;
+
   sortOptions: SelectItem[];
   sortKey: string;
   sortField: string;
   sortOrder: number;
 
+  displayOferta: boolean = false;
+  itemSource: Item[];
+  itemTarget: Item[];
+  novaOferta: Oferta = new Oferta;
+  usuarioLogado: any;
+
   constructor(
     private itemService: ItemService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private ofertaServico: OfertaService
     ) { }
 
   ngOnInit() {
@@ -53,7 +61,7 @@ export class ListagemItensComponent implements OnInit {
     ).subscribe(
       (itens) => {
         this.itens = itens;
-        this.itens = this.montarImagem(this.itens);
+        this.itens = this.montarImagens(this.itens);
       }
     )
   }
@@ -83,14 +91,13 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
-  selectItem(event: Event, item: Item) {
-    this.selectedItem = item;
-    this.displayDialog = true;
-    event.preventDefault();
-  }
-
-  onDialogHide() {
-    this.selectedItem = null;
+  montarImagens(itens: Item[]){
+    itens.forEach(element => {
+      let formatoImagem = "data:image/jpg;base64,";
+      let imagem = formatoImagem.concat(element.imagem);
+      element.imagem = imagem;
+    });
+    return itens;
   }
 
   montarImagem(itens: Item[]){
@@ -100,5 +107,40 @@ export class ListagemItensComponent implements OnInit {
       element.imagem = imagem;
     });
     return itens;
+  }
+
+  iniciarOferta(itemDesejadoId){
+    this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
+    this.novaOferta.itemId = itemDesejadoId;
+    this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
+  }
+
+  iniciarListas(){
+    this.itemService.listar().pipe(
+      finalize(() => {
+        this.displayOferta = true;
+      })
+    ).subscribe(
+      (itens) => {
+        this.itemSource = itens;
+        this.itemSource = this.montarImagem(this.itemSource);
+        this.itemTarget = [];
+      }
+    );
+  }
+
+  showOfertaDialog(id) {
+    this.iniciarOferta(id);
+    this.iniciarListas();
+  }
+
+  salvarOferta(){
+    let itensOfertadosId: number[] = [];
+    this.itemTarget.forEach(element => {
+      itensOfertadosId.push(element.id);
+    });
+    this.novaOferta.itensOfertados = itensOfertadosId;
+    console.log(this.novaOferta);
+    this.displayOferta = false;
   }
 }

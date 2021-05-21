@@ -1,13 +1,13 @@
 import { Item } from './../../shared/models/item.model';
 import { ItemService } from 'src/app/services/item.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ficha-item',
   templateUrl: './ficha-item.component.html',
   styleUrls: ['./ficha-item.component.css']
 })
-export class FichaItemComponent implements OnInit {
+export class FichaItemComponent implements OnInit, OnChanges {
 
   @Input("id") itemId;
 
@@ -17,8 +17,14 @@ export class FichaItemComponent implements OnInit {
     private itemService: ItemService
   ) { }
 
+  ngOnChanges(changes): void {
+    if (this.itemId) {
+      this.iniciarItem(); 
+    }
+  }
+
   ngOnInit(): void {
-    this.iniciarItem();
+    
   }
 
   iniciarItem(){

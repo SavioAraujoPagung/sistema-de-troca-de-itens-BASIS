@@ -35,7 +35,7 @@
                         <div class="p-col-12">DESCRICAO:&nbsp;<strong>{{ item.descricao }}</strong></div>
                     </div>
                 </div>
-                <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)"></button>
+                <button pButton type="button" label="Fazer Oferta" class="ui-button-warning" (click)="showOfertaDialog(item.id)" ></button>
             </div>
         </div>
         <hr>
@@ -45,19 +45,38 @@
             <p-panel [header]="item.nome" [style]="{'text-align':'center'}">
                 <img [src]="item.imagem" class="center-img">
                 <div class="car-detail">{{ item.nome }} - {{ item.categoriaId }}</div>
-                <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)" style="margin-top:0"></button>
+                
             </p-panel>
         </div>
     </ng-template>
 </p-dataView>
 
-<p-dialog header="Detalhes do Item" [(visible)]="displayDialog" [minY]="70" showEffect="fade" [modal]="true"
-    [style]="{width: '225px'}" (onAfterHide)="onDialogHide()" [contentStyle]="{padding: '2em', textAlign: 'center'}">
-    <div *ngIf="selectedItem">
-        <img [src]="selectedItem.imagem">
-        <strong>{{ selectedItem.nome }} - {{ selectedItem.categoriaId }}</strong>
-        <p>{{ selectedItem.usuarioId }}</p>
-        <br>
-        <p>{{ selectedItem.descricao }}</p>
-    </div>
+
+<p-dialog header="Realizar nova oferta" [(visible)]="displayOferta" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    
+    <app-ficha-item [id]="novaOferta.itemId"></app-ficha-item>
+
+    <p-pickList [source]="itemSource" [target]="itemTarget" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true"
+    filterBy="nome" dragdrop="true" sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome"
+    [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+
+        <ng-template let-item pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <img [src]="item.imagem" width="50">
+                <div class="item-detalhe">
+                    {{ item.nome }} - {{ item.categoriaId }}
+                    <hr>
+                    {{ item.descricao }}
+                </div>
+            </div>
+        </ng-template>
+        
+    </p-pickList>
+
+    <p-footer>
+        <button pButton type="button" icon="pi pi-check" label="Ofertar" class="ui-button-raised ui-button-success"
+        [disabled]="itemTarget == 0" (click)="salvarOferta()" ></button>
+        <button type="button" pButton icon="pi pi-times" (click)="displayOferta=false" label="Cancelar" class="ui-button-secondary"></button>
+    </p-footer>
 </p-dialog>
