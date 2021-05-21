@@ -1,5 +1,3 @@
-import { OfertaService } from './../../services/oferta.service';
-import { Oferta } from './../../shared/models/oferta.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -9,6 +7,9 @@ import { finalize } from 'rxjs/operators';
 
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/shared/models/item.model';
+import { Usuario } from './../../shared/models/usuario.model';
+import { OfertaService } from './../../services/oferta.service';
+import { Oferta } from './../../shared/models/oferta.model';
 
 @Component({
   selector: 'app-listagem-itens',
@@ -32,7 +33,7 @@ export class ListagemItensComponent implements OnInit {
   itemSource: Item[];
   itemTarget: Item[];
   novaOferta: Oferta = new Oferta;
-  usuarioLogado: any;
+  usuarioLogado: Usuario;
 
   constructor(
     private itemService: ItemService,

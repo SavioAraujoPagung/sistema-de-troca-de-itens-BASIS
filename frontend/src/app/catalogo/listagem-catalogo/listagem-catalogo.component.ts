@@ -100,7 +100,7 @@ export class ListagemCatalogoComponent implements OnInit {
   }
 
   iniciarListasItensOfertados(){
-    this.itemService.listar().pipe(
+    this.itemService.listarPorDono(this.usuarioLogado.id).pipe(
       finalize(() => {
         this.displayOferta = true;
       })
