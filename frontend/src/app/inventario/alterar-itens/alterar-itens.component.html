@@ -1,6 +1,6 @@
-<button type="button" (click)="showBasicDialog()" pButton icon="pi pi-external-link" label="Show"></button>
+
 <p-dialog header="Alterar" [(visible)]="displayBasic" [style]="{width: '60vw'}" [baseZIndex]="10000" (onHide)="fecharModal()" >
-    <form [formGroup]="form" (ngSubmit)="salvar()">
+    <form [formGroup]="form" (ngSubmit)="alterar()">
         <h3>ALTERAR ITEM</h3>
         <div class="ui-fluid">
             <div class="p-field">
@@ -22,21 +22,25 @@
             <br>
             <div>
                 <h4>Categoria do item</h4>
-                <select name="categoria" id="categoria" formControlName="categoriaId">
+                <!-- <select name="categoria" id="categoria" formControlName="categoriaId">
                     <ng-container *ngFor="let categoria of categorias">
                     <option value="{{ categoria.id }}">{{ categoria.descricao }}</option>
                     </ng-container>
-                </select>
+                </select> -->
+                <input type="number" formControlName="categoriaId" pInputText>
             </div>
             <br>
             <div>
                 <h4>Insira a imagem do item</h4>
+                
+
                 <p-fileUpload mode="basic" customUpload="true" name="imagem[]" accept="image/*" maxFileSize="1500000" (onSelect)="uploadImagem($event)"></p-fileUpload>
+                <!-- <img [src]="item.imagem" class="center-img"> -->
             </div>
         </div>
         <p>
             <p-footer>
-                <button type="submit" label="CADASTRAR" pButton></button>
+                <button type="submit" label="ALTERAR" pButton></button>
             </p-footer>
         </p>
     </form>
@@ -45,3 +49,4 @@
         <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="No" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
+OLA MUNDO

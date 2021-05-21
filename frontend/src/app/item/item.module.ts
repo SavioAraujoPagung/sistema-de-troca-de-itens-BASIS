@@ -6,15 +6,14 @@ import { CadastroItemComponent } from './cadastro-item/cadastro-item.component';
 import { SharedModule } from './../shared/shared.module';
 import { ItemRoutingModule } from './item-routing.module';
 import { ListagemItensComponent } from './listagem-itens/listagem-itens.component';
-import { AlterarItensComponent } from './alterar-itens/alterar-itens.component';
+import { AlterarItensComponent } from '../inventario/alterar-itens/alterar-itens.component';
 
 
 
 @NgModule({
   declarations: [
     ListagemItensComponent,
-    CadastroItemComponent,
-    AlterarItensComponent
+    CadastroItemComponent
   ],
   imports: [
     CommonModule,

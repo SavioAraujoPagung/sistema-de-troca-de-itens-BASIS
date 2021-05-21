@@ -1,12 +1,20 @@
-import { finalize } from 'rxjs/operators';
-import { PageNotificationService } from '@nuvem/primeng-components';
 import { CategoriaService } from './../../services/categoria.service';
-import { ItemService } from './../../services/item.service';
+import { ItemService } from 'src/app/services/item.service';
 import { Categoria } from './../../shared/models/categoria.model';
+import { Item } from './../../shared/models/item.model';
+
+import { finalize } from 'rxjs/operators';
+// import { Item } from '../shared/models/item.model';
+// import { finalize } from 'rxjs/operators';
+// import { PageNotificationService } from '@nuvem/primeng-components';
+// import { CategoriaService } from '../services/categoria.service';
+// import { ItemService } from '../services/item.service';
+// import { Categoria } from '../shared/models/categoria.model';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 
+import { PageNotificationService } from '@nuvem/primeng-components';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-alterar-itens',
@@ -15,11 +23,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class AlterarItensComponent implements OnInit {
 
-  @Input() displayBasic: boolean; 
+  displayBasic: boolean = false; 
+  item: Item; 
+
   @Output() displayBasicClose: EventEmitter<boolean> = new EventEmitter();
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
 
+  private categoria: Categoria;
   private form: FormGroup;
   private categorias: Categoria[] = [];
   private imagem: any;
@@ -63,7 +74,6 @@ export class AlterarItensComponent implements OnInit {
 
   uploadImagem(event){
     let fileReader = new FileReader();
-    
     let file = event.currentFiles[0];
     
     fileReader.onloadend = () => {
@@ -87,17 +97,29 @@ export class AlterarItensComponent implements OnInit {
       })
     ).subscribe(
       () => {
-        this.notification.addSuccessMessage("Usuario Cadastrado com sucesso");
+        this.notification.addSuccessMessage("Item alterado com sucesso");
       },
       ()=>{
-        this.notification.addErrorMessage("Erro ao cadastrar usuario");
+        this.notification.addErrorMessage("Erro ao alterar usuario");
       }
     );
-    
+  }
+
+  montarImagem(item: Item){
+    let formato = "data:image/jpg;base64,";
+    let img = formato.concat(item.imagem);
+    item.imagem = img;
+    return item;
   }
 
   fecharModal(){
     this.displayBasicClose.emit(false)
+  }
+
+  abrir(item: Item){
+    this.item = this.montarImagem(item);
+    this.displayBasic = true;
+    this.form.patchValue(item);
   }
 
 

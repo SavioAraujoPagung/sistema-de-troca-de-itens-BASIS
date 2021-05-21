@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { CategoriaService } from './../../services/categoria.service';
+import { Categoria } from './../../shared/models/categoria.model';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -7,6 +9,7 @@ import { finalize } from 'rxjs/operators';
 
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/shared/models/item.model';
+import { AlterarItensComponent } from 'src/app/inventario/alterar-itens/alterar-itens.component';
 
 @Component({
   selector: 'app-listagem-itens',
@@ -16,25 +19,34 @@ import { Item } from 'src/app/shared/models/item.model';
 export class ListagemItensComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
+  @ViewChild("dialogItem") dialogItem: AlterarItensComponent;
   private _mensagemBlockUi: String = 'Carregando...';
 
+  categoria: Categoria;
+  categorias: Categoria[] = [];
   itens: Item[];
   form: FormGroup;
   selectedItem: Item;
+  itemSelecionado: Item;
   displayDialog: boolean;
   sortOptions: SelectItem[];
   sortKey: string;
   sortField: string;
   sortOrder: number;
 
+
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
+    private categoriaService: CategoriaService
     ) { }
 
   ngOnInit() {
       this.iniciarForm();
       this.buscarTodos();
+      this.buscarCategorias();
+      console.log("categorias" );
+      console.log(this.categorias);
 
       this.sortOptions = [
           {label: 'Nome A->Z', value: 'nome'},
@@ -54,6 +66,19 @@ export class ListagemItensComponent implements OnInit {
       (itens) => {
         this.itens = itens;
         this.itens = this.montarImagem(this.itens);
+      }
+    )
+  }
+
+  buscarCategorias(){
+    this.categoriaService.buscarTodos().pipe(
+      finalize(()=>{
+        this.blockUI.stop();
+      })
+    ).subscribe(
+      (categorias) => {
+        this.categorias = categorias;
+        console.log(categorias+ "buscar categirua");
       }
     )
   }
@@ -83,16 +108,32 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
+
   selectItem(event: Event, item: Item) {
+    this.categorias.forEach(cat =>{
+
+      if(cat.id == item.categoriaId){
+        //this.categoria.descricao = cat.descricao;
+      }
+    })
+    console.log("NOME DA CATEGORIAAAAAAA: " + this.categorias);
     this.selectedItem = item;
     this.displayDialog = true;
     event.preventDefault();
   }
+   alterarItem(event: Event, item: Item) {
+     this.itemSelecionado = item;
+     console.log(this.itemSelecionado);
+      this.dialogItem.abrir(this.itemSelecionado);
+
+     event.preventDefault();
+   }
 
   onDialogHide() {
     this.selectedItem = null;
   }
 
+  
   montarImagem(itens: Item[]){
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
@@ -100,5 +141,10 @@ export class ListagemItensComponent implements OnInit {
       element.imagem = imagem;
     });
     return itens;
+  }
+
+  alterar(){
+    console.log(this.selectedItem);
+    this.dialogItem.abrir(this.selectedItem);
   }
 }

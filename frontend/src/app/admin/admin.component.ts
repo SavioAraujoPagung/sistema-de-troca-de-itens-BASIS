@@ -53,7 +53,8 @@ export class AdminComponent implements OnInit, AfterViewInit, OnDestroy {
         this.menuService.itens = [
             { label: 'Dashboard', icon: 'dashboard', routerLink: ['./'] },
             { label: 'Usuarios', icon: 'person', routerLink: ['./usuarios'] },
-            { label: 'Itens', icon: 'list', routerLink: ['./itens'] }
+            { label: 'Itens', icon: 'list', routerLink: ['./itens'] },
+            { label: 'Inventário', icon: 'list', routerLink: ['./inventario'] }
         ];
     }
 

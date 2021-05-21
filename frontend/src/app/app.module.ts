@@ -21,10 +21,7 @@ import { LoginComponent } from './login/login.component';
         AppComponent,
         DiarioErrosComponent,
         LoginComponent,
-<<<<<<< HEAD
-=======
         CadastroPageComponent
->>>>>>> 222657a878833ac63b3c83aa1ca204a4e70df054
     ],
     imports: [
         BlockUIModule.forRoot({

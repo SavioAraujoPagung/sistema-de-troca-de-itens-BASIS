@@ -16,4 +16,7 @@ export class CategoriaService {
   buscarTodos(){
     return this.http.get<Categoria[]>(this.api);
   }
+  obterPorId(id){
+    return this.http.get<Categoria>(this.api + id);
+  }
 }
