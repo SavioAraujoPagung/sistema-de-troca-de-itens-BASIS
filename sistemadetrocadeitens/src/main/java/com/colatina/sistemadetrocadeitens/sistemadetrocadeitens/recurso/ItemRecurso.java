@@ -30,6 +30,24 @@ public class ItemRecurso {
         return new ResponseEntity<>(itemDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/disponivel")
+    public ResponseEntity<List<ItemDto>> listarDisponivel(){
+        List<ItemDto> itemDtos = itemServico.listarDisponivel();
+        return new ResponseEntity<>(itemDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/disponivel/{id}")
+    public ResponseEntity<List<ItemDto>> listarDisponivelExcluirUsuario(@PathVariable("id") Long usuarioId){
+        List<ItemDto> itemDtos = itemServico.listarDisponivelExcluirUsuario(usuarioId);
+        return new ResponseEntity<>(itemDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/dono/{id}")
+    public ResponseEntity<List<ItemDto>> listarPorDono(@PathVariable("id") Long usuarioId){
+        List<ItemDto> itemDtos = itemServico.listarPorDono(usuarioId);
+        return new ResponseEntity<>(itemDtos, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ItemDto> obterPorId(@PathVariable("id") Long id){
         ItemDto itemDto = itemServico.obterPorId(id);
