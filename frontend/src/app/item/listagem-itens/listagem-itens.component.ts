@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { CriarOfertaComponent } from '../criar-oferta/criar-oferta.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -7,6 +9,9 @@ import { finalize } from 'rxjs/operators';
 
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/shared/models/item.model';
+import { Usuario } from './../../shared/models/usuario.model';
+import { OfertaService } from './../../services/oferta.service';
+import { Oferta } from './../../shared/models/oferta.model';
 
 @Component({
   selector: 'app-listagem-itens',
@@ -17,19 +22,27 @@ export class ListagemItensComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('dialogOferta') dialogOferta: CriarOfertaComponent;
 
   itens: Item[];
   form: FormGroup;
-  selectedItem: Item;
-  displayDialog: boolean;
+
   sortOptions: SelectItem[];
   sortKey: string;
   sortField: string;
   sortOrder: number;
 
+  displayOferta: boolean = false;
+  itemSource: Item[];
+  itemTarget: Item[];
+  novaOferta: Oferta = new Oferta;
+  usuarioLogado: Usuario;
+
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
+    private ofertaService: OfertaService,
+    private notification: PageNotificationService
     ) { }
 
   ngOnInit() {
@@ -53,7 +66,7 @@ export class ListagemItensComponent implements OnInit {
     ).subscribe(
       (itens) => {
         this.itens = itens;
-        this.itens = this.montarImagem(this.itens);
+        this.itens = this.montarImagens(this.itens);
       }
     )
   }
@@ -83,17 +96,7 @@ export class ListagemItensComponent implements OnInit {
     }
   }
 
-  selectItem(event: Event, item: Item) {
-    this.selectedItem = item;
-    this.displayDialog = true;
-    event.preventDefault();
-  }
-
-  onDialogHide() {
-    this.selectedItem = null;
-  }
-
-  montarImagem(itens: Item[]){
+  montarImagens(itens: Item[]){
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
       let imagem = formatoImagem.concat(element.imagem);
@@ -101,4 +104,9 @@ export class ListagemItensComponent implements OnInit {
     });
     return itens;
   }
+
+  ofertar(itemDesejadoId){
+    this.dialogOferta.showOfertaDialog(itemDesejadoId);
+  }
+  
 }
