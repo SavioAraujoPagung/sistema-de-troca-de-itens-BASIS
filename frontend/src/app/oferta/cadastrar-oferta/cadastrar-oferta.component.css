@@ -1,0 +1,12 @@
+.item-detalhe{
+    font-size: 14px;
+    float: right;
+    margin: 15px 5px 0 0;
+}
+
+img{
+    display: inline-block;
+    margin: 2px 0 2px 2px;
+    border-right: 1px solid rgb(128, 128, 128);
+    padding-right: 2px;
+}

@@ -1,1 +1,13 @@
-<p>cadastrar-oferta works!</p>
+<p-pickList [source]="itemSource" [target]="itemAlvo" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true" filterBy="nome"
+        dragdrop="true" sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+    <ng-template let-item pTemplate="item">
+        <div class="ui-helper-clearfix">
+            <img [src]="item.imagem" width="50">
+            <div class="item-detalhe">
+                {{ item.nome }} - {{ item.categoriaId }}
+                <hr>
+                {{ item.descricao }}
+            </div>
+        </div>
+    </ng-template>
+</p-pickList>
