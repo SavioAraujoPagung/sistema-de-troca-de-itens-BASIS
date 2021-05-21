@@ -27,12 +27,12 @@
                 <div>
                     <img [src]="item.imagem" class="center-img">
                     <div class="p-grid">
-                        <div class="p-col-12">NOME:&nbsp;<b>{{ item.nome }}</b></div>
-                        <div class="p-col-12">DONO:&nbsp;<b>{{ item.usuarioId }}</b></div>
-                        <div class="p-col-12">CATEGORIA:&nbsp;<b>{{ item.categoriaId }}</b></div>
-                        <div class="p-col-12" *ngIf="item.disponibilidade" >DISPONIBILIDADE:&nbsp;<b>Disponível para trocas</b></div>
-                        <div class="p-col-12" *ngIf="!item.disponibilidade" >DISPONIBILIDADE:&nbsp;<b>Indisponível para troca</b></div>
-                        <div class="p-col-12">DESCRICAO:&nbsp;<b>{{ item.descricao }}</b></div>
+                        <div class="p-col-12">NOME:&nbsp;<strong>{{ item.nome }}</strong></div>
+                        <div class="p-col-12">DONO:&nbsp;<strong>{{ item.usuarioId }}</strong></div>
+                        <div class="p-col-12">CATEGORIA:&nbsp;<strong>{{ item.categoriaId }}</strong></div>
+                        <div class="p-col-12" *ngIf="item.disponibilidade" >DISPONIBILIDADE:&nbsp;<strong>Disponível para trocas</strong></div>
+                        <div class="p-col-12" *ngIf="!item.disponibilidade" >DISPONIBILIDADE:&nbsp;<strong>Indisponível para troca</strong></div>
+                        <div class="p-col-12">DESCRICAO:&nbsp;<strong>{{ item.descricao }}</strong></div>
                     </div>
                 </div>
                 <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)"></button>

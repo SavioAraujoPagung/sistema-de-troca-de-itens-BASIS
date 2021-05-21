@@ -1,3 +1,4 @@
+import { ItemModule } from './../item/item.module';
 import { SharedModule } from './../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,7 @@ import { CadastrarOfertaComponent } from './cadastrar-oferta/cadastrar-oferta.co
     OfertaRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    ItemModule
   ]
 })
 export class OfertaModule { }

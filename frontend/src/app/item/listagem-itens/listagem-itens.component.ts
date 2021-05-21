@@ -29,7 +29,7 @@ export class ListagemItensComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
     ) { }
 
   ngOnInit() {
