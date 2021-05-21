@@ -1,6 +1,6 @@
-<div style="display: flex;" *ngIf="itemId" >
+<div *ngIf="itemId" >
     <img src="{{ item.imagem }}" alt="Imagem de item" width="200">
-    <section style="display: flex; flex-direction: column;justify-content: space-between;">
+    <section>
         <p>NOME:&nbsp;<strong>{{ item.nome }}</strong></p>
         <p>CATEGORIA:&nbsp;<strong>{{ item.categoriaId }}</strong></p>
         <p>DONO:&nbsp;<strong>{{ item.usuarioId }}</strong></p>
