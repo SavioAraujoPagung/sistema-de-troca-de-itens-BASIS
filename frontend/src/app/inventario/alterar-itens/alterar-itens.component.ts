@@ -1,15 +1,9 @@
-import { CategoriaService } from './../../services/categoria.service';
+import { CategoriaService } from '../../services/categoria.service';
 import { ItemService } from 'src/app/services/item.service';
-import { Categoria } from './../../shared/models/categoria.model';
-import { Item } from './../../shared/models/item.model';
+import { Categoria } from '../../shared/models/categoria.model';
+import { Item } from '../../shared/models/item.model';
 
 import { finalize } from 'rxjs/operators';
-// import { Item } from '../shared/models/item.model';
-// import { finalize } from 'rxjs/operators';
-// import { PageNotificationService } from '@nuvem/primeng-components';
-// import { CategoriaService } from '../services/categoria.service';
-// import { ItemService } from '../services/item.service';
-// import { Categoria } from '../shared/models/categoria.model';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 
 import { PageNotificationService } from '@nuvem/primeng-components';
@@ -86,11 +80,11 @@ export class AlterarItensComponent implements OnInit {
     fileReader.readAsDataURL(file);
   }
 
-  salvar(){
+  alterar(){
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.form.value.usuarioId = this.usuarioLogado.id;
     this.blockUI.start(this._mensagemBlockUi);
-    this.itensServices.salvar(this.form.value).pipe(
+    this.itensServices.alterar(this.form.value).pipe(
       finalize(()=>{
         this.blockUI.stop();
         this.fecharModal();

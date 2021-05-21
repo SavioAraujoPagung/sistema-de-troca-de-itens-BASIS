@@ -18,7 +18,6 @@ public interface ItemRepositorio extends JpaRepository<Item, Long> {
 
     List<Item> findAllByUsuarioId(Long id);
 
-
     @Query("SELECT new com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto" +
             "(i.id, i.nome, i.imagem, i.descricao, i.disponibilidade, ic.id, iu.id) FROM Item i " +
             "JOIN i.categoria ic JOIN i.usuario iu WHERE i.id = :id")

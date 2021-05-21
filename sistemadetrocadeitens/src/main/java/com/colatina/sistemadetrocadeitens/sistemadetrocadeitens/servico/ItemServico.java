@@ -68,11 +68,10 @@ public class ItemServico {
 
     public List<ItemDto>listarInventario(Long id){
         List<Item> items  = itemRepositorio.findAllByUsuarioId(id);
-        List<ItemDto> itemDtos = new ArrayList<>();
+        List<ItemDto> itemDtos;
 
-        items.forEach(item->{
-           itemDtos.add(itemMapper.toDto(item));
-        });
+        itemDtos = itemMapper.toDto(items);
+
         if (itemDtos == null){
             throw(new RegraNegocioException("Item nao encontrado"));
         }
