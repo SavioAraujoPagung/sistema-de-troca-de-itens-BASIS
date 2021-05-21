@@ -3,5 +3,5 @@ export class Oferta{
     itemId: number;
     usuarioOfertanteId: number;
     itensOfertados: number[];
-    situacaoId: number;    
+    situacaoId: number;
 }

@@ -35,8 +35,9 @@ export class CadastroItemComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.buscarCategorias();
+    this.blockUI.start(this._mensagemBlockUi);
     this.iniciarForm();
+    this.buscarCategorias();
   }
 
   buscarCategorias(){

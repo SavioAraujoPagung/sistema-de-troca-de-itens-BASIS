@@ -1,14 +1,21 @@
-<app-ficha-item [id]="1"></app-ficha-item>
-<p-pickList [source]="itemSource" [target]="itemAlvo" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true" filterBy="nome"
-        dragdrop="true" sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
-    <ng-template let-item pTemplate="item">
-        <div class="ui-helper-clearfix">
-            <img [src]="item.imagem" width="50">
-            <div class="item-detalhe">
-                {{ item.nome }} - {{ item.categoriaId }}
-                <hr>
-                {{ item.descricao }}
+</block-ui>
+    <app-ficha-item [id]="itemDesejadoId"></app-ficha-item>
+
+    <p-pickList [source]="itemSource" [target]="itemAlvo" sourceHeader="Seus itens" targetHeader="Itens ofertados" [responsive]="true"
+    filterBy="nome" dragdrop="true" sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome"
+    [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+        <ng-template let-item pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <img [src]="item.imagem" width="50">
+                <div class="item-detalhe">
+                    {{ item.nome }} - {{ item.categoriaId }}
+                    <hr>
+                    {{ item.descricao }}
+                </div>
             </div>
-        </div>
-    </ng-template>
-</p-pickList>
+        </ng-template>
+    </p-pickList>
+
+    <button pButton type="button" icon="pi pi-check" label="Ofertar" class="ui-button-raised ui-button-success"
+    [disabled]="itemAlvo == 0" (click)="salvar()" ></button>
+<block-ui>

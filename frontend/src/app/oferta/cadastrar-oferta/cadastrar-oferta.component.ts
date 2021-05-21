@@ -1,8 +1,11 @@
+import { finalize } from 'rxjs/operators';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { Oferta } from './../../shared/models/oferta.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OfertaService } from './../../services/oferta.service';
 import { Item } from './../../shared/models/item.model';
 import { ItemService } from 'src/app/services/item.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-cadastrar-oferta',
@@ -11,33 +14,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastrarOfertaComponent implements OnInit {
 
+  @BlockUI() blockUI: NgBlockUI;
+  private _mensagemBlockUi: String = 'Carregando...';
+
+  @Input() itemDesejadoId: number = 1;
   itemSource: Item[];
   itemAlvo: Item[];
-  form: FormGroup;
+  novaOferta: Oferta = new Oferta;
+  usuarioLogado: any;
 
     constructor(
       private itemServico: ItemService,
-      private ofertaServico: OfertaService,
-      private fb: FormBuilder
+      private ofertaServico: OfertaService
       ) { }
 
     ngOnInit() {
-      this.iniciarForm();
+      this.blockUI.start(this._mensagemBlockUi);
+      this.iniciarOferta();
       this.iniciarListas();
     }
 
-    iniciarForm(){
-      this.form = this.fb.group({
-        id: [null],
-        itemId: [null, [Validators.required]],
-        usuarioOfertanteId: [null, [Validators.required]],
-        itensOfertados: [null, [Validators.required]],
-        situacaoId: [null, [Validators.required]]
-      })
+    iniciarOferta(){
+      this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
+      this.novaOferta.itemId = this.itemDesejadoId;
+      this.novaOferta.usuarioOfertanteId = this.usuarioLogado.id
     }
 
     iniciarListas(){
-      this.itemServico.listar().subscribe(
+      this.itemServico.listar().pipe(
+        finalize(()=>{
+          this.blockUI.stop();
+        })
+      ).subscribe(
         (itens) => {
           this.itemSource = itens;
           this.itemSource = this.montarImagem(this.itemSource);
@@ -53,5 +61,14 @@ export class CadastrarOfertaComponent implements OnInit {
         element.imagem = imagem;
       });
       return itens;
+    }
+
+    salvar(){
+      let itensOfertadosId: number[] = [];
+      this.itemAlvo.forEach(element => {
+        itensOfertadosId.push(element.id);
+      });
+      this.novaOferta.itensOfertados = itensOfertadosId;
+      console.log(this.novaOferta);
     }
 }
