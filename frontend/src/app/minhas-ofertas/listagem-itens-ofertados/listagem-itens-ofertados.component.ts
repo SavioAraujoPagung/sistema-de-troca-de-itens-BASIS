@@ -35,7 +35,11 @@ export class ListagemItensOfertadosComponent implements OnInit {
     this.blockUI.start(this._mensagemBlockUi);
     this.itensOfertados = [];
     this.contador = 0;
-    this.ofertaService.obterPorId(id).subscribe(
+    this.ofertaService.obterPorId(id).pipe(
+      finalize(() => {
+        this.blockUI.stop();
+      })
+    ).subscribe(
       (data) => {
         this.oferta = data;
         this.obterItensOfertados();
@@ -45,11 +49,7 @@ export class ListagemItensOfertadosComponent implements OnInit {
 
   obterItensOfertados(){
     if (this.contador < this.oferta.itensOfertados.length) {
-      this.itemService.obterPorId(this.oferta.itensOfertados[this.contador]).pipe(
-        finalize(() => {
-          this.blockUI.stop();
-        })
-      ).subscribe(
+      this.itemService.obterPorId(this.oferta.itensOfertados[this.contador]).subscribe(
         (data) => {
           data.imagem = this.montarImagem(data.imagem);
           this.itensOfertados.push(data);
