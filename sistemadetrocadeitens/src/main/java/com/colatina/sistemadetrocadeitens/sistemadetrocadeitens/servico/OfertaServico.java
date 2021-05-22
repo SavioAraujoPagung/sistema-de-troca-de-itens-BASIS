@@ -36,7 +36,7 @@ public class OfertaServico {
     }
 
     public List<OfertaListagemDto> listarPorOfertante(Long ofertanteId){
-        return ofertaRepositorio.listarOfertaPorOfertante(ofertanteId);
+        return ofertaRepositorio.listarOfertaPorOfertante(ofertanteId, ABERTA);
     }
 
     public OfertaDto obterPorId(Long id){

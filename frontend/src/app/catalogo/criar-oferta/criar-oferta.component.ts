@@ -90,7 +90,7 @@ export class CriarOfertaComponent implements OnInit {
       })
     ).subscribe(
       () => { this.notification.addSuccessMessage("Oferta realizada com sucesso"); },
-      () => { this.notification.addErrorMessage("Erro realizar oferta"); }
+      () => { this.notification.addErrorMessage("Erro ao realizar oferta"); }
     );
   }
 }

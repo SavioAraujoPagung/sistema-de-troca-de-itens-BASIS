@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { PageNotificationService } from '@nuvem/primeng-components';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { finalize } from 'rxjs/operators';
@@ -35,7 +36,8 @@ export class MinhasOfertasListagemComponent implements OnInit {
   constructor(
     private ofertaService: OfertaService,
     private itemService: ItemService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private notification: PageNotificationService
     ) { 
       this.responsiveOptions = [
           {
@@ -57,10 +59,10 @@ export class MinhasOfertasListagemComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.obterPorOfertante();
+      this.buscarTodos();
   }
 
-  obterPorOfertante(){
+  buscarTodos(){
     this.blockUI.start(this._mensagemBlockUi);
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertante(this.usuarioLogado.id).pipe(
@@ -118,6 +120,19 @@ export class MinhasOfertasListagemComponent implements OnInit {
 
   showDisplay(id) {
     this.itensOfertadosDisplay.showDisplay(id);
+  }
+
+  cancelar(id){
+    this.blockUI.start(this._mensagemBlockUi);
+    this.ofertaService.aceitar(id).pipe(
+      finalize(() => {
+        this.blockUI.stop();
+        this.buscarTodos();
+      })
+    ).subscribe(
+      () => { this.notification.addSuccessMessage("Oferta cancelada com sucesso"); },
+      () => { this.notification.addErrorMessage("Erro ao cancelar oferta"); }
+    );
   }
 
 }

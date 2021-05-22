@@ -19,8 +19,8 @@ public interface OfertaRepositorio extends JpaRepository<Oferta, Long> {
     @Query("SELECT new com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.OfertaListagemDto" +
             "(o.id, situacao.id, ofertante.id, disponivel.id) FROM Oferta o " +
             "JOIN o.item disponivel JOIN o.usuarioOfertante ofertante JOIN o.situacao situacao " +
-            "WHERE ofertante.id = :ofertanteId")
-    List<OfertaListagemDto> listarOfertaPorOfertante(@Param("ofertanteId") Long UsuarioOfertanteId);
+            "WHERE ofertante.id = :ofertanteId AND situacao.id = :situacaoId")
+    List<OfertaListagemDto> listarOfertaPorOfertante(@Param("ofertanteId") Long UsuarioOfertanteId, @Param("situacaoId") Long situacaoId);
 
     List<Oferta> findAllBySituacao_Id(Long id);
 }

@@ -40,14 +40,14 @@ export class OfertaService {
   }
 
   aceitar(id): Observable<Oferta>{
-    return this.http.patch<Oferta>(this.api + "/aceitar" + id, null);
+    return this.http.patch<Oferta>(this.api + "aceitar/" + id, null);
   }
 
   cancelar(id): Observable<Oferta>{
-    return this.http.patch<Oferta>(this.api + "/cancelar" + id, null);
+    return this.http.patch<Oferta>(this.api + "cancelar/" + id, null);
   }
 
   recusar(id): Observable<Oferta>{
-    return this.http.patch<Oferta>(this.api + "/recusar" + id, null);
+    return this.http.patch<Oferta>(this.api + "recusar/" + id, null);
   }
 }
