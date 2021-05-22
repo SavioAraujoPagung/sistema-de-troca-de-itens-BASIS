@@ -64,6 +64,8 @@ export class MinhasOfertasListagemComponent implements OnInit {
 
   buscarTodos(){
     this.blockUI.start(this._mensagemBlockUi);
+    this.contador = 0;
+    this.ofertasOfertante = [];
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertante(this.usuarioLogado.id).pipe(
       finalize(() => {
@@ -124,7 +126,7 @@ export class MinhasOfertasListagemComponent implements OnInit {
 
   cancelar(id){
     this.blockUI.start(this._mensagemBlockUi);
-    this.ofertaService.aceitar(id).pipe(
+    this.ofertaService.cancelar(id).pipe(
       finalize(() => {
         this.blockUI.stop();
         this.buscarTodos();
