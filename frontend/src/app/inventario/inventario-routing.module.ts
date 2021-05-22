@@ -7,7 +7,7 @@ import { ListarInventarioComponent } from './listar-inventario/listar-inventario
 
 const routes: Routes = [
    { path: '', component: ListarInventarioComponent },
-   //{ path: 'alterar', component: AlterarItensComponent }
+   { path: 'alterar', component: AlterarItensComponent }
 ];
 
 @NgModule({

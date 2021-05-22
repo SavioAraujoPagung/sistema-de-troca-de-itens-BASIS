@@ -16,7 +16,6 @@ import { InventarioRoutingModule } from './inventario-routing.module';
     CommonModule,
     InventarioRoutingModule,
     SharedModule,
-
   ]
 })
 export class InventarioModule { }

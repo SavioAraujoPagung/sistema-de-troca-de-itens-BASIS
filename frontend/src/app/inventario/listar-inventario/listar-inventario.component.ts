@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CategoriaService } from './../../services/categoria.service';
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from './../../shared/models/item.model';
@@ -39,7 +40,8 @@ export class ListarInventarioComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private fb: FormBuilder,
-    private categoriaService: CategoriaService
+    private categoriaService: CategoriaService,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -123,13 +125,12 @@ export class ListarInventarioComponent implements OnInit {
     this.displayDialog = true;
     event.preventDefault();
   }
-   alterarItem(event: Event, item: Item) {
-     this.itemSelecionado = item;
-     console.log(this.itemSelecionado);
-      this.dialogItem.abrir(this.itemSelecionado);
 
-     event.preventDefault();
-   }
+  alterarItem(event: Event, item: Item) {
+    this.itemSelecionado = item;
+    this.router.navigate(['alterar']);
+    event.preventDefault();
+  }
 
   onDialogHide() {
     this.selectedItem = null;

@@ -1,43 +1,39 @@
-import { CategoriaService } from '../../services/categoria.service';
 import { ItemService } from 'src/app/services/item.service';
-import { Categoria } from '../../shared/models/categoria.model';
 import { Item } from '../../shared/models/item.model';
-
 import { finalize } from 'rxjs/operators';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 
 import { PageNotificationService } from '@nuvem/primeng-components';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-alterar-itens',
   templateUrl: './alterar-itens.component.html',
   styleUrls: ['./alterar-itens.component.css']
 })
+
 export class AlterarItensComponent implements OnInit {
 
-  displayBasic: boolean = false; 
+  displayBasic: boolean = false ; 
   item: Item; 
 
   @Output() displayBasicClose: EventEmitter<boolean> = new EventEmitter();
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
 
-  private categoria: Categoria;
   private form: FormGroup;
-  private categorias: Categoria[] = [];
   private imagem: any;
   private usuarioLogado: any;
 
   constructor(
     private itensServices: ItemService,
-    private categoriaService: CategoriaService,
     private formBuilder: FormBuilder,
     private notification: PageNotificationService
   ) { }
 
   ngOnInit(): void {
+    this.displayBasic = true;
     this.iniciarForm();
   }
 
@@ -53,28 +49,13 @@ export class AlterarItensComponent implements OnInit {
     });
   }
 
-  buscarCategorias(){
-    this.categoriaService.buscarTodos().pipe(
-      finalize(()=>{
-        this.blockUI.stop();
-      })
-    ).subscribe(
-      (categorias) => {
-        this.categorias = categorias;
-        console.log(this.categorias);
-      }
-    )
-  }
-
   uploadImagem(event){
     let fileReader = new FileReader();
     let file = event.currentFiles[0];
     
     fileReader.onloadend = () => {
       this.imagem = fileReader.result;
-
       let blob = this.imagem.split(",");
-      
       this.form.patchValue({ imagem: blob[1] });
     }
     fileReader.readAsDataURL(file);

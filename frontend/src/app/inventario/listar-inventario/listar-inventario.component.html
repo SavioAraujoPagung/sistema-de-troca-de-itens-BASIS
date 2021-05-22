@@ -1,4 +1,4 @@
- <h3>INVENTARIO</h3>
+<h3>INVENTARIO</h3>
 
 <p-dataView #dv [value]="itens" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="nome"
     [sortField]="sortField" [sortOrder]="sortOrder">
@@ -34,6 +34,7 @@
                     </div>
                 </div>
                 <button pButton type="button" icon="pi pi-search" (click)="selectItem($event, item)"></button>
+                <button pButton (click)="alterarItem($event, item)" type="button" icon="pi pi-pencil" label="editar"></button>
             </div>
         </div>
         <hr>

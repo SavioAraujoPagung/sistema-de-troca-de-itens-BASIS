@@ -1,5 +1,5 @@
 
-<p-dialog header="Alterar" [(visible)]="displayBasic" [style]="{width: '60vw'}" [baseZIndex]="10000" (onHide)="fecharModal()" >
+<p-dialog #dialogItem header="Alterar" [(visible)]="displayBasic" [style]="{width: '60vw'}" [baseZIndex]="10000" (onHide)="fecharModal()" >
     <form [formGroup]="form" (ngSubmit)="alterar()">
         <h3>ALTERAR ITEM</h3>
         <div class="ui-fluid">
@@ -22,20 +22,13 @@
             <br>
             <div>
                 <h4>Categoria do item</h4>
-                <!-- <select name="categoria" id="categoria" formControlName="categoriaId">
-                    <ng-container *ngFor="let categoria of categorias">
-                    <option value="{{ categoria.id }}">{{ categoria.descricao }}</option>
-                    </ng-container>
-                </select> -->
                 <input type="number" formControlName="categoriaId" pInputText>
             </div>
             <br>
             <div>
                 <h4>Insira a imagem do item</h4>
-                
-
                 <p-fileUpload mode="basic" customUpload="true" name="imagem[]" accept="image/*" maxFileSize="1500000" (onSelect)="uploadImagem($event)"></p-fileUpload>
-                <!-- <img [src]="item.imagem" class="center-img"> -->
+                
             </div>
         </div>
         <p>
