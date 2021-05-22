@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -33,7 +34,11 @@ export class ListagemItensOfertadosComponent implements OnInit {
     this.blockUI.start(this._mensagemBlockUi);
     this.itensOfertados = [];
     this.contador = 0;
-    this.ofertaService.obterPorId(id).subscribe(
+    this.ofertaService.obterPorId(id).pipe(
+      finalize(() => {
+        this.blockUI.stop();
+      })
+    ).subscribe(
       (data) => {
         this.oferta = data;
         this.obterItensOfertados();

@@ -25,7 +25,7 @@ export class ParaMimComponent implements OnInit {
   private _mensagemBlockUi: String = 'Carregando...';
   @ViewChild('itensOfertadosDisplay') itensOfertadosDisplay: ListagemItensOfertadosComponent;
 
-  ofertasOfertante: OfertaAmostra[] = [];
+  ofertasOfertado: OfertaAmostra[] = [];
   ofertasListagem: OfertaListagem[] = [];
   ofertaAmostra: OfertaAmostra;
   usuarioLogado: Usuario;
@@ -65,15 +65,16 @@ export class ParaMimComponent implements OnInit {
   buscarTodos(){
     this.blockUI.start(this._mensagemBlockUi);
     this.contador = 0;
-    this.ofertasOfertante = [];
+    this.ofertasOfertado = [];
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertado(this.usuarioLogado.id).pipe(
       finalize(() => {
-        this.obterDetalhesOferta();
+        this.blockUI.stop();
       })
     ).subscribe(
       (data) => {
         this.ofertasListagem = data;
+        this.obterDetalhesOferta();
       }
     )
   }
@@ -122,7 +123,7 @@ export class ParaMimComponent implements OnInit {
     this.usuarioService.obterPorId(this.ofertaAmostra.item.usuarioId).subscribe(
       (data) => {
         this.ofertaAmostra.usuarioDisponivel = data;
-        this.ofertasOfertante.push(this.ofertaAmostra);
+        this.ofertasOfertado.push(this.ofertaAmostra);
         this.contador++;
         this.obterDetalhesOferta();
       }
@@ -138,10 +139,12 @@ export class ParaMimComponent implements OnInit {
     this.ofertaService.aceitar(id).pipe(
       finalize(() => {
         this.blockUI.stop();
-        this.buscarTodos();
       })
-    ).subscribe(
-      () => { this.notification.addSuccessMessage("Oferta aceita com sucesso"); },
+      ).subscribe(
+        () => {
+          this.notification.addSuccessMessage("Oferta aceita com sucesso");
+          this.buscarTodos();
+      },
       () => { this.notification.addErrorMessage("Erro ao aceitar oferta"); }
     );
   }
@@ -151,10 +154,12 @@ export class ParaMimComponent implements OnInit {
     this.ofertaService.recusar(id).pipe(
       finalize(() => {
         this.blockUI.stop();
-        this.buscarTodos();
       })
-    ).subscribe(
-      () => { this.notification.addSuccessMessage("Oferta recusada com sucesso"); },
+      ).subscribe(
+        () => {
+          this.notification.addSuccessMessage("Oferta recusada com sucesso");
+          this.buscarTodos();
+        },
       () => { this.notification.addErrorMessage("Erro ao recusar oferta"); }
     );
   }
