@@ -3,9 +3,10 @@ import { Item } from '../../shared/models/item.model';
 import { finalize } from 'rxjs/operators';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 
+import { FormsModule } from '@angular/forms';
 import { PageNotificationService } from '@nuvem/primeng-components';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-alterar-itens',
@@ -17,8 +18,8 @@ export class AlterarItensComponent implements OnInit {
 
   displayBasic: boolean = false ; 
   item: Item; 
-
-  // @Output() displayBasicClose: EventEmitter<boolean> = new EventEmitter();
+  itemOriginal: Item;
+  @Output() atualiozou = new EventEmitter();
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
 
@@ -29,11 +30,10 @@ export class AlterarItensComponent implements OnInit {
   constructor(
     private itensServices: ItemService,
     private formBuilder: FormBuilder,
-    private notification: PageNotificationService
+    private notification: PageNotificationService,
   ) { }
 
   ngOnInit(): void {
-    this.displayBasic = true;
     this.iniciarForm();
   }
 
@@ -61,7 +61,21 @@ export class AlterarItensComponent implements OnInit {
     fileReader.readAsDataURL(file);
   }
 
-  alterar(){
+  montarImagem(item: Item){
+    this.itemOriginal = item;
+    let formato = "data:image/jpg;base64,";
+    let img = formato.concat(item.imagem);
+    item.imagem = img;
+    return item;
+  }
+
+  desmontarImagem(item: Item){
+    let blob = item.imagem.split(",");
+    this.form.patchValue({ imagem: blob[1] })
+  }
+
+  alterar(){  
+    console.log(this.form.value);
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.form.value.usuarioId = this.usuarioLogado.id;
     this.blockUI.start(this._mensagemBlockUi);
@@ -78,13 +92,7 @@ export class AlterarItensComponent implements OnInit {
         this.notification.addErrorMessage("Erro ao alterar usuario");
       }
     );
-  }
-
-  montarImagem(item: Item){
-    let formato = "data:image/jpg;base64,";
-    let img = formato.concat(item.imagem);
-    item.imagem = img;
-    return item;
+    this.atualiozou.emit("");
   }
 
   fecharModal(){
@@ -92,10 +100,20 @@ export class AlterarItensComponent implements OnInit {
   }
 
   abrir(item: Item){
-    this.item = this.montarImagem(item);
+    this.desmontarImagem(item);
     this.displayBasic = true;
-    this.form.patchValue(item);
+    this.form.patchValue({ id: item.id });
+    this.form.patchValue({ descricao: item.descricao });
+    this.form.patchValue({ categoria: item.categoriaId });
+    this.form.patchValue({ disponibilidade: item.disponibilidade });
+    this.form.patchValue({ nome: item.nome });
+    this.form.patchValue({ usuarioId: item.usuarioId });
   }
 
 
+  load() {
+    //Session storage salva os dados como string
+    (sessionStorage.refresh == 'true' || !sessionStorage.refresh) && location.reload();
+    sessionStorage.refresh = false;
+  }
 }

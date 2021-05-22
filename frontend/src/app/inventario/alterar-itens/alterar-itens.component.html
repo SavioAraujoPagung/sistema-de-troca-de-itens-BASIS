@@ -28,7 +28,6 @@
             <div>
                 <h4>Insira a imagem do item</h4>
                 <p-fileUpload mode="basic" customUpload="true" name="imagem[]" accept="image/*" maxFileSize="1500000" (onSelect)="uploadImagem($event)"></p-fileUpload>
-                
             </div>
         </div>
         <p>
@@ -37,9 +36,4 @@
             </p-footer>
         </p>
     </form>
-    <p-footer>
-        <button type="button" pButton icon="pi pi-check" (click)="fecharModal()" label="Alterar"></button>
-        <button type="button" pButton icon="pi pi-times" (click)="fecharModal()" label="No" class="ui-button-secondary"></button>
-    </p-footer>
 </p-dialog>
-<app-alterar-itens>dialogItem</app-alterar-itens>

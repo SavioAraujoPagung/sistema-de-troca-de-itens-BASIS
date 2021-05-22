@@ -1,11 +1,12 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { CategoriaService } from './../../services/categoria.service';
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from './../../shared/models/item.model';
 import { Categoria } from './../../shared/models/categoria.model';
 import { AlterarItensComponent } from 'src/app/inventario/alterar-itens/alterar-itens.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -27,6 +28,7 @@ export class ListarInventarioComponent implements OnInit {
   categoria: Categoria;
   categorias: Categoria[] = [];
   itens: Item[];
+  itensOriginal: Item[];
   form: FormGroup;
   selectedItem: Item;
   itemSelecionado: Item;
@@ -48,8 +50,6 @@ export class ListarInventarioComponent implements OnInit {
       this.iniciarForm();
       this.buscarTodos();
       this.buscarCategorias();
-      console.log("categorias" );
-      console.log(this.categorias);
 
       this.sortOptions = [
           {label: 'Nome A->Z', value: 'nome'},
@@ -83,7 +83,6 @@ export class ListarInventarioComponent implements OnInit {
     ).subscribe(
       (categorias) => {
         this.categorias = categorias;
-        console.log(categorias+ "buscar categorias");
       }
     )
   }
@@ -127,7 +126,8 @@ export class ListarInventarioComponent implements OnInit {
 
   alterarItem(event: Event, item: Item) {
     this.itemSelecionado = item;
-    this.router.navigate(['alterar']);
+    console.log(item);
+    this.dialogItem.abrir(item);
     event.preventDefault();
   }
 
@@ -145,7 +145,19 @@ export class ListarInventarioComponent implements OnInit {
     return itens;
   }
 
-  alterar(){
-    this.dialogItem.abrir(this.selectedItem);
+  onAtualizou($event){
+  console.log("enteeeeee");
+    this.iniciarForm();
+    this.buscarTodos();
+    this.buscarCategorias();
+
+    this.sortOptions = [
+        {label: 'Nome A->Z', value: 'nome'},
+        {label: 'Nome Z->A', value: '!nome'},
+        {label: 'Categoria A->Z', value: 'categoriaId'},
+        {label: 'Categoria Z->A', value: '!categoriaId'}
+    ];
   }
+
 }
+ 
