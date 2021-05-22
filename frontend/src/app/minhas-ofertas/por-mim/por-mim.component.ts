@@ -69,11 +69,12 @@ export class PorMimComponent implements OnInit {
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertante(this.usuarioLogado.id).pipe(
       finalize(() => {
-        this.obterDetalhesOferta();
+        this.blockUI.stop();
       })
     ).subscribe(
       (data) => {
         this.ofertasListagem = data;
+        this.obterDetalhesOferta();
       }
     )
   }
@@ -113,15 +114,6 @@ export class PorMimComponent implements OnInit {
     this.usuarioService.obterPorId(base.usuarioOfertanteId).subscribe(
       (data) => {
         this.ofertaAmostra.usuarioOfertante = data;
-        this.montarOfertaReceptor(base);
-      }
-    );
-  }
-
-  montarOfertaReceptor(base: Oferta){
-    this.usuarioService.obterPorId(this.ofertaAmostra.item.usuarioId).subscribe(
-      (data) => {
-        this.ofertaAmostra.usuarioDisponivel = data;
         this.ofertasOfertante.push(this.ofertaAmostra);
         this.contador++;
         this.obterDetalhesOferta();
@@ -138,10 +130,12 @@ export class PorMimComponent implements OnInit {
     this.ofertaService.cancelar(id).pipe(
       finalize(() => {
         this.blockUI.stop();
-        this.buscarTodos();
       })
     ).subscribe(
-      () => { this.notification.addSuccessMessage("Oferta cancelada com sucesso"); },
+      () => {
+        this.notification.addSuccessMessage("Oferta cancelada com sucesso");
+        this.buscarTodos();
+      },
       () => { this.notification.addErrorMessage("Erro ao cancelar oferta"); }
     );
   }
