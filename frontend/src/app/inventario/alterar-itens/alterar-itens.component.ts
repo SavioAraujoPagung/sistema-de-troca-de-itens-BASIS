@@ -102,12 +102,7 @@ export class AlterarItensComponent implements OnInit {
   abrir(item: Item){
     this.desmontarImagem(item);
     this.displayBasic = true;
-    this.form.patchValue({ id: item.id });
-    this.form.patchValue({ descricao: item.descricao });
-    this.form.patchValue({ categoria: item.categoriaId });
-    this.form.patchValue({ disponibilidade: item.disponibilidade });
-    this.form.patchValue({ nome: item.nome });
-    this.form.patchValue({ usuarioId: item.usuarioId });
+    this.form.patchValue(item);
   }
 
 

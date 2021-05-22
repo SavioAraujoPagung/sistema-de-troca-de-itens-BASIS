@@ -126,7 +126,6 @@ export class ListarInventarioComponent implements OnInit {
 
   alterarItem(event: Event, item: Item) {
     this.itemSelecionado = item;
-    console.log(item);
     this.dialogItem.abrir(item);
     event.preventDefault();
   }
@@ -146,7 +145,6 @@ export class ListarInventarioComponent implements OnInit {
   }
 
   onAtualizou($event){
-  console.log("enteeeeee");
     this.iniciarForm();
     this.buscarTodos();
     this.buscarCategorias();
