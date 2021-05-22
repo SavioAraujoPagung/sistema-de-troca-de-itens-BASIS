@@ -130,10 +130,12 @@ export class MinhasOfertasListagemComponent implements OnInit {
     this.ofertaService.cancelar(id).pipe(
       finalize(() => {
         this.blockUI.stop();
-        this.buscarTodos();
       })
     ).subscribe(
-      () => { this.notification.addSuccessMessage("Oferta cancelada com sucesso"); },
+      () => {
+        this.notification.addSuccessMessage("Oferta cancelada com sucesso");
+        this.buscarTodos();
+      },
       () => { this.notification.addErrorMessage("Erro ao cancelar oferta"); }
     );
   }
