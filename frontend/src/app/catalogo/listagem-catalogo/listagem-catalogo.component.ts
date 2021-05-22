@@ -86,11 +86,12 @@ export class ListagemCatalogoComponent implements OnInit {
   obterDetalhesItem(){
     if (this.contador < this.itens.length) {
       this.itemSuporte = new ItemAmostra();
-      this.itemSuporte.id = this.itens[this.contador].id;
-      this.itemSuporte.descricao = this.itens[this.contador].descricao;
-      this.itemSuporte.disponibilidade = this.itens[this.contador].disponibilidade;
-      this.itemSuporte.nome = this.itens[this.contador].nome;
-      this.itemSuporte.imagem = this.itens[this.contador].imagem;
+
+      this.itemSuporte = {
+        ...this.itens[this.contador],
+         usuario: null,
+         categoria: null
+      };
 
       this.montarUsuarios(this.itens[this.contador]);
     } else {
