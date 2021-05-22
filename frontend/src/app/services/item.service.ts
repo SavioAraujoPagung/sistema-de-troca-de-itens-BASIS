@@ -16,6 +16,10 @@ export class ItemService {
     return this.http.get<Item[]>(this.api);
   }
 
+  inventarioListar(usuarioId): Observable<Item[]>{
+    return this.http.get<Item[]>(this.api+"inventario-"+usuarioId);
+  }
+
   listarDisponivel(): Observable<Item[]>{
     return this.http.get<Item[]>(this.api + "disponivel/");
   }

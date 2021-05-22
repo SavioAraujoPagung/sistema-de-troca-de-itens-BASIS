@@ -22,6 +22,7 @@ export class ListarInventarioComponent implements OnInit {
   @ViewChild("dialogItem") dialogItem: AlterarItensComponent;
   private _mensagemBlockUi: String = 'Carregando...';
 
+  usuarioId: number;
   categoria: Categoria;
   categorias: Categoria[] = [];
   itens: Item[];
@@ -57,8 +58,10 @@ export class ListarInventarioComponent implements OnInit {
   }
 
   buscarTodos(){
+    this.usuarioId = JSON.parse(localStorage.getItem("usuario")).id;
+    
     this.blockUI.start(this._mensagemBlockUi);
-    this.itemService.listar().pipe(
+    this.itemService.inventarioListar(this.usuarioId).pipe(
       finalize(()=>{
         this.blockUI.stop();
       })
