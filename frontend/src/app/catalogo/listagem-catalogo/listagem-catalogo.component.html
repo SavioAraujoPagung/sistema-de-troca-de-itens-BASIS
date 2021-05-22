@@ -1,5 +1,5 @@
 <h3>CATALOGO</h3>
-<p-dataView #dv [value]="itens" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="nome"
+<p-dataView #dv [value]="itensAmostra" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="nome"
     [sortField]="sortField" [sortOrder]="sortOrder">
     <p-header>
         <div class="ui-helper-clearfix">
@@ -25,10 +25,8 @@
                     <img [src]="item.imagem" class="center-img">
                     <div class="p-grid">
                         <div class="p-col-12">NOME:&nbsp;<strong>{{ item.nome }}</strong></div>
-                        <div class="p-col-12">DONO:&nbsp;<strong>{{ item.usuarioId }}</strong></div>
-                        <div class="p-col-12">CATEGORIA:&nbsp;<strong>{{ item.categoriaId }}</strong></div>
-                        <div class="p-col-12" *ngIf="item.disponibilidade" >DISPONIBILIDADE:&nbsp;<strong>Disponível para trocas</strong></div>
-                        <div class="p-col-12" *ngIf="!item.disponibilidade" >DISPONIBILIDADE:&nbsp;<strong>Indisponível para troca</strong></div>
+                        <div class="p-col-12">DONO:&nbsp;<strong>{{ item.usuario.nome }}</strong></div>
+                        <div class="p-col-12">CATEGORIA:&nbsp;<strong>{{ item.categoria.descricao }}</strong></div>
                         <div class="p-col-12">DESCRICAO:&nbsp;<strong>{{ item.descricao }}</strong></div>
                     </div>
                 </div>

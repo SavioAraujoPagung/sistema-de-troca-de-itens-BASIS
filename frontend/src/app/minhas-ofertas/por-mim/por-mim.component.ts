@@ -5,7 +5,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { finalize } from 'rxjs/operators';
 
 import { Oferta } from './../../shared/models/oferta.model';
-import { OfertaAmostra } from './../../shared/models/oferta-amosta.model';
+import { OfertaAmostra } from '../../shared/models/oferta-amostra.model';
 import { OfertaListagem } from './../../shared/models/oferta-listagem.model';
 import { Usuario } from './../../shared/models/usuario.model';
 import { UsuarioService } from './../../services/usuario.service';
