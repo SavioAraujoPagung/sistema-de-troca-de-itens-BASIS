@@ -19,7 +19,13 @@ public class CategoriaRecurso {
 
     @GetMapping
     public ResponseEntity<List<CategoriaDto>> listar(){
-        List<CategoriaDto> categorias = categoriaServico.listar();
-        return new ResponseEntity<>(categorias, HttpStatus.OK);
+        List<CategoriaDto> categoriasDto = categoriaServico.listar();
+        return new ResponseEntity<>(categoriasDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaDto> obterPorId(@PathVariable("id") Long id){
+        CategoriaDto categoriaDto = categoriaServico.obterPorId(id);
+        return new ResponseEntity<>(categoriaDto, HttpStatus.OK);
     }
 }

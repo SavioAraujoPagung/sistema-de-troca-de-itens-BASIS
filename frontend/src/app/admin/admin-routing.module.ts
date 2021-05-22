@@ -9,7 +9,8 @@ const routes: Routes = [
     { path: 'inventario', loadChildren: () => import('../inventario/inventario.module').then(m => m.InventarioModule), canLoad: [AuthGuard] },  
     { path: 'catalogo', loadChildren: () => import('../catalogo/catalogo.module').then(m => m.CatalogoModule), canLoad: [AuthGuard] },
     { path: 'usuarios', loadChildren: () => import('../usuario/usuario.module').then(m => m.UsuarioModule), canLoad: [AuthGuard] },
-    { path: 'itens', loadChildren: () => import('../item/item.module').then(m => m.ItemModule), canLoad: [AuthGuard] }
+    { path: 'itens', loadChildren: () => import('../item/item.module').then(m => m.ItemModule), canLoad: [AuthGuard] },
+    { path: 'minhas-ofertas', loadChildren: () => import('../minhas-ofertas/minhas-ofertas.module').then(m => m.MinhasOfertasModule), canLoad: [AuthGuard] }
   ] }
 ];
 

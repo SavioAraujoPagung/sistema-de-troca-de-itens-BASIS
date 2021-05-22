@@ -54,7 +54,8 @@ export class AdminComponent implements OnInit, AfterViewInit, OnDestroy {
             { label: 'Catalogo', icon: 'dashboard', routerLink: ['./catalogo'] },
             { label: 'Usuarios', icon: 'person', routerLink: ['./usuarios'] },
             { label: 'Itens', icon: 'list', routerLink: ['./itens'] },
-            { label: 'Inventário', icon: 'list', routerLink: ['./inventario'] }
+            { label: 'Inventário', icon: 'list', routerLink: ['./inventario'] },
+            { label: 'Minhas Ofertas', icon: 'sync_alt', routerLink: ['./minhas-ofertas'] }
         ];
     }
 

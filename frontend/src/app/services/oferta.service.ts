@@ -19,6 +19,14 @@ export class OfertaService {
     return this.http.get<OfertaListagem[]>(this.api);
   }
 
+  listarPorOfertante(id): Observable<OfertaListagem[]>{
+    return this.http.get<OfertaListagem[]>(this.api + "ofertante/" + id);
+  }
+
+  listarPorOfertado(id): Observable<OfertaListagem[]>{
+    return this.http.get<OfertaListagem[]>(this.api + "ofertado/" + id);
+  }
+
   obterPorId(id): Observable<Oferta>{
     return this.http.get<Oferta>(this.api + id);
   }
@@ -36,14 +44,14 @@ export class OfertaService {
   }
 
   aceitar(id): Observable<Oferta>{
-    return this.http.patch<Oferta>(this.api + "/aceitar" + id, null);
+    return this.http.patch<Oferta>(this.api + "aceitar/" + id, null);
   }
 
   cancelar(id): Observable<Oferta>{
-    return this.http.patch<Oferta>(this.api + "/cancelar" + id, null);
+    return this.http.patch<Oferta>(this.api + "cancelar/" + id, null);
   }
 
   recusar(id): Observable<Oferta>{
-    return this.http.patch<Oferta>(this.api + "/recusar" + id, null);
+    return this.http.patch<Oferta>(this.api + "recusar/" + id, null);
   }
 }

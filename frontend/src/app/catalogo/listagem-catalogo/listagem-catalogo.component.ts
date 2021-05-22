@@ -1,15 +1,16 @@
-import { PageNotificationService } from '@nuvem/primeng-components';
+import { CategoriaService } from './../../services/categoria.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { finalize } from 'rxjs/operators';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
 
-import { OfertaService } from './../../services/oferta.service';
 import { ItemService } from './../../services/item.service';
+import { UsuarioService } from './../../services/usuario.service';
 import { Oferta } from './../../shared/models/oferta.model';
 import { Usuario } from './../../shared/models/usuario.model';
 import { Item } from './../../shared/models/item.model';
+import { ItemAmostra } from './../../shared/models/item-amostra.model';
 import { CriarOfertaComponent } from './../criar-oferta/criar-oferta.component';
 
 @Component({
@@ -22,7 +23,9 @@ export class ListagemCatalogoComponent implements OnInit {
   private _mensagemBlockUi: String = 'Carregando...';
   @ViewChild('dialogOferta') dialogOferta: CriarOfertaComponent;
 
-  itens: Item[];
+  itens: Item[] = [];
+  itensAmostra: ItemAmostra[] = [];
+  itemSuporte: ItemAmostra = new ItemAmostra();
 
   sortOptions: SelectItem[];
   sortKey: string;
@@ -32,13 +35,14 @@ export class ListagemCatalogoComponent implements OnInit {
   displayOferta: boolean = false;
   itemSource: Item[];
   itemTarget: Item[];
-  novaOferta: Oferta = new Oferta;
+  novaOferta: Oferta = new Oferta();
   usuarioLogado: Usuario;
+  contador: number = 0;
 
   constructor(
     private itemService: ItemService,
-    private ofertaService: OfertaService,
-    private notification: PageNotificationService
+    private usuarioService: UsuarioService,
+    private categoriaService: CategoriaService
     ) { }
 
   ngOnInit() {
@@ -47,22 +51,21 @@ export class ListagemCatalogoComponent implements OnInit {
       this.sortOptions = [
           {label: 'Nome A->Z', value: 'nome'},
           {label: 'Nome Z->A', value: '!nome'},
-          {label: 'Categoria A->Z', value: 'categoriaId'},
-          {label: 'Categoria Z->A', value: '!categoriaId'}
+          {label: 'Categoria A->Z', value: 'categoria.descricao'},
+          {label: 'Categoria Z->A', value: '!categoria.descricao'},
+          {label: 'Dono A->Z', value: 'usuario.nome'},
+          {label: 'Dono Z->A', value: '!usuario.nome'}
       ];
   }
 
   buscarTodos(){
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.blockUI.start(this._mensagemBlockUi);
-    this.itemService.listarDisponivelExcetoUsuario(this.usuarioLogado.id).pipe(
-      finalize(()=>{
-        this.blockUI.stop();
-      })
-    ).subscribe(
+    this.itemService.listarDisponivelExcetoUsuario(this.usuarioLogado.id).subscribe(
       (itens) => {
         this.itens = itens;
         this.itens = this.montarImagens(this.itens);
+        this.obterDetalhesItem();
       }
     )
   }
@@ -80,6 +83,22 @@ export class ListagemCatalogoComponent implements OnInit {
     }
   }
 
+  obterDetalhesItem(){
+    if (this.contador < this.itens.length) {
+      this.itemSuporte = new ItemAmostra();
+
+      this.itemSuporte = {
+        ...this.itens[this.contador],
+         usuario: null,
+         categoria: null
+      };
+
+      this.montarUsuarios(this.itens[this.contador]);
+    } else {
+      this.blockUI.stop();
+    }
+  }
+
   montarImagens(itens: Item[]){
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
@@ -87,6 +106,26 @@ export class ListagemCatalogoComponent implements OnInit {
       element.imagem = imagem;
     });
     return itens;
+  }
+
+  montarUsuarios(base: Item){
+    this.usuarioService.obterPorId(base.usuarioId).subscribe(
+      (data) => {
+        this.itemSuporte.usuario = data;
+        this.montarCategoria(base);
+      }
+    )
+  }
+
+  montarCategoria(base: Item){
+    this.categoriaService.obterPorId(base.categoriaId).subscribe(
+      (data) => {
+        this.itemSuporte.categoria = data;
+        this.itensAmostra.push(this.itemSuporte);
+        this.contador++;
+        this.obterDetalhesItem();
+      }
+    )
   }
 
   ofertar(itemDesejadoId){

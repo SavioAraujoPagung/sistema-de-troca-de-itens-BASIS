@@ -25,19 +25,6 @@
                     </li>
                 </ul>
             </li>
-            <li #user [ngClass]="{'active-top-menu':app.activeTopbarItem === user}" *ngIf="isAuthenticated">
-                <a href="#" (click)="app.onTopbarItemClick($event,user)">
-                    <i class="topbar-icon material-icons">person</i>
-                    <span class="topbar-item-name">Usuário</span>
-                </a>
-                <ul class="ultima-menu animated fadeInDown">
-                    <li role="menuitem">
-                        <a>
-                            <span user><strong>Usuário: </strong></span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
         </ul>
     </div>
 </div>
