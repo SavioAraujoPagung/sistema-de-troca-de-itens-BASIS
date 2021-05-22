@@ -1,24 +1,23 @@
 <p-carousel [value]="ofertasOfertante" [numVisible]="4" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
     <p-header>
-        <h3>Ofertas Propostas Por Mim</h3>
+        <h3>OFERTAS PROPOSTAS POR MIM</h3>
     </p-header>
     <ng-template let-oferta pTemplate="item">
         <div class="car-details">
             <div class="p-grid p-nogutter">
                 <div class="p-col-12">
-                    <img src="" />
+                    <img [src]="oferta.item.imagem" />
                 </div>
                 <div class="p-col-12 car-data">
                     <div class="car-title">
-                        {{ oferta.itemId }}
+                        {{ oferta.item.nome }}
                     </div>
                     <div class="car-subtitle">
-                        {{ oferta.usuarioOfertanteId }} | {{ oferta.situacaoId }}
-                        <br>
-                        {{oferta.itensOfertados.length}} Itens ofertados
+                        <p><strong>{{ oferta.usuarioOfertante.nome }}</strong></p>
+                        <p><strong>{{ oferta.itensOfertados.length }} Itens ofertados</strong></p>
                     </div>
                     <div class="car-buttons">
-                        <button pButton type="button" class="ui-button-secondary" icon="pi pi-search" label="Detalhes"></button>
+                        <button pButton type="button" class="ui-button-secondary" icon="pi pi-search" label="Itens Ofertados"></button>
                     </div>
                 </div>
             </div>
