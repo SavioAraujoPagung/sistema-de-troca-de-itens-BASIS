@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -44,7 +45,11 @@ export class ListagemItensOfertadosComponent implements OnInit {
 
   obterItensOfertados(){
     if (this.contador < this.oferta.itensOfertados.length) {
-      this.itemService.obterPorId(this.oferta.itensOfertados[this.contador]).subscribe(
+      this.itemService.obterPorId(this.oferta.itensOfertados[this.contador]).pipe(
+        finalize(() => {
+          this.blockUI.stop();
+        })
+      ).subscribe(
         (data) => {
           data.imagem = this.montarImagem(data.imagem);
           this.itensOfertados.push(data);

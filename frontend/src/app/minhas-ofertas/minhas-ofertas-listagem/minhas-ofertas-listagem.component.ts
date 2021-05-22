@@ -29,7 +29,7 @@ export class MinhasOfertasListagemComponent implements OnInit {
   ofertasListagem: OfertaListagem[] = [];
   ofertaAmostra: OfertaAmostra;
   usuarioLogado: Usuario;
-  contador: number = 0;
+  contador: number;
 
   responsiveOptions;
 
@@ -69,11 +69,12 @@ export class MinhasOfertasListagemComponent implements OnInit {
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertante(this.usuarioLogado.id).pipe(
       finalize(() => {
-        this.obterDetalhesOferta();
+        this.blockUI.stop();
       })
     ).subscribe(
       (data) => {
         this.ofertasListagem = data;
+        this.obterDetalhesOferta();
       }
     )
   }
