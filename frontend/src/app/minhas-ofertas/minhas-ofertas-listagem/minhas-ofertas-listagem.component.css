@@ -39,6 +39,11 @@
     margin-right: 0.6em;
 }
 
+:host ::ng-deep .ui-button {
+    margin: .5em .5em .5em 0;
+    width: 140px;
+}
+
 img {
     width: 200px
 }

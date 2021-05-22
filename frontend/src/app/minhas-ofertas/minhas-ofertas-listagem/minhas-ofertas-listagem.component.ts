@@ -22,9 +22,13 @@ export class MinhasOfertasListagemComponent implements OnInit {
   ofertasOfertanteListagem: OfertaListagem[] = [];
   ofertasOfertante: OfertaAmostra[] = [];
   ofertaAmostra: OfertaAmostra;
-  ofertaSuporte: Oferta = new Oferta;
   usuarioLogado: Usuario;
   contador: number = 0;
+  
+  itensOfertados: Item[];
+  itensOfertadosDisplay: boolean = false;
+  itensOfertadosOferta: Oferta = new Oferta();
+  itensOfertadosContador: number = 0;
 
   responsiveOptions;
 
@@ -74,10 +78,9 @@ export class MinhasOfertasListagemComponent implements OnInit {
       this.ofertaAmostra = new OfertaAmostra();
       this.ofertaService.obterPorId(this.ofertasOfertanteListagem[this.contador].id).subscribe(
         (data) => {
-          this.ofertaSuporte = data
-          this.ofertaAmostra.id = this.ofertaSuporte.id;
-          this.ofertaAmostra.itensOfertados = this.ofertaSuporte.itensOfertados;
-          this.montarOfertaItem(this.ofertaSuporte);
+          this.ofertaAmostra.id = data.id;
+          this.ofertaAmostra.itensOfertados = data.itensOfertados;
+          this.montarOfertaItem(data);
         }
       );
     }
@@ -104,16 +107,41 @@ export class MinhasOfertasListagemComponent implements OnInit {
       (data) => {
         this.ofertaAmostra.usuarioOfertante = data;
         this.ofertasOfertante.push(this.ofertaAmostra);
-        this.reportar();
         this.contador++;
         this.obterDetalhesOferta();
       }
     );
   }
 
-  reportar(){
-    console.log(this.ofertasOfertante);
-    console.log("CONTADOR: " + this.contador);
+  showDisplay(id) {
+    this.itensOfertados = [];
+    this.itensOfertadosContador = 0;
+    this.ofertaService.obterPorId(id).subscribe(
+      (data) => {
+        this.itensOfertadosOferta = data;
+        this.obterItensOfertados();
+      }
+    );
+  }
+
+  obterItensOfertados(){
+    if (this.itensOfertadosContador < this.itensOfertadosOferta.itensOfertados.length) {
+      this.itemService.obterPorId(this.itensOfertadosOferta.itensOfertados[this.itensOfertadosContador]).subscribe(
+        (data) => {
+          data.imagem = this.montarImagens(data.imagem);
+          this.itensOfertados.push(data);
+          this.itensOfertadosContador++;
+          this.obterItensOfertados();
+        }
+      )
+    } else {
+      this.itensOfertadosDisplay = true;
+    }
+  }
+
+  montarImagens(base: string){
+    let formatoImagem = "data:image/jpg;base64,";
+    return formatoImagem.concat(base);
   }
 
 }

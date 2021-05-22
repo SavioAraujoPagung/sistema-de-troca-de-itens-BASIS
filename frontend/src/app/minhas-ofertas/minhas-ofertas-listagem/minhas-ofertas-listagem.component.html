@@ -17,10 +17,31 @@
                         <p><strong>{{ oferta.itensOfertados.length }} Itens ofertados</strong></p>
                     </div>
                     <div class="car-buttons">
-                        <button pButton type="button" class="ui-button-secondary" icon="pi pi-search" label="Itens Ofertados"></button>
+                        <button pButton type="button" class="ui-button-secondary" (click)="showDisplay(oferta.id)" icon="pi pi-search" label="Itens Ofertados"></button>
                     </div>
                 </div>
             </div>
         </div>
     </ng-template>
 </p-carousel>
+
+<p-dialog header="ITENS OFERTADOS" [(visible)]="itensOfertadosDisplay" [style]="{width: '80vw'}" [baseZIndex]="10000">
+    <p-table [value]="itensOfertados">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>IMAGEM</th>
+                <th>NOME</th>
+                <th>CATEGORIA</th>
+                <th colspan="3">DESCRICAO</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td><img [src]="item.imagem" alt="Imagem do item"></td>
+                <td>{{ item.nome }}</td>
+                <td>{{ item.categoriaId }}</td>
+                <td colspan="3">{{ item.descricao }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

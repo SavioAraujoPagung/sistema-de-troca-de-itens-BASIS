@@ -36,7 +36,7 @@ export class CriarOfertaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  montarImagem(itens: Item[]){
+  montarImagens(itens: Item[]){
     itens.forEach(element => {
       let formatoImagem = "data:image/jpg;base64,";
       let imagem = formatoImagem.concat(element.imagem);
@@ -61,7 +61,7 @@ export class CriarOfertaComponent implements OnInit {
     ).subscribe(
       (itens) => {
         this.itemSource = itens;
-        this.itemSource = this.montarImagem(this.itemSource);
+        this.itemSource = this.montarImagens(this.itemSource);
         this.itemTarget = [];
       }
     );
