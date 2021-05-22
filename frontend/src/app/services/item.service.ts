@@ -1,8 +1,7 @@
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-
+import { Observable } from 'rxjs';
 import { Item } from './../shared/models/item.model';
 
 @Injectable({
@@ -15,6 +14,10 @@ export class ItemService {
 
   listar(): Observable<Item[]>{
     return this.http.get<Item[]>(this.api);
+  }
+
+  inventarioListar(usuarioId): Observable<Item[]>{
+    return this.http.get<Item[]>(this.api+"inventario-"+usuarioId);
   }
 
   listarDisponivel(): Observable<Item[]>{
@@ -44,4 +47,5 @@ export class ItemService {
   deletar(id){
     return this.http.delete(this.api + id);
   }
+
 }

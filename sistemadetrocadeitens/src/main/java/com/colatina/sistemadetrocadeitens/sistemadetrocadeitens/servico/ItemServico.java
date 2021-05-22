@@ -78,6 +78,19 @@ public class ItemServico {
         return itemMapper.toDto(itens);
     }
 
+    public List<ItemDto>listarInventario(Long id){
+        List<Item> items  = itemRepositorio.findAllByUsuarioId(id);
+        List<ItemDto> itemDtos;
+
+        itemDtos = itemMapper.toDto(items);
+
+        if (itemDtos == null){
+            throw(new RegraNegocioException("Item nao encontrado"));
+        }
+        return itemDtos;
+    }
+
+
     public void deletar(Long id){
         Item item = itemMapper.toEntity(obterPorId(id));
         itemRepositorio.delete(item);

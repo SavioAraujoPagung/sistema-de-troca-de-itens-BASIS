@@ -1,5 +1,6 @@
 package com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.recurso;
 
+import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.dominio.Item;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.ItemServico;
 import com.colatina.sistemadetrocadeitens.sistemadetrocadeitens.servico.dto.ItemDto;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,12 @@ public class ItemRecurso {
     @GetMapping
     public ResponseEntity<List<ItemDto>> listar(){
         List<ItemDto> itemDtos = itemServico.listar();
+        return new ResponseEntity<>(itemDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/inventario-{id}")
+    public ResponseEntity<List<ItemDto>> obterPorUsuario(@PathVariable("id") Long id){
+        List<ItemDto> itemDtos = itemServico.listarInventario(id);
         return new ResponseEntity<>(itemDtos, HttpStatus.OK);
     }
 

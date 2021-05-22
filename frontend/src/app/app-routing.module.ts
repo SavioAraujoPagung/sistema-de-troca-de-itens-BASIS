@@ -8,6 +8,7 @@ import { DiarioErrosComponent } from './components/diario-erros/diario-erros.com
 import { LoginSuccessComponent } from '@nuvem/angular-base';
 import { CadastroPageComponent } from './cadastro-page/cadastro-page.component';
 import { LoginComponent } from './login/login.component';
+import { AlterarItensComponent } from './inventario/alterar-itens/alterar-itens.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'admin', pathMatch: 'full' },
@@ -15,7 +16,7 @@ const routes: Routes = [
     { path: 'login-success', component: LoginSuccessComponent },
     { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
     { path: 'cadastro', component: CadastroPageComponent, canActivate: [GuestGuard] },
-    { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard] }
+    { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard] },
 ];
 
 @NgModule({
