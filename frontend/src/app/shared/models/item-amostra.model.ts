@@ -7,6 +7,6 @@ export class ItemAmostra{
     disponibilidade: boolean;
     nome: string;
     imagem: string;
-    usuarioId: Usuario;
-    categoriaId: Categoria;    
+    usuario: Usuario;
+    categoria: Categoria;    
 }
