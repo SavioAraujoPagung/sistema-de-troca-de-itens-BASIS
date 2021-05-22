@@ -49,6 +49,12 @@ public class OfertaRecurso {
         return new ResponseEntity<>(ofertaListagemDto, HttpStatus.OK);
     }
 
+    @GetMapping("/ofertado/{id}")
+    public ResponseEntity<List<OfertaListagemDto>> listarPorOfertado(@PathVariable("id") Long usuarioOfertadoId){
+        List<OfertaListagemDto> ofertaListagemDto = ofertaServico.listarPorOfertado(usuarioOfertadoId);
+        return new ResponseEntity<>(ofertaListagemDto, HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<OfertaDto> alterar(@Valid @RequestBody OfertaDto dto){
         OfertaDto ofertaDto = ofertaServico.alterar(dto);
