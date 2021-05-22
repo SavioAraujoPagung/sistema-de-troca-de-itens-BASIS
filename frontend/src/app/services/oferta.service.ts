@@ -19,6 +19,10 @@ export class OfertaService {
     return this.http.get<OfertaListagem[]>(this.api);
   }
 
+  listarPorOfertante(id): Observable<OfertaListagem[]>{
+    return this.http.get<OfertaListagem[]>(this.api + "ofertante/" + id);
+  }
+
   obterPorId(id): Observable<Oferta>{
     return this.http.get<Oferta>(this.api + id);
   }

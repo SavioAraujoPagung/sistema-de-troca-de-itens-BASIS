@@ -1,1 +1,27 @@
-<p>minhas-ofertas-listagem works!</p>
+<p-carousel [value]="ofertasOfertante" [numVisible]="4" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+    <p-header>
+        <h3>Ofertas Propostas Por Mim</h3>
+    </p-header>
+    <ng-template let-oferta pTemplate="item">
+        <div class="car-details">
+            <div class="p-grid p-nogutter">
+                <div class="p-col-12">
+                    <img src="" />
+                </div>
+                <div class="p-col-12 car-data">
+                    <div class="car-title">
+                        {{ oferta.itemId }}
+                    </div>
+                    <div class="car-subtitle">
+                        {{ oferta.usuarioOfertanteId }} | {{ oferta.situacaoId }}
+                        <br>
+                        {{oferta.itensOfertados.length}} Itens ofertados
+                    </div>
+                    <div class="car-buttons">
+                        <button pButton type="button" class="ui-button-secondary" icon="pi pi-search" label="Detalhes"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>
