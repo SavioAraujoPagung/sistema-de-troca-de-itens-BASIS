@@ -1,11 +1,9 @@
-import { PageNotificationService } from '@nuvem/primeng-components';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { finalize } from 'rxjs/operators';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
 
-import { OfertaService } from './../../services/oferta.service';
 import { ItemService } from './../../services/item.service';
 import { Oferta } from './../../shared/models/oferta.model';
 import { Usuario } from './../../shared/models/usuario.model';
@@ -37,8 +35,6 @@ export class ListagemCatalogoComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    private ofertaService: OfertaService,
-    private notification: PageNotificationService
     ) { }
 
   ngOnInit() {
