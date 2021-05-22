@@ -5,7 +5,7 @@ import { NgBlockUI, BlockUI } from 'ng-block-ui';
 
 import { PageNotificationService } from '@nuvem/primeng-components';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-alterar-itens',
@@ -18,7 +18,7 @@ export class AlterarItensComponent implements OnInit {
   displayBasic: boolean = false ; 
   item: Item; 
 
-  @Output() displayBasicClose: EventEmitter<boolean> = new EventEmitter();
+  // @Output() displayBasicClose: EventEmitter<boolean> = new EventEmitter();
   @BlockUI() blockUI: NgBlockUI;
   private _mensagemBlockUi: String = 'Carregando...';
 
@@ -88,7 +88,7 @@ export class AlterarItensComponent implements OnInit {
   }
 
   fecharModal(){
-    this.displayBasicClose.emit(false)
+    this.displayBasic = false;
   }
 
   abrir(item: Item){

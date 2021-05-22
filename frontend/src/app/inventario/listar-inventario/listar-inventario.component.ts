@@ -5,7 +5,7 @@ import { Item } from './../../shared/models/item.model';
 import { Categoria } from './../../shared/models/categoria.model';
 import { AlterarItensComponent } from 'src/app/inventario/alterar-itens/alterar-itens.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem } from 'primeng';
@@ -20,8 +20,8 @@ export class ListarInventarioComponent implements OnInit {
 
 
   @BlockUI() blockUI: NgBlockUI;
-  @ViewChild("dialogItem") dialogItem: AlterarItensComponent;
   private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('dialogItem') dialogItem: AlterarItensComponent;
 
   usuarioId: number;
   categoria: Categoria;
@@ -120,7 +120,6 @@ export class ListarInventarioComponent implements OnInit {
       if(cat.id == item.categoriaId){
       }
     })
-    console.log("NOME DA CATEGORIAAAAAAA: " + this.categorias);
     this.selectedItem = item;
     this.displayDialog = true;
     event.preventDefault();
@@ -147,7 +146,6 @@ export class ListarInventarioComponent implements OnInit {
   }
 
   alterar(){
-    console.log(this.selectedItem);
     this.dialogItem.abrir(this.selectedItem);
   }
 }
