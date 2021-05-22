@@ -113,6 +113,15 @@ export class PorMimComponent implements OnInit {
     this.usuarioService.obterPorId(base.usuarioOfertanteId).subscribe(
       (data) => {
         this.ofertaAmostra.usuarioOfertante = data;
+        this.montarOfertaReceptor(base);
+      }
+    );
+  }
+
+  montarOfertaReceptor(base: Oferta){
+    this.usuarioService.obterPorId(this.ofertaAmostra.item.usuarioId).subscribe(
+      (data) => {
+        this.ofertaAmostra.usuarioDisponivel = data;
         this.ofertasOfertante.push(this.ofertaAmostra);
         this.contador++;
         this.obterDetalhesOferta();

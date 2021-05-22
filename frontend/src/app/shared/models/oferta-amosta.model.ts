@@ -5,5 +5,6 @@ export class OfertaAmostra{
     id: number;
     item: Item;
     usuarioOfertante: Usuario;
+    usuarioDisponivel: Usuario;
     itensOfertados: number[];
 }
