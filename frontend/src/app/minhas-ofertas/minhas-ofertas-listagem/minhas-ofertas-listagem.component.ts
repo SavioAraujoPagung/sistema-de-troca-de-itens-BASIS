@@ -1,15 +1,16 @@
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { finalize } from 'rxjs/operators';
+
+import { Oferta } from './../../shared/models/oferta.model';
+import { OfertaAmostra } from './../../shared/models/oferta-amosta.model';
+import { OfertaListagem } from './../../shared/models/oferta-listagem.model';
+import { Usuario } from './../../shared/models/usuario.model';
 import { UsuarioService } from './../../services/usuario.service';
 import { ItemService } from './../../services/item.service';
-import { OfertaAmostra } from './../../shared/models/oferta-amosta.model';
-import { Item } from 'src/app/shared/models/item.model';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
-import { finalize } from 'rxjs/operators';
-import { Oferta } from './../../shared/models/oferta.model';
-
-import { Usuario } from './../../shared/models/usuario.model';
-import { OfertaListagem } from './../../shared/models/oferta-listagem.model';
 import { OfertaService } from './../../services/oferta.service';
+import { ListagemItensOfertadosComponent } from './../listagem-itens-ofertados/listagem-itens-ofertados.component';
 
 @Component({
   selector: 'app-minhas-ofertas-listagem',
@@ -19,16 +20,15 @@ import { OfertaService } from './../../services/oferta.service';
 })
 export class MinhasOfertasListagemComponent implements OnInit {
 
-  ofertasOfertanteListagem: OfertaListagem[] = [];
+  @BlockUI() blockUI: NgBlockUI;
+  private _mensagemBlockUi: String = 'Carregando...';
+  @ViewChild('itensOfertadosDisplay') itensOfertadosDisplay: ListagemItensOfertadosComponent;
+
   ofertasOfertante: OfertaAmostra[] = [];
+  ofertasListagem: OfertaListagem[] = [];
   ofertaAmostra: OfertaAmostra;
   usuarioLogado: Usuario;
   contador: number = 0;
-  
-  itensOfertados: Item[];
-  itensOfertadosDisplay: boolean = false;
-  itensOfertadosOferta: Oferta = new Oferta();
-  itensOfertadosContador: number = 0;
 
   responsiveOptions;
 
@@ -61,6 +61,7 @@ export class MinhasOfertasListagemComponent implements OnInit {
   }
 
   obterPorOfertante(){
+    this.blockUI.start(this._mensagemBlockUi);
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertante(this.usuarioLogado.id).pipe(
       finalize(() => {
@@ -68,21 +69,23 @@ export class MinhasOfertasListagemComponent implements OnInit {
       })
     ).subscribe(
       (data) => {
-        this.ofertasOfertanteListagem = data;
+        this.ofertasListagem = data;
       }
     )
   }
 
   obterDetalhesOferta(){
-    if (this.contador < this.ofertasOfertanteListagem.length) {
+    if (this.contador < this.ofertasListagem.length) {
       this.ofertaAmostra = new OfertaAmostra();
-      this.ofertaService.obterPorId(this.ofertasOfertanteListagem[this.contador].id).subscribe(
+      this.ofertaService.obterPorId(this.ofertasListagem[this.contador].id).subscribe(
         (data) => {
           this.ofertaAmostra.id = data.id;
           this.ofertaAmostra.itensOfertados = data.itensOfertados;
           this.montarOfertaItem(data);
         }
       );
+    } else {
+      this.blockUI.stop();
     }
   }
 
@@ -114,34 +117,7 @@ export class MinhasOfertasListagemComponent implements OnInit {
   }
 
   showDisplay(id) {
-    this.itensOfertados = [];
-    this.itensOfertadosContador = 0;
-    this.ofertaService.obterPorId(id).subscribe(
-      (data) => {
-        this.itensOfertadosOferta = data;
-        this.obterItensOfertados();
-      }
-    );
-  }
-
-  obterItensOfertados(){
-    if (this.itensOfertadosContador < this.itensOfertadosOferta.itensOfertados.length) {
-      this.itemService.obterPorId(this.itensOfertadosOferta.itensOfertados[this.itensOfertadosContador]).subscribe(
-        (data) => {
-          data.imagem = this.montarImagens(data.imagem);
-          this.itensOfertados.push(data);
-          this.itensOfertadosContador++;
-          this.obterItensOfertados();
-        }
-      )
-    } else {
-      this.itensOfertadosDisplay = true;
-    }
-  }
-
-  montarImagens(base: string){
-    let formatoImagem = "data:image/jpg;base64,";
-    return formatoImagem.concat(base);
+    this.itensOfertadosDisplay.showDisplay(id);
   }
 
 }
