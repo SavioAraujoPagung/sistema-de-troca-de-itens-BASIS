@@ -21,9 +21,10 @@ export class MinhasOfertasListagemComponent implements OnInit {
 
   ofertasOfertanteListagem: OfertaListagem[] = [];
   ofertasOfertante: OfertaAmostra[] = [];
-  ofertaAmostra: OfertaAmostra = new OfertaAmostra;
+  ofertaAmostra: OfertaAmostra;
   ofertaSuporte: Oferta = new Oferta;
   usuarioLogado: Usuario;
+  contador: number = 0;
 
   responsiveOptions;
 
@@ -59,7 +60,7 @@ export class MinhasOfertasListagemComponent implements OnInit {
     this.usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
     this.ofertaService.listarPorOfertante(this.usuarioLogado.id).pipe(
       finalize(() => {
-        this.obterDetalhesOferta(this.ofertasOfertanteListagem);
+        this.obterDetalhesOferta();
       })
     ).subscribe(
       (data) => {
@@ -68,26 +69,22 @@ export class MinhasOfertasListagemComponent implements OnInit {
     )
   }
 
-  obterDetalhesOferta(ofetasListagem: OfertaListagem[]){
-    ofetasListagem.map(entidade => {
-      this.ofertaService.obterPorId(entidade.id).pipe(
-        finalize(() => {
-          this.montarOfertaItem(this.ofertaSuporte);
-        })
-      ).subscribe(
+  obterDetalhesOferta(){
+    if (this.contador < this.ofertasOfertanteListagem.length) {
+      this.ofertaAmostra = new OfertaAmostra();
+      this.ofertaService.obterPorId(this.ofertasOfertanteListagem[this.contador].id).subscribe(
         (data) => {
           this.ofertaSuporte = data
           this.ofertaAmostra.id = this.ofertaSuporte.id;
           this.ofertaAmostra.itensOfertados = this.ofertaSuporte.itensOfertados;
+          this.montarOfertaItem(this.ofertaSuporte);
         }
       );
-      this.ofertasOfertante.push(this.ofertaAmostra);
-      console.log(this.ofertasOfertante);
-    });
+    }
   }
 
   montarOfertaItem(base: Oferta){
-    this.itemService.obterPorId(base.id).subscribe(
+    this.itemService.obterPorId(base.itemId).subscribe(
       (data) => {
         this.ofertaAmostra.item = data;
         this.montarOfertaItemImagem();
@@ -106,8 +103,17 @@ export class MinhasOfertasListagemComponent implements OnInit {
     this.usuarioService.obterPorId(base.usuarioOfertanteId).subscribe(
       (data) => {
         this.ofertaAmostra.usuarioOfertante = data;
+        this.ofertasOfertante.push(this.ofertaAmostra);
+        this.reportar();
+        this.contador++;
+        this.obterDetalhesOferta();
       }
     );
+  }
+
+  reportar(){
+    console.log(this.ofertasOfertante);
+    console.log("CONTADOR: " + this.contador);
   }
 
 }
