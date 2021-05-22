@@ -1,0 +1,32 @@
+<p-carousel [value]="ofertasOfertado" [numVisible]="4" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+    <p-header>
+        <h3>OFERTAS PROPOSTAS PARA MIM</h3>
+    </p-header>
+    <ng-template let-oferta pTemplate="item">
+        <div class="car-details">
+            <div class="p-grid p-nogutter">
+                <div class="p-col-12">
+                    <img [src]="oferta.item.imagem" />
+                </div>
+                <div class="p-col-12 car-data">
+                    <div class="car-title">
+                        {{ oferta.item.nome }}
+                    </div>
+                    <div class="car-subtitle">
+                        <p><strong>{{ oferta.usuarioOfertante.nome }}</strong></p>
+                        <p><strong>{{ oferta.itensOfertados.length }} Itens ofertados</strong></p>
+                    </div>
+                    <div class="car-buttons">
+                        <button pButton type="button" class="ui-button-secondary" (click)="showDisplay(oferta.id)" icon="pi pi-search" label="Itens Ofertados"></button>
+                        <hr>
+                        <button pButton type="button" class="ui-button-success" (click)="aceitar(oferta.id)" label="Aceitar Oferta"></button>
+                        <br><br>
+                        <button pButton type="button" class="ui-button-info" (click)="recusar(oferta.id)" label="Recusar Oferta"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>
+
+<app-listagem-itens-ofertados #itensOfertadosDisplay></app-listagem-itens-ofertados>

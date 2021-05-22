@@ -1,30 +1,5 @@
-<p-carousel [value]="ofertasOfertante" [numVisible]="4" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
-    <p-header>
-        <h3>OFERTAS PROPOSTAS POR MIM</h3>
-    </p-header>
-    <ng-template let-oferta pTemplate="item">
-        <div class="car-details">
-            <div class="p-grid p-nogutter">
-                <div class="p-col-12">
-                    <img [src]="oferta.item.imagem" />
-                </div>
-                <div class="p-col-12 car-data">
-                    <div class="car-title">
-                        {{ oferta.item.nome }}
-                    </div>
-                    <div class="car-subtitle">
-                        <p><strong>{{ oferta.item.usuarioId }}</strong></p>
-                        <p><strong>{{ oferta.itensOfertados.length }} Itens ofertados</strong></p>
-                    </div>
-                    <div class="car-buttons">
-                        <button pButton type="button" class="ui-button-secondary" (click)="showDisplay(oferta.id)" icon="pi pi-search" label="Itens Ofertados"></button>
-                        <br><br>
-                        <button pButton type="button" class="ui-button-danger" (click)="cancelar(oferta.id)" label="Cancelar Oferta"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-</p-carousel>
-
-<app-listagem-itens-ofertados #itensOfertadosDisplay></app-listagem-itens-ofertados>
+<app-por-mim></app-por-mim>
+<br><br>
+<hr><hr>
+<br><br>
+<app-para-mim></app-para-mim>

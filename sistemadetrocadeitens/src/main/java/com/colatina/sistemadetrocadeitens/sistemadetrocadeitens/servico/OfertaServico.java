@@ -39,6 +39,10 @@ public class OfertaServico {
         return ofertaRepositorio.listarOfertaPorOfertante(ofertanteId, ABERTA);
     }
 
+    public List<OfertaListagemDto> listarPorOfertado(Long ofertadoId){
+        return ofertaRepositorio.listarOfertaPorOfertado(ofertadoId, ABERTA);
+    }
+
     public OfertaDto obterPorId(Long id){
         Oferta oferta = ofertaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Oferta não encontrada"));
         return ofertaMapper.toDto(oferta);
