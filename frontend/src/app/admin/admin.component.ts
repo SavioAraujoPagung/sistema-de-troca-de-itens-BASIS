@@ -51,7 +51,7 @@ export class AdminComponent implements OnInit, AfterViewInit, OnDestroy {
         this.zone.runOutsideAngular(() => { this.bindRipple(); });
 
         this.menuService.itens = [
-            { label: 'Dashboard', icon: 'dashboard', routerLink: ['./'] },
+            { label: 'Catalogo', icon: 'dashboard', routerLink: ['./catalogo'] },
             { label: 'Usuarios', icon: 'person', routerLink: ['./usuarios'] },
             { label: 'Itens', icon: 'list', routerLink: ['./itens'] },
             { label: 'Inventário', icon: 'list', routerLink: ['./inventario'] }

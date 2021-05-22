@@ -6,19 +6,24 @@ import { CadastroItemComponent } from './cadastro-item/cadastro-item.component';
 import { SharedModule } from './../shared/shared.module';
 import { ItemRoutingModule } from './item-routing.module';
 import { ListagemItensComponent } from './listagem-itens/listagem-itens.component';
+import { FichaItemComponent } from './ficha-item/ficha-item.component';
 
 
 
 @NgModule({
   declarations: [
     ListagemItensComponent,
-    CadastroItemComponent
+    CadastroItemComponent,
+    FichaItemComponent
   ],
   imports: [
     CommonModule,
     ItemRoutingModule,
     SharedModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    FichaItemComponent
   ]
 })
 export class ItemModule { }
