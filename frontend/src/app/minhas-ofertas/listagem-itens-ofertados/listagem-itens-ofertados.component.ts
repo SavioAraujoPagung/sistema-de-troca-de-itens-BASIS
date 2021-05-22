@@ -9,8 +9,7 @@ import { OfertaService } from './../../services/oferta.service';
 
 @Component({
   selector: 'app-listagem-itens-ofertados',
-  templateUrl: './listagem-itens-ofertados.component.html',
-  styleUrls: ['./listagem-itens-ofertados.component.css']
+  templateUrl: './listagem-itens-ofertados.component.html'
 })
 export class ListagemItensOfertadosComponent implements OnInit {
 

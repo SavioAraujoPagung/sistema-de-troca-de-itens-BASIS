@@ -16,7 +16,7 @@ import { ListagemItensOfertadosComponent } from './../listagem-itens-ofertados/l
 @Component({
   selector: 'app-por-mim',
   templateUrl: './por-mim.component.html',
-  styleUrls: ['./por-mim.component.css'],
+  styleUrls: ['./../listagem-itens-ofertados/listagem-itens-ofertados.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class PorMimComponent implements OnInit {
