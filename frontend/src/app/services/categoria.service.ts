@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -13,7 +14,11 @@ export class CategoriaService {
 
   constructor(private http: HttpClient) { }
 
-  buscarTodos(){
+  buscarTodos(): Observable<Categoria[]>{
     return this.http.get<Categoria[]>(this.api);
+  }
+
+  obterPorId(id): Observable<Categoria>{
+    return this.http.get<Categoria>(this.api + id);
   }
 }

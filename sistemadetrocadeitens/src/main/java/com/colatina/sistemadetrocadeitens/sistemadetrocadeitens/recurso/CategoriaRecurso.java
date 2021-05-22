@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,13 @@ public class CategoriaRecurso {
 
     @GetMapping
     public ResponseEntity<List<CategoriaDto>> listar(){
-        List<CategoriaDto> categorias = categoriaServico.listar();
-        return new ResponseEntity<>(categorias, HttpStatus.OK);
+        List<CategoriaDto> categoriasDto = categoriaServico.listar();
+        return new ResponseEntity<>(categoriasDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaDto> obterPorId(@PathVariable("id") Long id){
+        CategoriaDto categoriaDto = categoriaServico.obterPorId(id);
+        return new ResponseEntity<>(categoriaDto, HttpStatus.OK);
     }
 }
