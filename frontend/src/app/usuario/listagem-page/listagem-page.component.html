@@ -7,7 +7,6 @@
             <th>NOME</th>
             <th>E-MAIL</th>
             <th>DATA NASCIMENTO</th>
-            <th>AÇÕES</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-usuario>
@@ -16,9 +15,6 @@
             <td>{{ usuario.nome }}</td>
             <td>{{ usuario.email }}</td>
             <td>{{ usuario.data }}</td>
-            <td>
-                <button pButton type="button" label="Excluir" class="ui-button-danger" (click)="excluir(usuario.id)"></button>
-            </td>
         </tr>
     </ng-template>
 </p-table>
